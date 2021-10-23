@@ -10,6 +10,8 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import AssessmentIcon from '@mui/icons-material/Assessment';
+import LocalTaxiIcon from '@mui/icons-material/LocalTaxi';
+import ApartmentIcon from '@mui/icons-material/Apartment';
 
 
 const drawerWidth = 240;
@@ -25,6 +27,21 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 const Sidebar = ({isLeftOpen, setIsLeftOpen}) => {
     const theme = useTheme();
+
+    const reports = [
+      {
+        name: 'Business Intelligence',
+        icon: AssessmentIcon
+      },
+      {
+        name: 'Taxi Trip',
+        icon: LocalTaxiIcon
+      },
+      {
+        name: 'Infrastructure, Business & Unemployment',
+        icon: ApartmentIcon
+      }
+    ]
 
     return (
         <Drawer
@@ -50,19 +67,19 @@ const Sidebar = ({isLeftOpen, setIsLeftOpen}) => {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Track & Forecast', 'Covid', 'Send email', 'Drafts'].map((text, index) => (
+          {reports.map(report => (
               
-            <ListItem button key={text}>
+            <ListItem button key={report.name}>
               <ListItemIcon>
-                <AssessmentIcon />
+                <report.icon />
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={report.name} />
             </ListItem>
             
           ))}
         </List>
-        <Divider />
-        <List>
+        {/* <Divider /> */}
+        {/* <List>
           {['All mail', 'Trash', 'Spam'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>
@@ -71,7 +88,7 @@ const Sidebar = ({isLeftOpen, setIsLeftOpen}) => {
               <ListItemText primary={text} />
             </ListItem>
           ))}
-        </List>
+        </List> */}
       </Drawer>
     );
 };
