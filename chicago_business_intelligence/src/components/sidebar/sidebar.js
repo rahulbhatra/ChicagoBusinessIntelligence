@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
@@ -12,19 +11,7 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 import LocalTaxiIcon from '@mui/icons-material/LocalTaxi';
 import Typography from '@mui/material/Typography';
 import ApartmentIcon from '@mui/icons-material/Apartment';
-import Grid from '@mui/material/Grid';
-
-
-const drawerWidth = 260;
-
-const DrawerHeader = styled('div')(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
-  }));
+import { DrawerHeader, drawerWidth } from './sidebar-style';
 
 const Sidebar = ({isLeftOpen, setIsLeftOpen}) => {
     const reports = [
