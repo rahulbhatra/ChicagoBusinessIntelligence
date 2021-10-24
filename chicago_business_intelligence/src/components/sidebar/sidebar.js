@@ -1,20 +1,21 @@
 import * as React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import MenuIcon from '@mui/icons-material/Menu';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import LocalTaxiIcon from '@mui/icons-material/LocalTaxi';
+import Typography from '@mui/material/Typography';
 import ApartmentIcon from '@mui/icons-material/Apartment';
+import Grid from '@mui/material/Grid';
 
 
-const drawerWidth = 240;
+const drawerWidth = 260;
 
 const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -26,12 +27,10 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   }));
 
 const Sidebar = ({isLeftOpen, setIsLeftOpen}) => {
-    const theme = useTheme();
-
     const reports = [
       {
         name: 'Business Intelligence',
-        icon: AssessmentIcon
+        icon: AssessmentIcon,
       },
       {
         name: 'Taxi Trip',
@@ -45,51 +44,60 @@ const Sidebar = ({isLeftOpen, setIsLeftOpen}) => {
 
     return (
         <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          bgcolor: 'primary.main',
-          '& .MuiDrawer-paper': {
+          sx={{
             width: drawerWidth,
-            boxSizing: 'border-box',
+            flexShrink: 0,
             bgcolor: 'primary.main',
-            color: 'white'
-          },
-        }}
-        variant="persistent"
-        anchor="left"
-        open={isLeftOpen}
-      >
-        <DrawerHeader>
-          <IconButton onClick={() => setIsLeftOpen(!isLeftOpen)}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            '& .MuiDrawer-paper': {
+              width: drawerWidth,
+              boxSizing: 'border-box',
+              bgcolor: 'primary.main',
+              color: 'white'
+            },
+          }}
+          variant="persistent"
+          anchor="left"
+          open={isLeftOpen}
+        >
+          <DrawerHeader>
+          <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              onClick={() => setIsLeftOpen(!isLeftOpen)}
+              sx={{ mr: 2 }}
+            >
+              <MenuIcon />
           </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List>
-          {reports.map(report => (
+          <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ display: { xs: 'none', sm: 'block' } }}
+            >
+              Business Intelligence
+            </Typography>
+          </DrawerHeader>
+          <Divider />
+          <List>
+            {reports.map(report => (
+                
+              <ListItem button key={report.name}>
+                <ListItemIcon>
+                  <report.icon 
+                    size="large"
+                    edge="start"
+                    sx={{color: 'white', mx: 3}}
+                  />
+                </ListItemIcon>
+                <ListItemText primary={report.name} />
+              </ListItem>
               
-            <ListItem button key={report.name}>
-              <ListItemIcon>
-                <report.icon />
-              </ListItemIcon>
-              <ListItemText primary={report.name} />
-            </ListItem>
-            
-          ))}
-        </List>
-        {/* <Divider /> */}
-        {/* <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                <AssessmentIcon />
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List> */}
-      </Drawer>
+            ))}
+          </List>
+        </Drawer>
+        
     );
 };
 
