@@ -13,6 +13,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import Button from '@mui/material/Button';
 import {Search, SearchIconWrapper, StyledInputBase} from './header-style';
 import Link from '@mui/material/Link';
+import {blue} from '@mui/material/colors';
 
 const Header = ({isLeftOpen, setIsLeftOpen}) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -58,23 +59,26 @@ const Header = ({isLeftOpen, setIsLeftOpen}) => {
     <Menu
       anchorEl={chartAnchorEl}
       anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: 'bottom',
+        horizontal: 'left',
       }}
       id={chartMenu}
       keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
       open={isChartMenuOpen}
       onClose={handleChartMenuClose}
     >
-      <MenuItem containerElement={<Link to="/table" />}
-      onClick={handleChartMenuClose}>Table Data</MenuItem>
-      <MenuItem onClick={handleChartMenuClose}>Bar Chart</MenuItem>
-      <MenuItem onClick={handleChartMenuClose}>Linear Chart</MenuItem>
-      <MenuItem onClick={handleChartMenuClose}>Pie Chart</MenuItem>
+      <MenuItem onClick={handleChartMenuClose}>
+        <Link href="/table" underline="none">Table Data</Link>
+      </MenuItem>
+      <MenuItem onClick={handleChartMenuClose}>
+        <Link href="/" underline="none">Bar Chart</Link>
+      </MenuItem>
+      <MenuItem onClick={handleChartMenuClose}>
+        <Link href="/" underline="none">Linear Chart</Link>
+      </MenuItem>
+      <MenuItem onClick={handleChartMenuClose}>
+        <Link href="/" underline="none">Pie Chart</Link>
+      </MenuItem>
     </Menu>
   );
 
@@ -162,10 +166,13 @@ const Header = ({isLeftOpen, setIsLeftOpen}) => {
               aria-controls={isChartMenuOpen ? {chartMenu} : undefined}
               aria-expanded={isChartMenuOpen ? "true" : undefined}
               aria-haspopup="true"
+              size="large"
+              variant="contained"
               onClick={handleChartMenuOpen}
             >
               Charts
             </Button>
+            {renderChartMenu}
           </Box>
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <Search>
@@ -203,7 +210,6 @@ const Header = ({isLeftOpen, setIsLeftOpen}) => {
           </Box>
         </Toolbar>
       </AppBar>
-      {renderChartMenu}
       {renderMobileMenu}
       {renderMenu}
     </Box>
