@@ -10,8 +10,6 @@ import {
 } from '@devexpress/dx-react-chart-material-ui';
 import { withStyles } from '@material-ui/core/styles';
 import { Animation } from '@devexpress/dx-react-chart';
-
-import { confidence as data } from '../../../demo-data/data-vizualization';
 import {legendItemStyles, legendLabelStyles, legendItemStyles, demoStyles,
        titleStyles} from './linearchart-style';
 
@@ -48,17 +46,8 @@ const Label = withStyles(legendLabelStyles, { name: 'LegendLabel' })(legendLabel
 
 const Item = withStyles(legendItemStyles, { name: 'LegendItem' })(legendItemBase);
 
-class Demo extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      data,
-    };
-  }
+const LinearChart = () => {
   
-
-  render() {
     const { data: chartData } = this.state;
     const { classes } = this.props;
 

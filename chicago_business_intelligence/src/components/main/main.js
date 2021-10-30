@@ -1,5 +1,5 @@
 import { Main } from './main-style';
-import Table from '../table/table';
+import Table from '../datatable/datatable';
 import {Switch, Route, BrowserRouter} from 'react-router-dom';
 
 const Reports = ({isLeftOpen}) => {
