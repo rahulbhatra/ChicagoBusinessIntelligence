@@ -100,7 +100,9 @@ const Header = ({isLeftOpen, setIsLeftOpen}) => {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Login</MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <Link href="/signIn" underline="none">SignIn</Link>
+      </MenuItem>
     </Menu>
   );
 
