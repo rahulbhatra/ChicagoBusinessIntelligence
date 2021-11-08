@@ -3,8 +3,10 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
+import FormControl from '@mui/material/FormControl';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -32,6 +34,7 @@ const theme = createTheme();
 export default function SignUp() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
+  const [userType, setUserType] = React.useState('');
 
 
   const handleSubmit = (event) => {
@@ -39,12 +42,15 @@ export default function SignUp() {
     const data = new FormData(event.currentTarget);
     // eslint-disable-next-line no-console
 
+    console.log(data.get('userType'));
+
     axios.post('http://localhost:4000/api/register', 
       {
         email: data.get('email'),
         password: data.get('password'),
         firstName: data.get('firstName'),
-        lastName: data.get('lastName')
+        lastName: data.get('lastName'),
+        userType: data.get('userType')
       })
       .then(res => {
         console.log(res.data);
@@ -56,6 +62,10 @@ export default function SignUp() {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleChange = (event) => {
+    setUserType(event.target.value);
   };
 
   return (
@@ -120,25 +130,22 @@ export default function SignUp() {
                   autoComplete="new-password"
                 />
               </Grid>
-              {/* <Grid item xs={12}>
-                <Menu
-                  anchorEl={anchorEl}
-                  anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
-                  }}
-                  id={'userType'}
-                  keepMounted
-                  open={true}
-                  onClose={handleMenuClose}
-                >
-                  <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-                  <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-                  <MenuItem onClick={handleMenuClose}>
-                    <Link href="/signIn" underline="none">SignIn</Link>
-                  </MenuItem>
-                </Menu>
-              </Grid> */}
+              <Grid item xs={12}>
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">User Type</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={userType}
+                    name="userType"
+                    label="userType"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value={'Customer'}>Customer</MenuItem>
+                    <MenuItem value={'Admin'}>Admin</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
               
             </Grid>
             <Button

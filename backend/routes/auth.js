@@ -4,12 +4,12 @@ const { Op } = require('sequelize');
 
 router.post('/register', async (req, res) => {
     
-    var {email, password, firstName, lastName} = req.body;
+    var {email, password, firstName, lastName, userType} = req.body;
 
     try {
 
         const user = await User.create({email: email, password: password, firstName: firstName, lastName: lastName, 
-        userType: 'user'});
+        userType: userType});
         console.log(user);
         res.status(200).json({
             message: 'success',
