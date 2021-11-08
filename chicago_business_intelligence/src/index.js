@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-const express = require('express');
-const app = express();
 
 ReactDOM.render(
   <React.StrictMode>
@@ -17,13 +15,3 @@ ReactDOM.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
-
-
-//Import Routes
-const singUp = require('./routes/authentication');
-
-// Routes Middleware
-app.use('/api/', singUp);
-
-
-app.listen(4000, () => console.log('up and running'));

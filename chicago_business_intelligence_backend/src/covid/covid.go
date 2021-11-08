@@ -9,6 +9,11 @@ import (
 
 func main() {
 
+	// cl, err := client.NewClient(client.Options{Domain: &domain, Token: &token})
+	// if err != nil {
+	// 	panic(err)
+	// }
+
 	http.HandleFunc("/", func(rw http.ResponseWriter, r *http.Request) {
 		log.Println("Hello World")
 		d, err := ioutil.ReadAll(r.Body)

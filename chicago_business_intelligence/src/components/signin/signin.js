@@ -12,25 +12,29 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useHistory } from 'react-router';
 import axios from 'axios';
 
 const theme = createTheme();
 
-export default function SignIn() {
+export default function SignIn({isLoggedIn, setIsLoggedIn}) {
+  const history = useHistory();
 
   
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    
-    const dataD = {
-      email: data.get('email'),
-      password: data.get('password'),
-    };
-
-    axios.post('http:/localhost:4000/api/signUp', data)
+    axios.post('http://localhost:4000/api/signIn', {
+        email: data.get('email'),
+        password: data.get('password'),
+    })
       .then(res => {
-        localStorage.setItem('token', res.token);
+        console.log(res.data);
+        localStorage.setItem('token', res.data.token);
+        setIsLoggedIn(true);
+        history.replace({
+          pathname: "/"
+        });
       })
       .catch(error => {
         console.log(error);

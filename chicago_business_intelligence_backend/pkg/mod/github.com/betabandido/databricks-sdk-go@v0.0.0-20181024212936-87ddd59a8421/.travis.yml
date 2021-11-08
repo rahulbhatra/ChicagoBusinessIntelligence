@@ -1,0 +1,13 @@
+language: go
+go:
+  - "1.8"
+  - "1.9"
+  - "1.10"
+sudo: false
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
+before_script:
+  - ./swagger/install.sh
+  - export PATH=$PATH:`pwd`/swagger

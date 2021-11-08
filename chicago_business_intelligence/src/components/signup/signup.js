@@ -38,16 +38,16 @@ export default function SignUp() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-      firstName: data.get('firstName'),
-      lastName: data.get('lastName')
-    });
 
-    axios.post('http:/localhost:4000/api/signUp', data)
+    axios.post('http://localhost:4000/api/register', 
+      {
+        email: data.get('email'),
+        password: data.get('password'),
+        firstName: data.get('firstName'),
+        lastName: data.get('lastName')
+      })
       .then(res => {
-        console.log(res);
+        console.log(res.data);
       })
       .catch(error => {
         console.log(error)

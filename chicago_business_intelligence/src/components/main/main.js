@@ -2,27 +2,27 @@ import { Main } from './main-style';
 import Table from '../datatable/datatable';
 import SignIn from '../signin/signin';
 import SignUp from '../signup/signup';
-import {Switch, Route, BrowserRouter} from 'react-router-dom';
+import {Switch, Route} from 'react-router-dom';
 
-const Reports = ({isLeftOpen}) => {
+const MainContent = ({isLeftOpen, isLoggedIn, setIsLoggedIn}) => {
   return (
     <Main open={isLeftOpen}>
-      <BrowserRouter>
+      
         <Switch>
           {/* For routing different pages inside the application */}
           <Route path="/table">
             <Table />
           </Route>
           <Route path="/signIn">
-            <SignIn />
+            <SignIn isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
           </Route>
           <Route path="/signUp">
             <SignUp />
           </Route>
         </Switch>
-      </BrowserRouter>
+      
     </Main>
   );
   
 };
-export default Reports;
+export default MainContent;
