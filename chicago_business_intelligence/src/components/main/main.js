@@ -3,6 +3,7 @@ import Table from '../datatable/datatable';
 import SignIn from '../signin/signin';
 import SignUp from '../signup/signup';
 import {Switch, Route} from 'react-router-dom';
+import ProtectedRoute from '../protectedroute/protectedroute';
 
 const MainContent = ({isLeftOpen, isLoggedIn, setIsLoggedIn}) => {
   return (
@@ -10,15 +11,16 @@ const MainContent = ({isLeftOpen, isLoggedIn, setIsLoggedIn}) => {
       
         <Switch>
           {/* For routing different pages inside the application */}
-          <Route path="/table">
+          {/* <Route exact path="/table">
             <Table />
-          </Route>
-          <Route path="/signIn">
+          </Route> */}
+          <Route exact path="/signIn">
             <SignIn isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
           </Route>
-          <Route path="/signUp">
+          <Route exact path="/signUp">
             <SignUp />
           </Route>
+          <ProtectedRoute exact path="/table" component={Table} />
         </Switch>
       
     </Main>

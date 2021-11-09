@@ -61,7 +61,7 @@ const Header = ({isLeftOpen, setIsLeftOpen, isLoggedIn, setIsLoggedIn}) => {
         console.log(res);
         setIsLoggedIn(false);
         localStorage.removeItem('token');
-        history.push("/");
+        history.push("/signIn");
       }).catch(error => {
         console.log(error);
       });
