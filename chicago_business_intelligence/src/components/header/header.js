@@ -13,9 +13,12 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import Button from '@mui/material/Button';
 import {Search, SearchIconWrapper, StyledInputBase} from './header-style';
 import Link from '@mui/material/Link';
-import {blue} from '@mui/material/colors';
+import axios from 'axios';
+import { useHistory } from 'react-router';
 
-const Header = ({isLeftOpen, setIsLeftOpen}) => {
+const Header = ({isLeftOpen, setIsLeftOpen, isLoggedIn, setIsLoggedIn}) => {
+  console.log(isLoggedIn);
+  const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [chartAnchorEl, setChartAnchorEl] = React.useState(null);
@@ -51,6 +54,18 @@ const Header = ({isLeftOpen, setIsLeftOpen}) => {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  const signOut = () => {
+    axios.get('http://localhost:4000/api/signOut')
+      .then(res => {
+        console.log(res);
+        setIsLoggedIn(false);
+        localStorage.removeItem('token');
+        history.push("/signIn");
+      }).catch(error => {
+        console.log(error);
+      });
+  }
 
   const menuId = 'primary-search-account-menu';
   const chartMenu = 'chart-menu';
@@ -100,7 +115,19 @@ const Header = ({isLeftOpen, setIsLeftOpen}) => {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Login</MenuItem>
+      {
+        !isLoggedIn && 
+        <MenuItem onClick={handleMenuClose}>
+          <Link href="/signIn" underline="none">SignIn</Link>
+        </MenuItem>
+      }
+      {
+        isLoggedIn &&
+        <MenuItem onClick={signOut}>
+          SignOut
+        </MenuItem>
+      }
+      
     </Menu>
   );
 
