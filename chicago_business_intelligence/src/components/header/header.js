@@ -86,13 +86,13 @@ const Header = ({isLeftOpen, setIsLeftOpen, isLoggedIn, setIsLoggedIn}) => {
         <Link href="/table" underline="none">Table Data</Link>
       </MenuItem>
       <MenuItem onClick={handleChartMenuClose}>
-        <Link href="/" underline="none">Bar Chart</Link>
+        <Link href="/barChart" underline="none">Bar Chart</Link>
       </MenuItem>
       <MenuItem onClick={handleChartMenuClose}>
-        <Link href="/" underline="none">Linear Chart</Link>
+        <Link href="/linearChart" underline="none">Linear Chart</Link>
       </MenuItem>
       <MenuItem onClick={handleChartMenuClose}>
-        <Link href="/" underline="none">Pie Chart</Link>
+        <Link href="/pieChart" underline="none">Pie Chart</Link>
       </MenuItem>
     </Menu>
   );

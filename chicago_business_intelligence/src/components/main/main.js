@@ -1,5 +1,8 @@
 import { Main } from './main-style';
 import Table from '../datatable/datatable';
+import BarChart from '../barchart/barchart';
+import Pie from '../piechart/piechart';
+import LinearChart from '../linearchart/linearchart';
 import SignIn from '../signin/signin';
 import SignUp from '../signup/signup';
 import {Switch, Route} from 'react-router-dom';
@@ -21,6 +24,9 @@ const MainContent = ({isLeftOpen, isLoggedIn, setIsLoggedIn}) => {
             <SignUp />
           </Route>
           <ProtectedRoute exact path="/table" component={Table} />
+          <ProtectedRoute exact path="/barChart" component={() => <BarChart  />} />
+          <ProtectedRoute exact path="/pieChart" component={() => <Pie  />} />
+          <ProtectedRoute exact path="/linearChart" component={() => <LinearChart  />} />
         </Switch>
       
     </Main>

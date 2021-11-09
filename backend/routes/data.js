@@ -16,7 +16,7 @@ router.get('/covid_daily_data', async (req, res) => {
         for(var i = 0; i < json.length; i++) {
             console.log("here i am");
             dataArray[i] = {
-              id: i,
+              id: i + 1,
               lab_report_date: json[i].lab_report_date,
               cases_total: json[i].cases_total,
               death_total: json[i].deaths_total

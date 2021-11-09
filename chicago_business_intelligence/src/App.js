@@ -1,6 +1,8 @@
+import 'devextreme/dist/css/dx.common.css';
+import 'devextreme/dist/css/dx.light.css';
 import './App.css';
 import Header from './components/header/header';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import 'devextreme/dist/css/dx.light.css';
 import Sidebar from './components/sidebar/sidebar';
 import Main from './components/main/main';
 import {useState} from 'react';
