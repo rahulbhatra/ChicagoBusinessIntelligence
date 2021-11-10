@@ -7,8 +7,9 @@ import SignIn from '../signin/signin';
 import SignUp from '../signup/signup';
 import {Switch, Route} from 'react-router-dom';
 import ProtectedRoute from '../protectedroute/protectedroute';
+import { useState } from 'react';
 
-const MainContent = ({isLeftOpen, isLoggedIn, setIsLoggedIn}) => {
+const MainContent = ({isLeftOpen, isLoggedIn, setIsLoggedIn, reportType}) => {
   return (
     <Main open={isLeftOpen}>
       
@@ -24,9 +25,9 @@ const MainContent = ({isLeftOpen, isLoggedIn, setIsLoggedIn}) => {
             <SignUp />
           </Route>
           <ProtectedRoute exact path="/table" component={Table} />
-          <ProtectedRoute exact path="/barChart" component={() => <BarChart  />} />
-          <ProtectedRoute exact path="/pieChart" component={() => <Pie  />} />
-          <ProtectedRoute exact path="/linearChart" component={() => <LinearChart  />} />
+          <ProtectedRoute exact path="/barChart" component={() => <BarChart />} />
+          <ProtectedRoute exact path="/pieChart" component={() => <Pie />} />
+          <ProtectedRoute exact path="/linearChart" component={() => <LinearChart />} />
         </Switch>
       
     </Main>

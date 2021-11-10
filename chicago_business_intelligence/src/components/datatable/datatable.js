@@ -1,11 +1,8 @@
-import * as React from 'react';
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 import DataGrid, {
   Column,
   Export,
-  Grouping,
-  GroupPanel,
   Pager,
   Paging,
   SearchPanel,
@@ -13,7 +10,8 @@ import DataGrid, {
 
 const DataTable = () => {
   const pageSizes = [25, 50, 100];
-  const [rows, setRows] = React.useState([]);
+  const [rows, setRows] = useState([]);
+  const [columns, setColumns] = useState([]);
 
   useEffect(async() => {
     getData();
@@ -24,11 +22,11 @@ const DataTable = () => {
         .then(res => {
           console.log(res.data);
           setRows(res.data.data);
+          setColumns(res.data.columns);
           return res.data;
         })
         .catch(error => {
           console.log(error);
-          setRows([]);
           return [];
         });
     };
@@ -43,13 +41,10 @@ const DataTable = () => {
           showColumnLines={true}
           showRowLines={true}
           showBorders={true}
-          rowAlternationEnabled={true}>
+          rowAlternationEnabled={true}
+          columns={columns}
+          >
             <SearchPanel visible={true} highlightCaseSensitive={true} />
-            <Column dataField="id" dataType="number"/>
-            <Column dataField="lab_report_date" dataType="date"/>
-            <Column dataField="cases_total" dataType="number"/>
-            <Column dataField="death_total" dataType="number"/>
-
             <Pager allowedPageSizes={pageSizes} showPageSizeSelector={true} />
             <Paging defaultPageSize={25} />
             <Export enabled={true} />

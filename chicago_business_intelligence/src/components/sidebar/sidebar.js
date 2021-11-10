@@ -9,23 +9,32 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import LocalTaxiIcon from '@mui/icons-material/LocalTaxi';
+import CoronavirusIcon from '@mui/icons-material/Coronavirus';
 import Typography from '@mui/material/Typography';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import { DrawerHeader, drawerWidth } from './sidebar-style';
 
-const Sidebar = ({isLeftOpen, setIsLeftOpen}) => {
+const Sidebar = ({isLeftOpen, setIsLeftOpen, reportType, setReportType}) => {
     const reports = [
       {
         name: 'Business Intelligence',
         icon: AssessmentIcon,
+        reportType: 'Home Page'
       },
       {
         name: 'Taxi Trip',
-        icon: LocalTaxiIcon
+        icon: LocalTaxiIcon,
+        reportType: 'taxi'
+      },
+      {
+        name: 'Covid Update',
+        icon: CoronavirusIcon,
+        reportType: 'covid'
       },
       {
         name: 'Infrastructure, Business & Unemployment',
-        icon: ApartmentIcon
+        icon: ApartmentIcon,
+        url: '/'
       }
     ]
 
@@ -63,14 +72,15 @@ const Sidebar = ({isLeftOpen, setIsLeftOpen}) => {
               component="div"
               sx={{ display: { xs: 'none', sm: 'block' } }}
             >
-              Business Intelligence
+              {/* Business Intelligence  */}
+              {reportType}
             </Typography>
           </DrawerHeader>
           <Divider />
           <List>
             {reports.map(report => (
                 
-              <ListItem button key={report.name}>
+              <ListItem onClick={() => setReportType(report.reportType)} button key={report.name}>
                 <ListItemIcon>
                   <report.icon 
                     size="large"

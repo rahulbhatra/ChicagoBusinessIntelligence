@@ -64,10 +64,13 @@ const isAuth = (req, res, next) => {
 //Import Routes
 const authRoute = require('./routes/auth');
 const dataBricksRoute = require('./routes/databricks');
-const dataRoute = require('./routes/data');
+const covidDailyDataRoute = require('./routes/covid');
+const taxiRoute = require('./routes/taxi');
+
 // Route Middlewares
 app.use('/api', authRoute);
-app.use('/api', dataRoute);
+app.use('/api/covid', covidDailyDataRoute);
+app.use('/api/taxi', taxiRoute);
 app.use('/databricks', dataBricksRoute);
 app.listen(4000, isAuth, async () => {
     console.log('server is running on port', 4000);
