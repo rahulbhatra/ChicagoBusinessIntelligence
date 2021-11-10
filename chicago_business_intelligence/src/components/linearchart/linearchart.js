@@ -15,7 +15,7 @@ import {
   Size
 } from 'devextreme-react/chart';
 
-const LinearChart = () => {
+const LinearChart = ({reportType}) => {
   const [rows, setRows] = useState([]);
 
   useEffect(async() => {
@@ -23,7 +23,7 @@ const LinearChart = () => {
   }, []);
 
   const getData = async () => {
-      await axios.get('http://localhost:4000/api/covid_daily_data', {})
+      await axios.get('http://localhost:4000/api/' + reportType + '/covid_daily_data', {})
         .then(res => {
           console.log(res.data);
           setRows(res.data.data.slice(0, 10));

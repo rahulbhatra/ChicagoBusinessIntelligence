@@ -22,7 +22,6 @@ const Header = ({isLeftOpen, setIsLeftOpen, isLoggedIn, setIsLoggedIn, reportTyp
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [chartAnchorEl, setChartAnchorEl] = React.useState(null);
-  const tableRef = React.useRef('/table');
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -98,6 +97,7 @@ const Header = ({isLeftOpen, setIsLeftOpen, isLoggedIn, setIsLoggedIn, reportTyp
   );
 
   const renderMenu = (
+    
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{
@@ -183,7 +183,13 @@ const Header = ({isLeftOpen, setIsLeftOpen, isLoggedIn, setIsLoggedIn, reportTyp
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            Business Intelligence
+            <Button size="large"
+              variant="contained" 
+              href="/dashboard"
+              style={{color: '#FFFFFF'}}
+              >
+              Business Intelligence
+            </Button>
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Box>

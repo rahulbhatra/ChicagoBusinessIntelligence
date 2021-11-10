@@ -59,7 +59,6 @@ router.post('/signIn', async (req, res) => {
                 message: 'Found the user name and password',
                 token: req.session.id
             });
-            // res.redirect("http://localhost:3000/");
         }
     } catch(error) {
         res.status(401).json({

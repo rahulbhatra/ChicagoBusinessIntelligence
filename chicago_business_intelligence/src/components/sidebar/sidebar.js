@@ -12,6 +12,7 @@ import LocalTaxiIcon from '@mui/icons-material/LocalTaxi';
 import CoronavirusIcon from '@mui/icons-material/Coronavirus';
 import Typography from '@mui/material/Typography';
 import ApartmentIcon from '@mui/icons-material/Apartment';
+import Button from '@mui/material/Button';
 import { DrawerHeader, drawerWidth } from './sidebar-style';
 
 const Sidebar = ({isLeftOpen, setIsLeftOpen, reportType, setReportType}) => {
@@ -19,22 +20,26 @@ const Sidebar = ({isLeftOpen, setIsLeftOpen, reportType, setReportType}) => {
       {
         name: 'Business Intelligence',
         icon: AssessmentIcon,
-        reportType: 'Home Page'
+        reportType: 'Home Page',
+        link: 'dashboard'
       },
       {
         name: 'Taxi Trip',
         icon: LocalTaxiIcon,
-        reportType: 'taxi'
+        reportType: 'taxi',
+        link: null
       },
       {
         name: 'Covid Update',
         icon: CoronavirusIcon,
-        reportType: 'covid'
+        reportType: 'covid',
+        link: null
       },
       {
         name: 'Infrastructure, Business & Unemployment',
         icon: ApartmentIcon,
-        url: '/'
+        reportType: 'apartment',
+        link: null
       }
     ]
 
@@ -72,23 +77,32 @@ const Sidebar = ({isLeftOpen, setIsLeftOpen, reportType, setReportType}) => {
               component="div"
               sx={{ display: { xs: 'none', sm: 'block' } }}
             >
-              {/* Business Intelligence  */}
-              {reportType}
+              <Button size="large"
+              variant="contained" 
+              href="/dashboard"
+              style={{color: '#FFFFFF'}}
+              >
+                Business Intelli..
+              </Button>
+              {/* {reportType} */}
             </Typography>
           </DrawerHeader>
           <Divider />
           <List>
             {reports.map(report => (
                 
-              <ListItem onClick={() => setReportType(report.reportType)} button key={report.name}>
-                <ListItemIcon>
-                  <report.icon 
-                    size="large"
-                    edge="start"
-                    sx={{color: 'white', mx: 3}}
-                  />
-                </ListItemIcon>
-                <ListItemText primary={report.name} />
+              <ListItem onClick={() => {
+                setReportType(report.reportType)
+                localStorage.setItem('reportType', report.reportType)
+                }} button key={report.name}>
+                  <ListItemIcon>
+                    <report.icon 
+                      size="large"
+                      edge="start"
+                      sx={{color: 'white', mx: 3}}
+                    />
+                  </ListItemIcon>
+                  <ListItemText primary={report.name} />
               </ListItem>
               
             ))}

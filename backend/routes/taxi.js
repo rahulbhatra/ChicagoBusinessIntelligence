@@ -3,7 +3,7 @@ const axios = require('axios');
 
 router.get('/table_data', async (req, res) => {
     url = "https://data.cityofchicago.org/resource/wrvz-psew.json";
-    
+    console.log("inside taxi data");
     axios({
         method: 'GET',
         url: url,
@@ -31,7 +31,12 @@ router.get('/table_data', async (req, res) => {
         });
     }))
     .catch((error => {
-        res.status(500).json();
+        console.log(error);
+        res.status(500).json({
+            message: 'error',
+            error: error
+        }
+        );
     }));
 })
 

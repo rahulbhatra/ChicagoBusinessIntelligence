@@ -46,10 +46,6 @@ const Pie = () => {
         const item = e.component.getAllSeries()[0].getPointsByArg(arg)[0];
         this.toggleVisibility(item);
     }
-    
-    const toggleVisibility = (item) => {
-        item.isVisible() ? item.hide() : item.show();
-    }
 
     return (
       <PieChart
