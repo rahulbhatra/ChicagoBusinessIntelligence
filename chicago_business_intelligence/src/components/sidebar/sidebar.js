@@ -4,7 +4,7 @@ import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import AssessmentIcon from '@mui/icons-material/Assessment';
@@ -91,10 +91,13 @@ const Sidebar = ({isLeftOpen, setIsLeftOpen, reportType, setReportType}) => {
           <List>
             {reports.map(report => (
                 
-              <ListItem onClick={() => {
+              <ListItemButton 
+                // selected={reportType == report.reportType ? true: false} 
+                onClick={() => {
                 setReportType(report.reportType)
                 localStorage.setItem('reportType', report.reportType)
-                }} button key={report.name}>
+                }} button key={report.name}
+                >
                   <ListItemIcon>
                     <report.icon 
                       size="large"
@@ -103,7 +106,7 @@ const Sidebar = ({isLeftOpen, setIsLeftOpen, reportType, setReportType}) => {
                     />
                   </ListItemIcon>
                   <ListItemText primary={report.name} />
-              </ListItem>
+              </ListItemButton>
               
             ))}
           </List>
