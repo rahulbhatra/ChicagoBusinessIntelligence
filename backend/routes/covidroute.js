@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const axios = require('axios');
+const { Covid } = require('../models');
 
 router.get('/covid_daily_data', async (req, res) => {
     url = 'https://data.cityofchicago.org/resource/naz8-j4nc.json'
@@ -50,7 +51,7 @@ router.get('/table_data', async (req, res) => {
         json = response.data;
         var dataArray = Array(json.length);
         var columns = ['id', 'lab_report_date', 'cases_total', 'death_total'];
-
+        
         for(var i = 0; i < json.length; i++) {
             console.log("here i am");
             dataArray[i] = {
