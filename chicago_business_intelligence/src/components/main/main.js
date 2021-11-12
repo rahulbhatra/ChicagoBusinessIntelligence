@@ -8,6 +8,7 @@ import SignUp from '../signup/signup';
 import {Switch, Route} from 'react-router-dom';
 import ProtectedRoute from '../protectedroute/protectedroute';
 import DashBoard from '../dashboard/dashboard';
+import MyMapComponent from '../maps/maps';
 
 const MainContent = ({isLeftOpen, isLoggedIn, setIsLoggedIn, reportType}) => {
   console.log('inside main', reportType);
@@ -32,6 +33,7 @@ const MainContent = ({isLeftOpen, isLoggedIn, setIsLoggedIn, reportType}) => {
           <ProtectedRoute exact path="/barChart" component={() => <BarChart reportType={reportType}/>} />
           <ProtectedRoute exact path="/pieChart" component={() => <Pie reportType={reportType}/>} />
           <ProtectedRoute exact path="/linearChart" component={() => <LinearChart reportType={reportType}/>} />
+          <ProtectedRoute exact path="/maps" component={() => <MyMapComponent reportType={reportType} isMarkerShown/>} />
         </Switch>
       
     </Main>

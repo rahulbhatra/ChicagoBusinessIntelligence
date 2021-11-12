@@ -207,6 +207,15 @@ const Header = ({isLeftOpen, setIsLeftOpen, isLoggedIn, setIsLoggedIn, reportTyp
             </Button>
             {renderChartMenu}
           </Box>
+          <Box sx={{mx: 2}}>
+            <Button size="large"
+              variant="contained" 
+              href="/maps"
+              style={{color: '#FFFFFF'}}
+              >
+              Maps
+            </Button>
+          </Box>
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <Search>
                 <SearchIconWrapper>
