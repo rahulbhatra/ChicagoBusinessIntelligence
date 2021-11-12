@@ -4,28 +4,42 @@ import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import LocalTaxiIcon from '@mui/icons-material/LocalTaxi';
+import CoronavirusIcon from '@mui/icons-material/Coronavirus';
 import Typography from '@mui/material/Typography';
 import ApartmentIcon from '@mui/icons-material/Apartment';
+import Button from '@mui/material/Button';
 import { DrawerHeader, drawerWidth } from './sidebar-style';
 
-const Sidebar = ({isLeftOpen, setIsLeftOpen}) => {
+const Sidebar = ({isLeftOpen, setIsLeftOpen, reportType, setReportType}) => {
     const reports = [
       {
         name: 'Business Intelligence',
         icon: AssessmentIcon,
+        reportType: 'Home Page',
+        link: 'dashboard'
       },
       {
         name: 'Taxi Trip',
-        icon: LocalTaxiIcon
+        icon: LocalTaxiIcon,
+        reportType: 'taxi',
+        link: null
+      },
+      {
+        name: 'Covid Update',
+        icon: CoronavirusIcon,
+        reportType: 'covid',
+        link: null
       },
       {
         name: 'Infrastructure, Business & Unemployment',
-        icon: ApartmentIcon
+        icon: ApartmentIcon,
+        reportType: 'apartment',
+        link: null
       }
     ]
 
@@ -63,23 +77,36 @@ const Sidebar = ({isLeftOpen, setIsLeftOpen}) => {
               component="div"
               sx={{ display: { xs: 'none', sm: 'block' } }}
             >
-              Business Intelligence
+              <Button size="large"
+              variant="contained" 
+              href="/dashboard"
+              style={{color: '#FFFFFF'}}
+              >
+                Business Intelli..
+              </Button>
+              {/* {reportType} */}
             </Typography>
           </DrawerHeader>
           <Divider />
           <List>
             {reports.map(report => (
                 
-              <ListItem button key={report.name}>
-                <ListItemIcon>
-                  <report.icon 
-                    size="large"
-                    edge="start"
-                    sx={{color: 'white', mx: 3}}
-                  />
-                </ListItemIcon>
-                <ListItemText primary={report.name} />
-              </ListItem>
+              <ListItemButton 
+                // selected={reportType == report.reportType ? true: false} 
+                onClick={() => {
+                setReportType(report.reportType)
+                localStorage.setItem('reportType', report.reportType)
+                }} button key={report.name}
+                >
+                  <ListItemIcon>
+                    <report.icon 
+                      size="large"
+                      edge="start"
+                      sx={{color: 'white', mx: 3}}
+                    />
+                  </ListItemIcon>
+                  <ListItemText primary={report.name} />
+              </ListItemButton>
               
             ))}
           </List>

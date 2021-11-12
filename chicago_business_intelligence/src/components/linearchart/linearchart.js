@@ -1,83 +1,85 @@
-import * as React from 'react';
-import Paper from '@material-ui/core/Paper';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import {
   Chart,
+  Series,
   ArgumentAxis,
-  ValueAxis,
-  LineSeries,
-  Title,
+  CommonSeriesSettings,
+  Export,
   Legend,
-} from '@devexpress/dx-react-chart-material-ui';
-import { withStyles } from '@material-ui/core/styles';
-import { Animation } from '@devexpress/dx-react-chart';
-import {legendItemStyles, legendLabelStyles, legendItemStyles, demoStyles,
-       titleStyles} from './linearchart-style';
+  Margin,
+  Title,
+  Subtitle,
+  Tooltip,
+  Grid,
+  Size
+} from 'devextreme-react/chart';
 
+const LinearChart = ({reportType}) => {
+  const [rows, setRows] = useState([]);
 
-const legendRootBase = ({ classes, ...restProps }) => (
-  <Legend.Root {...restProps} className={classes.root} />
-);
+  useEffect(async() => {
+    getData();
+  }, []);
 
-const legendLabelBase = ({ classes, ...restProps }) => (
-  <Legend.Label className={classes.label} {...restProps} />
-);
+  const getData = async () => {
+      await axios.get('http://localhost:4000/api/' + reportType + '/covid_daily_data', {})
+        .then(res => {
+          console.log(res.data);
+          setRows(res.data.data.slice(0, 10));
+          return res.data;
+        })
+        .catch(error => {
+          console.log(error);
+          setRows([]);
+          return [];
+        });
+    };
 
-const legendItemBase = ({ classes, ...restProps }) => (
-  <Legend.Item className={classes.item} {...restProps} />
-);
+  const energySources = [
+    { value: 'cases_total', name: 'Cases Total' },
+    { value: 'death_total', name: 'Dealth Total' }
+  ];
 
-const TitleText = withStyles(titleStyles)(({ classes, ...props }) => (
-  <Title.Text {...props} className={classes.title} />
-));
-
-const ValueLabel = (props) => {
-  const { text } = props;
   return (
-    <ValueAxis.Label
-      {...props}
-      text={`${text}%`}
-    />
+    
+    <Chart
+      palette="Violet"
+      dataSource={rows}
+    >
+      <CommonSeriesSettings
+        argumentField="lab_report_date"
+        type={'line'}
+      />
+      {
+        energySources.map((item) => <Series
+          key={item.value}
+          valueField={item.value}
+          name={item.name} />)
+      }
+      <Margin bottom={20} />
+      <ArgumentAxis
+        valueMarginsEnabled={false}
+        discreteAxisDivisionMode="crossLabels"
+      >
+        <Grid visible={true} />
+      </ArgumentAxis>
+      <Legend
+        verticalAlignment="bottom"
+        horizontalAlignment="center"
+        itemTextPosition="bottom"
+      />
+      <Export enabled={true} />
+      <Title text="Energy Consumption in 2004">
+        <Subtitle text="(Millions of Tons, Oil Equivalent)" />
+      </Title>
+      <Tooltip enabled={true} />
+      <Size height={600}/>
+    </Chart>
+      
   );
-};
-
-const Root = withStyles(legendStyles, { name: 'LegendRoot' })(legendRootBase);
-
-const Label = withStyles(legendLabelStyles, { name: 'LegendLabel' })(legendLabelBase);
-
-const Item = withStyles(legendItemStyles, { name: 'LegendItem' })(legendItemBase);
-
-const LinearChart = () => {
-  
-    const { data: chartData } = this.state;
-    const { classes } = this.props;
-
-    return (
-      <Paper>
-        <Chart
-          data={chartData}
-          className={classes.chart}
-        >
-          <ArgumentAxis tickFormat={format} />
-          <ValueAxis
-            max={50}
-            labelComponent={ValueLabel}
-          />
-          
-          <LineSeries
-            name="Military"
-            valueField="military"
-            argumentField="year"
-          />
-          <Legend position="bottom" rootComponent={Root} itemComponent={Item} labelComponent={Label} />
-          <Title
-            text={`Confidence in Institutions in American society ${'\n'}(Great deal)`}
-            textComponent={TitleText}
-          />
-          <Animation />
-        </Chart>
-      </Paper>
-    );
-  }
 }
 
-export default withStyles(demoStyles, { name: 'Demo' })(Demo);
+export default LinearChart;
+
+

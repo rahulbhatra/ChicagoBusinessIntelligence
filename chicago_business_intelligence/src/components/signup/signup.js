@@ -32,8 +32,6 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const isMenuOpen = Boolean(anchorEl);
   const [userType, setUserType] = React.useState('');
 
 
@@ -60,9 +58,6 @@ export default function SignUp() {
       })
   };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
 
   const handleChange = (event) => {
     setUserType(event.target.value);

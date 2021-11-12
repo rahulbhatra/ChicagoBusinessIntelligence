@@ -16,13 +16,12 @@ import Link from '@mui/material/Link';
 import axios from 'axios';
 import { useHistory } from 'react-router';
 
-const Header = ({isLeftOpen, setIsLeftOpen, isLoggedIn, setIsLoggedIn}) => {
+const Header = ({isLeftOpen, setIsLeftOpen, isLoggedIn, setIsLoggedIn, reportType}) => {
   console.log(isLoggedIn);
   const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [chartAnchorEl, setChartAnchorEl] = React.useState(null);
-  const tableRef = React.useRef('/table');
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -86,18 +85,19 @@ const Header = ({isLeftOpen, setIsLeftOpen, isLoggedIn, setIsLoggedIn}) => {
         <Link href="/table" underline="none">Table Data</Link>
       </MenuItem>
       <MenuItem onClick={handleChartMenuClose}>
-        <Link href="/" underline="none">Bar Chart</Link>
+        <Link href="/barChart" underline="none">Bar Chart</Link>
       </MenuItem>
       <MenuItem onClick={handleChartMenuClose}>
-        <Link href="/" underline="none">Linear Chart</Link>
+        <Link href="/linearChart" underline="none">Linear Chart</Link>
       </MenuItem>
       <MenuItem onClick={handleChartMenuClose}>
-        <Link href="/" underline="none">Pie Chart</Link>
+        <Link href="/pieChart" underline="none">Pie Chart</Link>
       </MenuItem>
     </Menu>
   );
 
   const renderMenu = (
+    
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{
@@ -183,7 +183,13 @@ const Header = ({isLeftOpen, setIsLeftOpen, isLoggedIn, setIsLoggedIn}) => {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            Business Intelligence
+            <Button size="large"
+              variant="contained" 
+              href="/dashboard"
+              style={{color: '#FFFFFF'}}
+              >
+              Business Intelligence
+            </Button>
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Box>

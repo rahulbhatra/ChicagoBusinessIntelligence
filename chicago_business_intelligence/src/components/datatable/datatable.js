@@ -1,131 +1,64 @@
-import * as React from 'react';
 import {useState, useEffect} from 'react';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
+import axios from 'axios';
+import DataGrid, {
+  Export,
+  Pager,
+  Paging,
+  SearchPanel,
+} from 'devextreme-react/data-grid';
+import Toast from '../toast/toast';
 
-const DataTable = () => {
-  const [data, setData] = useState([]);
+const DataTable = ({reportType}) => {
+  console.log('inside data table', reportType);
+  const pageSizes = [25, 50, 100];
   const [rows, setRows] = useState([]);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [columns, setColumns] = useState([]);
+  const [toastOpen, setToastOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastSeverity, setToastSevertiy] = useState('');
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+  useEffect(async() => {
+    getData();
+  }, []);
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-
-  const columns = [
-    { id: 'id', label: 'ID', minWidth: 70 },
-    { id: 'lab_report_date', label: 'Report Date', minWidth: 200 },
-    { id: 'cases_total', label: 'Cases Total', minWidth: 200 },
-    { id: 'death_total', label: 'Death Total', minWidth: 200 },
-  ];
-  
-  const getRows = (json) => {
-    // var index = 0;
-    var rows = Array(100);
-    // var start = index * 100;
-    // var end = (index + 1) * 100;
-    for(var i = 0; i < json.length; i++) {
-      rows[i] = {
-        id: i,
-        lab_report_date: json[i].lab_report_date,
-        cases_total: json[i].cases_total,
-        death_total: json[i].deaths_total
-      }
-    }
-    return rows;
-  }
-
-    useEffect(() => {
-      getData();
-    }, []);
-
-    const getData = async () => {
-        await fetch('https://data.cityofchicago.org/resource/naz8-j4nc.json'
-            ,{
-            headers : { 
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-            }
-        )
-        .then((res) => {
-          return res.json()
+  const getData = async () => {
+      await axios.get('http://localhost:4000/api/' + reportType + '/table_data', {})
+        .then(res => {
+          setToastOpen(true);
+          setToastMessage('Successfully loaded the data.');
+          setToastSevertiy('success');
+          setRows(res.data.data);
+          setColumns(res.data.columns);
+          return res.data;
         })
-        .then(
-        (json) => {
-          console.log(json);
-          setData(json);
-          // setRows(data);
-          setRows(getRows(json));
-        },
-        (error) => {
-        console.log(error);
+        .catch(error => {
+          setToastOpen(true);
+          setToastMessage('Some error happened call Team 13.');
+          setToastSevertiy('error');
+          return [];
         });
-    }
+    };
 
     return (
-      <Paper>
-        <TableContainer>
-          <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow>
-                {columns.map((column) => (
-                  <TableCell
-                    key={column.id}
-                    align={column.align}
-                    style={{ minWidth: column.minWidth }}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
-                  return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                      {columns.map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell key={column.id} align={column.align}>
-                            {column.format && typeof value === 'number'
-                              ? column.format(value)
-                              : value}
-                              
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-    </Paper>
-  );
+      <>
+        <Toast open={toastOpen} setOpen={setToastOpen} message={toastMessage} severity={toastSeverity} />
+        <DataGrid dataSource={rows}
+          id='gridContainer'
+          keyExpr="id"
+          width="95%"
+          height="calc(100vh - 120px)"
+          showColumnLines={true}
+          showRowLines={true}
+          showBorders={true}
+          rowAlternationEnabled={true}
+          columns={columns}
+          >
+            <SearchPanel visible={true} highlightCaseSensitive={true} />
+            <Pager allowedPageSizes={pageSizes} showPageSizeSelector={true} />
+            <Paging defaultPageSize={25} />
+            <Export enabled={true} />
+        </DataGrid>
+      </>
+    );
 };
-
 export default DataTable;
