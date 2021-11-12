@@ -2,6 +2,7 @@
 CREATE USER postgres WITH PASSWORD 'Root00';
 CREATE DATABASE chicago_business_intelligence;
 
+-----------------------------------------------------------------------------------------
 --------------------------------- ALL CREATE STATEMENTS ---------------------------------
 /*
 Taxi Trip Data:
@@ -23,7 +24,6 @@ SYS_CREATION_DATE TIMESTAMP NOT NULL,
 SYS_UPDATE_DATE TIMESTAMP NOT NULL
 );
 
-
 /*
 Covid CCVI Data:
 https://data.cityofchicago.org/Health-Human-Services/Chicago-COVID-19-Community-Vulnerability-Index-CCV/xhc6-88s9/data
@@ -38,7 +38,6 @@ SYS_CREATION_DATE TIMESTAMP NOT NULL,
 SYS_UPDATE_DATE TIMESTAMP NOT NULL,
 PRIMARY KEY (GEOGRAPHY_TYPE, ZIP_CODE)
 );
-
 
 /*
 Covid Weekly Data:
@@ -59,7 +58,6 @@ SYS_UPDATE_DATE TIMESTAMP NOT NULL,
 PRIMARY KEY (ZIP_CODE, WEEK_NUMBER)
 );
 
-
 /*
 Covid Daily Data:
 https://data.cityofchicago.org/Health-Human-Services/COVID-19-Daily-Cases-Deaths-and-Hospitalizations/naz8-j4nc/data
@@ -72,7 +70,6 @@ TOTAL_DEATHS NUMERIC NOT NULL,
 SYS_CREATION_DATE TIMESTAMP NOT NULL,
 SYS_UPDATE_DATE TIMESTAMP NOT NULL
 );
-
 
 /*
 Unemployment and Poverty Data
@@ -90,3 +87,11 @@ SYS_CREATION_DATE TIMESTAMP NOT NULL,
 SYS_UPDATE_DATE TIMESTAMP NOT NULL,
 PRIMARY KEY (ZIP_CODE, AREA_CODE)
 );
+-----------------------------------------------------------------------------------------
+--------------------------------- ALL SELECT STATEMENTS ---------------------------------
+select * from TAXI_TRIPS_DATA;
+select * from COVID_CCVI_DATA;
+select * from COVID_WEEKLY_DATA;
+select * from COVID_DAILY_DATA;
+select * from UNEMPLOYMENT_POVERTY_DATA;
+-----------------------------------------------------------------------------------------
