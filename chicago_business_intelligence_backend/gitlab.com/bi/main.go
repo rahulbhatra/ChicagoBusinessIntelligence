@@ -61,7 +61,7 @@ func main() {
 		// var communityAreaOrZipCode int64
 		// var ccviScore float64
 		for i := 0; i < len(covidDataArray); i++ {
-			communityAreaOrZipCode, _ := strconv.ParseInt(covidDataArray[i].CommunityAreaOrZip, 0, 8)
+			communityAreaOrZipCode := covidDataArray[i].CommunityAreaOrZip
 			ccviScore, _ := strconv.ParseFloat(covidDataArray[i].CcviScore, 8)
 			createdAt := time.Now()
 			updatedAt := time.Now()

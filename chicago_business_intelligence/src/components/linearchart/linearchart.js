@@ -8,8 +8,8 @@ import {
   Export,
   Legend,
   Margin,
-  Title,
-  Subtitle,
+  // Title,
+  // Subtitle,
   Tooltip,
   Grid,
   Size
@@ -17,49 +17,51 @@ import {
 
 const LinearChart = ({reportType}) => {
   const [rows, setRows] = useState([]);
+  const [columns, setColumns] = useState([]);
+  const [argumentField, setArgumentField] = useState(null);
 
   useEffect(async() => {
     getData();
   }, []);
 
   const getData = async () => {
-      await axios.get('http://localhost:4000/api/' + reportType + '/covid_daily_data', {})
+      await axios.get('http://localhost:4000/api/' + reportType + '/linear_chart', {})
         .then(res => {
           console.log(res.data);
-          setRows(res.data.data.slice(0, 10));
+          setRows(res.data.rows.slice(0, 30));
+          setColumns(res.data.columns);
+          setArgumentField(res.data.argumentField);
           return res.data;
         })
         .catch(error => {
           console.log(error);
-          setRows([]);
-          return [];
         });
     };
 
-  const energySources = [
-    { value: 'cases_total', name: 'Cases Total' },
-    { value: 'death_total', name: 'Dealth Total' }
-  ];
+  
 
   return (
     
     <Chart
+      title={"Last 30 Days " + reportType + " line chart presentation"}
       palette="Violet"
       dataSource={rows}
     >
       <CommonSeriesSettings
-        argumentField="lab_report_date"
+        argumentField={argumentField}
         type={'line'}
       />
       {
-        energySources.map((item) => <Series
-          key={item.value}
-          valueField={item.value}
-          name={item.name} />)
+        columns.map((item) => 
+          <Series
+            key={item.value}
+            valueField={item.value}
+            name={item.name} />
+        )
       }
       <Margin bottom={20} />
       <ArgumentAxis
-        valueMarginsEnabled={false}
+        valueMarginsEnabled={true}
         discreteAxisDivisionMode="crossLabels"
       >
         <Grid visible={true} />
@@ -70,9 +72,6 @@ const LinearChart = ({reportType}) => {
         itemTextPosition="bottom"
       />
       <Export enabled={true} />
-      <Title text="Energy Consumption in 2004">
-        <Subtitle text="(Millions of Tons, Oil Equivalent)" />
-      </Title>
       <Tooltip enabled={true} />
       <Size height={600}/>
     </Chart>

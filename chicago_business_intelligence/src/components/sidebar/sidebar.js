@@ -30,9 +30,15 @@ const Sidebar = ({isLeftOpen, setIsLeftOpen, reportType, setReportType}) => {
         link: null
       },
       {
-        name: 'Covid Update',
+        name: 'Covid CCVI',
         icon: CoronavirusIcon,
-        reportType: 'covid',
+        reportType: 'covid_ccvi',
+        link: null
+      },
+      {
+        name: 'Covid Daily',
+        icon: CoronavirusIcon,
+        reportType: 'covid_daily',
         link: null
       },
       {
