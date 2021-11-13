@@ -5,6 +5,20 @@ CREATE DATABASE chicago_business_intelligence;
 -----------------------------------------------------------------------------------------
 --------------------------------- ALL CREATE STATEMENTS ---------------------------------
 /*
+User details table
+*/
+CREATE TABLE USER_DETAILS
+(
+USER_ID VARCHAR(50) PRIMARY KEY,
+FIRST_NAME VARCHAR(50) NOT NULL,
+LAST_NAME VARCHAR(50) NOT NULL,
+USER_TYPE VARCHAR(4) NOT NULL,
+EMAIL VARCHAR(50),
+PASSWORD VARCHAR(255),
+SYS_CREATION_DATE TIMESTAMP NOT NULL
+);
+
+/*
 Taxi Trip Data:
 https://data.cityofchicago.org/Transportation/Taxi-Trips/wrvz-psew
 https://data.cityofchicago.org/Transportation/Transportation-Network-Providers-Trips/m6dm-c72p/data
