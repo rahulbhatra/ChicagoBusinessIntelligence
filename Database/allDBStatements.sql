@@ -15,7 +15,8 @@ LAST_NAME VARCHAR(50) NOT NULL,
 USER_TYPE VARCHAR(4) NOT NULL,
 EMAIL VARCHAR(50),
 PASSWORD VARCHAR(255),
-SYS_CREATION_DATE TIMESTAMP NOT NULL
+SYS_CREATION_DATE TIMESTAMP NOT NULL,
+SYS_UPDATE_DATE TIMESTAMP NOT NULL
 );
 
 /*
@@ -103,6 +104,7 @@ select * from COVID_CCVI_DATA;
 select * from COVID_WEEKLY_DATA;
 select * from COVID_DAILY_DATA;
 select * from UNEMPLOYMENT_POVERTY_DATA;
+sleect * from USER_DETAILS;
 -----------------------------------------------------------------------------------------
 --------------------------------- ALL DROP STATEMENTS ---------------------------------
 drop table TAXI_TRIPS_DATA;
@@ -110,4 +112,5 @@ drop table COVID_CCVI_DATA;
 drop table COVID_WEEKLY_DATA;
 drop table COVID_DAILY_DATA;
 drop table UNEMPLOYMENT_POVERTY_DATA;
-----------------------------------------------------------------------------------------
+drop table USER_DETAILS;
+-----------------------------------------------------------------------------------------
