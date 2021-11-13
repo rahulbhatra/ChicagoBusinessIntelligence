@@ -10,9 +10,11 @@ import {
   Margin,
   // Title,
   // Subtitle,
+  ScrollBar,
+  ZoomAndPan,
   Tooltip,
   Grid,
-  Size
+  Size,
 } from 'devextreme-react/chart';
 
 const LinearChart = ({reportType}) => {
@@ -28,7 +30,7 @@ const LinearChart = ({reportType}) => {
       await axios.get('http://localhost:4000/api/' + reportType + '/linear_chart', {})
         .then(res => {
           console.log(res.data);
-          setRows(res.data.rows.slice(0, 30));
+          setRows(res.data.rows);
           setColumns(res.data.columns);
           setArgumentField(res.data.argumentField);
           return res.data;
@@ -62,10 +64,15 @@ const LinearChart = ({reportType}) => {
       <Margin bottom={20} />
       <ArgumentAxis
         valueMarginsEnabled={true}
+        defaultVisualRange={{length: 10}}
         discreteAxisDivisionMode="crossLabels"
+        label={{displayMode:'rotate'}}
       >
         <Grid visible={true} />
       </ArgumentAxis>
+      
+      <ScrollBar visible={true} />
+      <ZoomAndPan argumentAxis="both"/>
       <Legend
         verticalAlignment="bottom"
         horizontalAlignment="center"

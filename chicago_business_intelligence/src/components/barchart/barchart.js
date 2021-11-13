@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
-    Chart, Series, CommonSeriesSettings, Label, Format, Legend, Export, Size
+    Chart, Series, CommonSeriesSettings, Label, Format, Legend, Export, Size, ArgumentAxis, ZoomAndPan, ScrollBar
 } from 'devextreme-react/chart';
 import Toast from '../toast/toast';
 
@@ -55,7 +55,9 @@ const BarChart = ({reportType}) => {
                 hoverMode="allArgumentPoints"
                 selectionMode="allArgumentPoints"
                 >
-                <Label visible={true}>
+                <Label 
+                    visible={true}
+                >
                     <Format type="fixedPoint" precision={0} />
                 </Label>
                 </CommonSeriesSettings>
@@ -68,6 +70,11 @@ const BarChart = ({reportType}) => {
                     )
                 }
                 <Legend verticalAlignment="bottom" horizontalAlignment="center"></Legend>
+                <ArgumentAxis label={{displayMode:'rotate'}}
+                    defaultVisualRange={{length: 10}}
+                />
+                <ScrollBar visible={true} />
+                <ZoomAndPan argumentAxis="both"/>
                 <Size height={600}/>
                 <Export enabled={true} />
             </Chart>

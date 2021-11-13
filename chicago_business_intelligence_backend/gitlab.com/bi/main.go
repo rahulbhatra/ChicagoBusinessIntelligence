@@ -13,18 +13,21 @@ import (
 	_ "github.com/lib/pq"
 )
 
+// "location":{"type":"Point","coordinates":[-87.668597,41.77599]}}
+
 type CovidCCVI []struct {
 	GeographyType      string `json:"geography_type"`
 	CommunityAreaOrZip string `json:"community_area_or_zip"`
 	CcviScore          string `json:"ccvi_score"`
 	CcviCategory       string `json:"ccvi_category"`
-	// Location           LocationJson `json:"location"`
+	Location           json.RawMessage
 }
 
-// type LocationJson struct {
-// 	Type        string `json:"type"`
-// 	Coordinates string `json:"coordinates"`
-// }
+type Location struct {
+	Type        string    `json:"type"`
+	Coordinates []float64 `json:"coordinates"`
+}
+
 type CovidDaily []struct {
 	LabReportDate string `json:"lab_report_date"`
 	TotalCases    string `json:"cases_total"`
@@ -63,6 +66,8 @@ func main() {
 		for i := 0; i < len(covidDataArray); i++ {
 			communityAreaOrZipCode := covidDataArray[i].CommunityAreaOrZip
 			ccviScore, _ := strconv.ParseFloat(covidDataArray[i].CcviScore, 8)
+			println(covidDataArray[i].Location.Type)
+			println(covidDataArray[i].Location.Coordinates)
 			createdAt := time.Now()
 			updatedAt := time.Now()
 			sql := `insert into covid_ccvi ("geographyType", "communityAreaOrZipCode", "ccviScore", "ccviCategory", "createdAt", "updatedAt") 
