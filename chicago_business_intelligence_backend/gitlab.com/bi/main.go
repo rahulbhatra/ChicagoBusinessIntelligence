@@ -13,14 +13,12 @@ import (
 	_ "github.com/lib/pq"
 )
 
-// "location":{"type":"Point","coordinates":[-87.668597,41.77599]}}
-
 type CovidCCVI []struct {
-	GeographyType      string `json:"geography_type"`
-	CommunityAreaOrZip string `json:"community_area_or_zip"`
-	CcviScore          string `json:"ccvi_score"`
-	CcviCategory       string `json:"ccvi_category"`
-	Location           json.RawMessage
+	GeographyType      string   `json:"geography_type"`
+	CommunityAreaOrZip string   `json:"community_area_or_zip"`
+	CcviScore          string   `json:"ccvi_score"`
+	CcviCategory       string   `json:"ccvi_category"`
+	Location           Location `json:"location"`
 }
 
 type Location struct {
@@ -65,16 +63,14 @@ func main() {
 		// var ccviScore float64
 		for i := 0; i < len(covidDataArray); i++ {
 			communityAreaOrZipCode := covidDataArray[i].CommunityAreaOrZip
-			ccviScore, _ := strconv.ParseFloat(covidDataArray[i].CcviScore, 8)
-			println(covidDataArray[i].Location.Type)
-			println(covidDataArray[i].Location.Coordinates)
+			ccviScore, _ := strconv.ParseFloat(covidDataArray[i].CcviScore, 64)
 			createdAt := time.Now()
 			updatedAt := time.Now()
-			sql := `insert into covid_ccvi ("geographyType", "communityAreaOrZipCode", "ccviScore", "ccviCategory", "createdAt", "updatedAt") 
-			values($1, $2, $3, $4, $5, $6)`
-			_, err := db.Exec(sql, covidDataArray[i].GeographyType, communityAreaOrZipCode, ccviScore, covidDataArray[i].CcviCategory,
-				createdAt, updatedAt)
-
+			lat := covidDataArray[i].Location.Coordinates[0]
+			lng := covidDataArray[i].Location.Coordinates[1]
+			sql := `insert into covid_ccvi ("geographyType", "communityAreaOrZipCode", "ccviScore", "ccviCategory", "latitude", "longitude", "createdAt", "updatedAt") 
+			values($1, $2, $3, $4, $5, $6, $7, $8)`
+			_, err := db.Exec(sql, covidDataArray[i].GeographyType, communityAreaOrZipCode, ccviScore, covidDataArray[i].CcviCategory, lat, lng, createdAt, updatedAt)
 			if err != nil {
 				panic(err)
 			}
@@ -104,6 +100,7 @@ func main() {
 			totalDeaths, _ := strconv.ParseInt(covidDataArray[i].TotalDeaths, 0, 8)
 			createdAt := time.Now()
 			updatedAt := time.Now()
+
 			sql := `insert into covid_daily ("labReportDate", "totalCases", "totalDeaths", "createdAt", "updatedAt") 
 			values($1, $2, $3, $4, $5)`
 			_, err := db.Exec(sql, labReportDate, totalCases, totalDeaths,

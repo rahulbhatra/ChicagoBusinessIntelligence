@@ -11,11 +11,8 @@ import { BrowserRouter } from 'react-router-dom';
 function App() {
 
   const token = localStorage.getItem('token');
-  const localStorageReportType = localStorage.getItem('reportType');
   const [isLeftOpen, setIsLeftOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(token == null? false: true);
-  const [reportType, setReportType] = useState(localStorageReportType == null? 'covid' : localStorageReportType);
-  console.log('inside app', reportType);
 
   return (
     <div className="App">
@@ -29,11 +26,9 @@ function App() {
           <Sidebar
           isLeftOpen={isLeftOpen} setIsLeftOpen={setIsLeftOpen}
           isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}
-          reportType={reportType} setReportType={setReportType}
           />
           <Main isLeftOpen={isLeftOpen}
           isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}
-          reportType={reportType}
           />
         </BrowserRouter>
       

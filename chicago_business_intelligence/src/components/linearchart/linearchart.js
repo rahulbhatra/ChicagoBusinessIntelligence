@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 import {
   Chart,
   Series,
@@ -8,8 +6,6 @@ import {
   Export,
   Legend,
   Margin,
-  // Title,
-  // Subtitle,
   ScrollBar,
   ZoomAndPan,
   Tooltip,
@@ -17,35 +13,13 @@ import {
   Size,
 } from 'devextreme-react/chart';
 
-const LinearChart = ({reportType}) => {
-  const [rows, setRows] = useState([]);
-  const [columns, setColumns] = useState([]);
-  const [argumentField, setArgumentField] = useState(null);
+const LinearChart = ({rows, columns, argumentField}) => {
 
-  useEffect(async() => {
-    getData();
-  }, []);
-
-  const getData = async () => {
-      await axios.get('http://localhost:4000/api/' + reportType + '/linear_chart', {})
-        .then(res => {
-          console.log(res.data);
-          setRows(res.data.rows);
-          setColumns(res.data.columns);
-          setArgumentField(res.data.argumentField);
-          return res.data;
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    };
-
-  
 
   return (
     
     <Chart
-      title={"Last 30 Days " + reportType + " line chart presentation"}
+      title={"Linear Chart Represenation"}
       palette="Violet"
       dataSource={rows}
     >

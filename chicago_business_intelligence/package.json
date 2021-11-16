@@ -23,7 +23,7 @@
     "devextreme-react": "21.2.3",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "google-map-react": "^2.1.10",
+    "google-maps-react": "^2.0.6",
     "pg": "^8.7.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

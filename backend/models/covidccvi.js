@@ -17,7 +17,9 @@ module.exports = (sequelize, DataTypes) => {
     geographyType: DataTypes.STRING,
     communityAreaOrZipCode: DataTypes.STRING,
     ccviScore: DataTypes.DOUBLE,
-    ccviCategory: DataTypes.STRING
+    ccviCategory: DataTypes.STRING,
+    latitude: DataTypes.DOUBLE,
+    longitude: DataTypes.DOUBLE
   }, {
     sequelize,
     tableName: 'covid_ccvi',

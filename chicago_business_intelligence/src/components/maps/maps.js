@@ -1,28 +1,54 @@
-import React, { Component, useState } from 'react';
-import GoogleMapReact from 'google-map-react';
-import Place from './place';
+import React, { useState } from "react";
+import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
 
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
+const MapContainer = ({markers, google}) => {
+  console.log('inside map container', markers);
+  const [showingInfoWindow, setShowingInfoWindow] = useState(false);
+  const [activeMarker, setActiveMarker] = useState({});
+  const [selectedPlace, setSelectedPlace] = useState({});
 
+   
 
-const Map = () => {
-    const [lat, setLat] = useState(41.878113);
-    const [lon, setLon] = useState(-87.629799);
-    const [zoom, setZoom] = useState(11);
+  const onMarkerClick = (props, marker, e) => {
+    setSelectedPlace(props);
+    setActiveMarker(marker);
+    setShowingInfoWindow(true);
+    
+  }
 
-    return (
-      // Important! Always set the container height explicitly
-      <div style={{ height: '100vh', width: '100%' }}>
-        <GoogleMapReact
-          bootstrapURLKeys={{ key: "AIzaSyCkKisr7W-gLnHjsEY55jurta3qb8-IVaw" }}
-          defaultCenter={{lat: lat, lng: lon}}
-          defaultZoom={zoom}
+  return (
+    <div
+      style={{
+        position: "relative",
+        height: "calc(100vh - 20px)"
+      }}
+    > 
+    <div>{markers[0].latitude + " " + markers[0].longitude}</div>
+      <Map google={google} zoom={14} initialCenter={{lat: 41.881832, lng: -87.623177}}>
+        <Marker
+          onClick={() => onMarkerClick({name:'rahul sharma'})}
+          position={{lat: markers[0].longitude, lng: markers[0].latitude}}
+          name={"Current location"}
+        />
+
+        {markers.map((marker) => {
+          return(
+            <Marker key={marker.key} position={{lat: 41.881832, lng: -87.623177}} />
+          )
+        })}
+        <InfoWindow
+          marker={activeMarker}
+          visible={showingInfoWindow}
         >
-          <AnyReactComponent lat={lat} lng={lon} text={'High'} />
-          <Place lat={lat} lng={lon} text={'Low'} />
-        </GoogleMapReact>
-      </div>
-    );
+          <div>
+            <h1>{selectedPlace.name}</h1>
+          </div>
+        </InfoWindow>
+      </Map>
+    </div>
+  );
 }
-
-export default Map;
+export default GoogleApiWrapper({
+  apiKey: "AIzaSyCkKisr7W-gLnHjsEY55jurta3qb8-IVaw",
+  v: "3.30"
+})(MapContainer);
