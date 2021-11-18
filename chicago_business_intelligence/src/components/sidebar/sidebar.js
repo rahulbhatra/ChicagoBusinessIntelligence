@@ -22,6 +22,11 @@ const Sidebar = ({isLeftOpen, setIsLeftOpen}) => {
         reportType: 'taxi',
         link: 'taxi'
       },
+      { name: 'High CCVI Taxi Trip',
+        icon: LocalTaxiIcon,
+        reportType : 'high_ccvi_taxi',
+        link: 'high-ccvi-taxi'
+      },
       {
         name: 'Covid CCVI',
         icon: CoronavirusIcon,

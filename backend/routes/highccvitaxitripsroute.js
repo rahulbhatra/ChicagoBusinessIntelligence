@@ -9,6 +9,8 @@ router.get('/data', async(req, res) => {
             }
         });
 
+        console.log(covidCCVIArray);
+
         var taxiTripArray = await TaxiTrip.findAll({});
 
         var pickUpZipCodeTaxiIndexMap = {};
@@ -42,10 +44,12 @@ router.get('/data', async(req, res) => {
             message: 'success',
             rows: dataArray
         })
-    } catch(eror) {
+    } catch(error) {
         res.status(500).json({
             message: 'Server Error.',
             error: error
         })
     }
 });
+
+module.exports = router;
