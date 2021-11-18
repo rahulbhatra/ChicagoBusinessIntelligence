@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"database/sql"
 	"encoding/json"
 	"fmt"
@@ -12,6 +13,16 @@ import (
 
 	_ "github.com/lib/pq"
 )
+
+type TAXI_TRIPS_DATA []struct {
+	TRIP_ID         string `json:"trip_id"`
+	TRIP_START_TIME string `json:"trip_start_timestamp"`
+	TRIP_END_TIME   string `json:"trip_end_timestamp"`
+	PICKUP_LAT      string `json:"pickup_centroid_latitude"`
+	PICKUP_LONG     string `json:"pickup_centroid_longitude"`
+	DROPOFF_LAT     string `json:"dropoff_centroid_latitude"`
+	DROPOFF_LONG    string `json:"dropoff_centroid_longitude"`
+}
 
 type CovidCCVI []struct {
 	GeographyType      string   `json:"geography_type"`
@@ -30,6 +41,12 @@ type CovidDaily []struct {
 	LabReportDate string `json:"lab_report_date"`
 	TotalCases    string `json:"cases_total"`
 	TotalDeaths   string `json:"deaths_total"`
+}
+
+func checkErr(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func main() {
@@ -111,6 +128,148 @@ func main() {
 			}
 
 		}
+	})
+
+	http.HandleFunc("/taxi_trip", func(rw http.ResponseWriter, r *http.Request) {
+		var url1 = "https://data.cityofchicago.org/resource/wrvz-psew.json"
+		var url2 = "https://data.cityofchicago.org/resource/m6dm-c72p.json"
+
+		res1, err := http.Get(url1)
+		checkErr(err)
+
+		res2, err := http.Get(url2)
+		checkErr(err)
+
+		body1, _ := ioutil.ReadAll(res1.Body)
+		body2, _ := ioutil.ReadAll(res2.Body)
+
+		var taxiTripsArray1 TAXI_TRIPS_DATA
+		var taxiTripsArray2 TAXI_TRIPS_DATA
+		json.Unmarshal(body1, &taxiTripsArray1)
+		json.Unmarshal(body2, &taxiTripsArray2)
+
+		ctx := context.Background()
+		tx, err := db.BeginTx(ctx, nil)
+		checkErr(err)
+
+		for i := 0; i < len(taxiTripsArray1); i++ {
+
+			tripId := taxiTripsArray1[i].TRIP_ID
+			if tripId == "" {
+				tripId = "NULL"
+			}
+
+			tripStartTime := taxiTripsArray1[i].TRIP_START_TIME
+			if tripStartTime == "" {
+				tripStartTime = "0000-00-00 00:00:00"
+			}
+
+			tripEndTime := taxiTripsArray1[i].TRIP_END_TIME
+			if tripEndTime == "" {
+				tripEndTime = "0000-00-00 00:00:00"
+			}
+
+			pickupLat := taxiTripsArray1[i].PICKUP_LAT
+			if pickupLat == "" {
+				pickupLat = "0"
+			}
+
+			pickupLon := taxiTripsArray1[i].PICKUP_LONG
+			if pickupLon == "" {
+				pickupLon = "0"
+			}
+
+			dropoffLat := taxiTripsArray1[i].DROPOFF_LAT
+			if dropoffLat == "" {
+				dropoffLat = "0"
+			}
+
+			dropoffLon := taxiTripsArray1[i].DROPOFF_LONG
+			if dropoffLon == "" {
+				dropoffLon = "0"
+			}
+
+			sql := "INSERT INTO taxi_trip (tripId, tripStartTime, tripEndTime, pickupLat, pickupLon, dropoffLat, dropoffLon, pickupZip, dropoffZip) values($1, $2, $3, $4, $5, $6, $7, $8, $9)"
+			_, err = tx.ExecContext(ctx,
+				sql,
+				tripId,
+				tripStartTime,
+				tripEndTime,
+				pickupLat,
+				pickupLon,
+				dropoffLat,
+				dropoffLon,
+				0,
+				0)
+
+			if err != nil {
+				fmt.Printf("\n ERROR = ", err)
+				fmt.Printf("\n")
+				tx.Rollback()
+				return
+			}
+		}
+
+		for i := 0; i < len(taxiTripsArray2); i++ {
+
+			tripId := taxiTripsArray2[i].TRIP_ID
+			if tripId == "" {
+				tripId = "NULL"
+			}
+
+			tripStartTime := taxiTripsArray2[i].TRIP_START_TIME
+			if tripStartTime == "" {
+				tripStartTime = "0000-00-00 00:00:00"
+			}
+
+			tripEndTime := taxiTripsArray2[i].TRIP_END_TIME
+			if tripEndTime == "" {
+				tripEndTime = "0000-00-00 00:00:00"
+			}
+
+			pickupLat := taxiTripsArray2[i].PICKUP_LAT
+			if pickupLat == "" {
+				pickupLat = "0"
+			}
+
+			pickupLon := taxiTripsArray2[i].PICKUP_LONG
+			if pickupLon == "" {
+				pickupLon = "0"
+			}
+
+			dropoffLat := taxiTripsArray2[i].DROPOFF_LAT
+			if dropoffLat == "" {
+				dropoffLat = "0"
+			}
+
+			dropoffLon := taxiTripsArray2[i].DROPOFF_LONG
+			if dropoffLon == "" {
+				dropoffLon = "0"
+			}
+
+			sql := "INSERT INTO TAXI_TRIPS_DATA (tripId, tripStartTime, tripEndTime, pickupLat, pickupLon, dropoffLat, dropoffLon, pickupZip, dropoffZip) values($1, $2, $3, $4, $5, $6, $7, $8, $9)"
+			_, err = tx.ExecContext(ctx,
+				sql,
+				tripId,
+				tripStartTime,
+				tripEndTime,
+				pickupLat,
+				pickupLon,
+				dropoffLat,
+				dropoffLon,
+				0,
+				0)
+
+			if err != nil {
+				fmt.Printf("\n ERROR = ", err)
+				fmt.Printf("\n")
+				tx.Rollback()
+				return
+			}
+		}
+
+		err = tx.Commit()
+		checkErr(err)
 	})
 
 	http.ListenAndServe(":9090", nil)
