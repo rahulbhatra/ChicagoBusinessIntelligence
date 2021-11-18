@@ -143,13 +143,7 @@ const Header = ({isLeftOpen, setIsLeftOpen, isLoggedIn, setIsLoggedIn, reportTyp
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            <Button size="large"
-              variant="contained" 
-              href="/dashboard"
-              style={{color: '#FFFFFF'}}
-              >
-              Business Intelligence
-            </Button>
+            Business Intelligence
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>

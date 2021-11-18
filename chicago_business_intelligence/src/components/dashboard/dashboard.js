@@ -6,14 +6,21 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import CoronaImage from '../../images/CoronaVirus.png';
+import TaxiImage from '../../images/taxi.png'
 
 const DashBoard = () => {
     const cards = [
         {
-            header: 'Covid Reports',
-            info: 'We are giving various form of covid reports daily, weekly, and ' + 
-            'monthly with google charts.',
-            image: CoronaImage
+          header: 'Covid Reports',
+          info: 'We are giving various form of covid reports daily, weekly, and ' + 
+          'monthly with google charts.',
+          image: CoronaImage
+        },
+        {
+          header: 'Taxi Trips Information',
+          info: 'We are giving various form of covid reports daily, weekly, and ' + 
+          'monthly with google charts.',
+          image: TaxiImage
         }
     ];
 
@@ -39,7 +46,7 @@ const DashBoard = () => {
         <Container sx={{ py: 8 }} maxWidth="md">
         <Grid container spacing={4}>
           {cards.map((card) => (
-            <Grid item key={card} xs={12} sm={6} md={4}>
+            <Grid item key={card.header} xs={12} sm={6} md={4}>
               <Card
                 sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
               >

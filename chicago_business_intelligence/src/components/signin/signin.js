@@ -39,7 +39,7 @@ export default function SignIn({isLoggedIn, setIsLoggedIn}) {
         setToastOpen(true);
         setToastMessage('Successfully Logged In');
         setToastSevertiy('success');
-        setTimeout(() => {  history.push("/"); }, 1000);
+        setTimeout(() => {  history.push("/dashboard"); }, 1000);
         
       })
       .catch(error => {

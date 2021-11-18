@@ -6,6 +6,9 @@ import LinearChart from '../linearchart/linearchart';
 import Maps from '../maps/maps';
 import axios from 'axios';
 import Toast from '../toast/toast';
+import CoronaGreenIcon from '../../images/coronagreen.png';
+import CoronaRedIcon from '../../images/coronared.png';
+import CoronaBlueIcon from '../../images/coronablue.png';
 
 const tableColumns =  ['id', 'community_area', 'ccvi_score', 'ccvi_category', 'latitude', 'longitude'];
 const chartColumns = [
@@ -27,6 +30,18 @@ const CovidCCVI = () => {
     useEffect(() => {
         getData();
     }, []);
+
+    const setIcon = (dataArray) => {
+        for(var i = 0; i < dataArray.length; i ++) {
+            if (dataArray[i].ccvi_category == 'HIGH') {
+                dataArray[i].img = CoronaRedIcon
+            } else if (dataArray[i].ccvi_category == 'MEDIUM') {
+                dataArray[i].img = CoronaBlueIcon
+            } else {
+                dataArray[i].img = CoronaGreenIcon
+            }
+        }
+    }
   
     const getData = async () => {
         await axios.get('http://localhost:4000/api/covid_ccvi/data', {})
@@ -35,6 +50,7 @@ const CovidCCVI = () => {
             setToastMessage('Successfully loaded the data.');
             setToastSevertiy('success');
             console.log('loading data', res.data.rows);
+            setIcon(res.data.rows);
             setRows(res.data.rows);
             return res.data;
         })

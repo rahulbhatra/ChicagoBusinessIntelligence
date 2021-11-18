@@ -81,13 +81,7 @@ const Sidebar = ({isLeftOpen, setIsLeftOpen}) => {
               component="div"
               sx={{ display: { xs: 'none', sm: 'block' } }}
             >
-              <Button size="large"
-              variant="contained" 
-              href="/dashboard"
-              style={{color: '#FFFFFF'}}
-              >
-                Business Intelligence
-              </Button>
+              Business Intelligence
               {/* {reportType} */}
             </Typography>
           </DrawerHeader>

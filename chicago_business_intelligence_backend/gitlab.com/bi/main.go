@@ -66,8 +66,8 @@ func main() {
 			ccviScore, _ := strconv.ParseFloat(covidDataArray[i].CcviScore, 64)
 			createdAt := time.Now()
 			updatedAt := time.Now()
-			lat := covidDataArray[i].Location.Coordinates[0]
-			lng := covidDataArray[i].Location.Coordinates[1]
+			lat := covidDataArray[i].Location.Coordinates[1]
+			lng := covidDataArray[i].Location.Coordinates[0]
 			sql := `insert into covid_ccvi ("geographyType", "communityAreaOrZipCode", "ccviScore", "ccviCategory", "latitude", "longitude", "createdAt", "updatedAt") 
 			values($1, $2, $3, $4, $5, $6, $7, $8)`
 			_, err := db.Exec(sql, covidDataArray[i].GeographyType, communityAreaOrZipCode, ccviScore, covidDataArray[i].CcviCategory, lat, lng, createdAt, updatedAt)

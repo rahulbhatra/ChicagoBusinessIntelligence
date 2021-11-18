@@ -105,7 +105,7 @@ const CovidDaily = () => {
                     </Button>
                     {renderChartMenu}
                 </Box>
-                <Box sx={{mx: 2}}>
+                {/* <Box sx={{mx: 2}}>
                     <Button size="large"
                     variant="contained" 
                     onClick={() => setVisualizationType('maps')}
@@ -113,12 +113,12 @@ const CovidDaily = () => {
                     >
                     Maps
                     </Button>
-                </Box>
+                </Box> */}
             </Box>
             {visualizationType === 'table' && <DataTable reportType={'covid_ccvi'} rows={rows} columns={tableColumns} />}
             {visualizationType === 'barChart' && <BarChart reportType={'covid_ccvi'} rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
             {visualizationType === 'linearChart' && <LinearChart reportType={'covid_ccvi'} rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
-            {visualizationType === 'maps' && <Maps markers={rows}/>}
+            {/* {visualizationType === 'maps' && <Maps markers={rows}/>} */}
         </>
     )
 };
