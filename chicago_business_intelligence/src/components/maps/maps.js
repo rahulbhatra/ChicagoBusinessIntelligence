@@ -26,8 +26,7 @@ const MapContainer = ({markers, google}) => {
         height: "calc(100vh - 20px)"
       }}
     > 
-    <div>{markers[0].latitude + " " + markers[0].longitude + {selected}}</div>
-      <Map google={google} zoom={10} initialCenter={{lat: 41.881832, lng: -87.623177}}>
+      <Map google={google} zoom={11} initialCenter={{lat: 41.881832, lng: -87.623177}}>
         {markers.map((marker) => {
           return(
             <Marker icon={{url: marker.img, scaledSize: new google.maps.Size(32, 32)}} onClick={() => onSelect(marker)} key={marker.key} position={{lat: marker.latitude, lng: marker.longitude}} />
