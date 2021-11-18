@@ -1,29 +1,26 @@
 import Box from "@mui/material/Box";
-import { flexbox } from "@mui/system";
-import AppBar from '@mui/material/AppBar';
-import Button from '@mui/material/Button';
-import CameraIcon from '@mui/icons-material/PhotoCamera';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
-import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import CoronaImage from '../../images/CoronaVirus.png';
-import Link from '@mui/material/Link';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import TaxiImage from '../../images/taxi.png'
 
 const DashBoard = () => {
     const cards = [
         {
-            header: 'Covid Reports',
-            info: 'We are giving various form of covid reports daily, weekly, and ' + 
-            'monthly with google charts.',
-            image: CoronaImage
+          header: 'Covid Reports',
+          info: 'We are giving various form of covid reports daily, weekly, and ' + 
+          'monthly with google charts.',
+          image: CoronaImage
+        },
+        {
+          header: 'Taxi Trips Information',
+          info: 'We are giving various form of covid reports daily, weekly, and ' + 
+          'monthly with google charts.',
+          image: TaxiImage
         }
     ];
 
@@ -49,7 +46,7 @@ const DashBoard = () => {
         <Container sx={{ py: 8 }} maxWidth="md">
         <Grid container spacing={4}>
           {cards.map((card) => (
-            <Grid item key={card} xs={12} sm={6} md={4}>
+            <Grid item key={card.header} xs={12} sm={6} md={4}>
               <Card
                 sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
               >

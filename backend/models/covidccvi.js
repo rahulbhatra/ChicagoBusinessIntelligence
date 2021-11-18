@@ -15,13 +15,15 @@ module.exports = (sequelize, DataTypes) => {
   };
   CovidCCVI.init({
     geographyType: DataTypes.STRING,
-    communityAreaOrZipCode: DataTypes.BIGINT,
+    communityAreaOrZipCode: DataTypes.STRING,
     ccviScore: DataTypes.DOUBLE,
-    ccviCategory: DataTypes.STRING
+    ccviCategory: DataTypes.STRING,
+    latitude: DataTypes.DOUBLE,
+    longitude: DataTypes.DOUBLE
   }, {
     sequelize,
     tableName: 'covid_ccvi',
-    modelName: 'covid',
+    modelName: 'CovidCCVI',
   });
   return CovidCCVI;
 };

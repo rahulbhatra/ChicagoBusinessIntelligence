@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 import {
   Chart,
   Series,
@@ -8,71 +6,53 @@ import {
   Export,
   Legend,
   Margin,
-  Title,
-  Subtitle,
+  ScrollBar,
+  ZoomAndPan,
   Tooltip,
   Grid,
-  Size
+  Size,
 } from 'devextreme-react/chart';
 
-const LinearChart = ({reportType}) => {
-  const [rows, setRows] = useState([]);
+const LinearChart = ({rows, columns, argumentField}) => {
 
-  useEffect(async() => {
-    getData();
-  }, []);
-
-  const getData = async () => {
-      await axios.get('http://localhost:4000/api/' + reportType + '/covid_daily_data', {})
-        .then(res => {
-          console.log(res.data);
-          setRows(res.data.data.slice(0, 10));
-          return res.data;
-        })
-        .catch(error => {
-          console.log(error);
-          setRows([]);
-          return [];
-        });
-    };
-
-  const energySources = [
-    { value: 'cases_total', name: 'Cases Total' },
-    { value: 'death_total', name: 'Dealth Total' }
-  ];
 
   return (
     
     <Chart
+      title={"Linear Chart Represenation"}
       palette="Violet"
       dataSource={rows}
     >
       <CommonSeriesSettings
-        argumentField="lab_report_date"
+        argumentField={argumentField}
         type={'line'}
       />
       {
-        energySources.map((item) => <Series
-          key={item.value}
-          valueField={item.value}
-          name={item.name} />)
+        columns.map((item) => 
+          <Series
+            key={item.value}
+            valueField={item.value}
+            name={item.name} />
+        )
       }
       <Margin bottom={20} />
       <ArgumentAxis
-        valueMarginsEnabled={false}
+        valueMarginsEnabled={true}
+        defaultVisualRange={{length: 10}}
         discreteAxisDivisionMode="crossLabels"
+        label={{displayMode:'rotate'}}
       >
         <Grid visible={true} />
       </ArgumentAxis>
+      
+      <ScrollBar visible={true} />
+      <ZoomAndPan argumentAxis="both"/>
       <Legend
         verticalAlignment="bottom"
         horizontalAlignment="center"
         itemTextPosition="bottom"
       />
       <Export enabled={true} />
-      <Title text="Energy Consumption in 2004">
-        <Subtitle text="(Millions of Tons, Oil Equivalent)" />
-      </Title>
       <Tooltip enabled={true} />
       <Size height={600}/>
     </Chart>

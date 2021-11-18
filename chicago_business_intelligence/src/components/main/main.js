@@ -1,16 +1,14 @@
 import { Main } from './main-style';
-import DataTable from '../datatable/datatable';
-import BarChart from '../barchart/barchart';
-import Pie from '../piechart/piechart';
-import LinearChart from '../linearchart/linearchart';
 import SignIn from '../signin/signin';
 import SignUp from '../signup/signup';
 import {Switch, Route} from 'react-router-dom';
 import ProtectedRoute from '../protectedroute/protectedroute';
 import DashBoard from '../dashboard/dashboard';
+import CovidCCVI from '../covid-ccvi/covid-ccvi';
+import CovidDaily from '../covid-daily/covid-daily';
 
-const MainContent = ({isLeftOpen, isLoggedIn, setIsLoggedIn, reportType}) => {
-  console.log('inside main', reportType);
+const MainContent = ({isLeftOpen, isLoggedIn, setIsLoggedIn}) => {
+  console.log('inside main');
   return (
     <Main open={isLeftOpen}>
       
@@ -28,10 +26,12 @@ const MainContent = ({isLeftOpen, isLoggedIn, setIsLoggedIn, reportType}) => {
           <Route exact path="/signUp">
             <SignUp />
           </Route>
-          <ProtectedRoute exact path="/table" component={() => <DataTable reportType={reportType}/>} />
-          <ProtectedRoute exact path="/barChart" component={() => <BarChart reportType={reportType}/>} />
+          <ProtectedRoute exact path="/covid-ccvi" component={() => <CovidCCVI/>} />
+          <ProtectedRoute exact path="/covid-daily" component={() => <CovidDaily />} />
+          {/* <ProtectedRoute exact path="/barChart" component={() => <BarChart reportType={reportType}/>} />
           <ProtectedRoute exact path="/pieChart" component={() => <Pie reportType={reportType}/>} />
-          <ProtectedRoute exact path="/linearChart" component={() => <LinearChart reportType={reportType}/>} />
+          <ProtectedRoute exact path="/linearChart" component={() => <LinearChart reportType={reportType}/>} /> */}
+          {/* <ProtectedRoute exact path="/maps" component={() => <MyMapComponent reportType={reportType} isMarkerShown/>} /> */}
         </Switch>
       
     </Main>

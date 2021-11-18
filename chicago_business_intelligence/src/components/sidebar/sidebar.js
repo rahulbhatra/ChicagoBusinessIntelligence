@@ -1,47 +1,51 @@
 import * as React from 'react';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import AssessmentIcon from '@mui/icons-material/Assessment';
-import LocalTaxiIcon from '@mui/icons-material/LocalTaxi';
-import CoronavirusIcon from '@mui/icons-material/Coronavirus';
+import { Drawer, List, Divider, IconButton, ListItemIcon, ListItemText, ListItemButton } from '@mui/material';
+import { Assessment as AssessmentIcon , LocalTaxi as LocalTaxiIcon, Coronavirus
+  as CoronavirusIcon, Apartment as ApartmentIcon, Menu as MenuIcon } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
-import ApartmentIcon from '@mui/icons-material/Apartment';
 import Button from '@mui/material/Button';
 import { DrawerHeader, drawerWidth } from './sidebar-style';
+import { useHistory } from 'react-router-dom';
 
-const Sidebar = ({isLeftOpen, setIsLeftOpen, reportType, setReportType}) => {
+const Sidebar = ({isLeftOpen, setIsLeftOpen}) => {
+  const history = useHistory();
     const reports = [
       {
-        name: 'Business Intelligence',
+        name: 'Dashboard',
         icon: AssessmentIcon,
-        reportType: 'Home Page',
+        reportType: '/dashboard',
         link: 'dashboard'
       },
       {
         name: 'Taxi Trip',
         icon: LocalTaxiIcon,
         reportType: 'taxi',
-        link: null
+        link: 'taxi'
       },
       {
-        name: 'Covid Update',
+        name: 'Covid CCVI',
         icon: CoronavirusIcon,
-        reportType: 'covid',
-        link: null
+        reportType: 'covid_ccvi',
+        link: '/covid-ccvi',
+        component: 'CovidCCVI'
+      },
+      {
+        name: 'Covid Daily',
+        icon: CoronavirusIcon,
+        reportType: 'covid_daily',
+        link: 'covid-daily'
       },
       {
         name: 'Infrastructure, Business & Unemployment',
         icon: ApartmentIcon,
         reportType: 'apartment',
-        link: null
+        link: 'apartment'
       }
     ]
+
+    const handleClick = (report) => {
+      history.push(report.link);
+    }
 
     return (
         <Drawer
@@ -77,13 +81,7 @@ const Sidebar = ({isLeftOpen, setIsLeftOpen, reportType, setReportType}) => {
               component="div"
               sx={{ display: { xs: 'none', sm: 'block' } }}
             >
-              <Button size="large"
-              variant="contained" 
-              href="/dashboard"
-              style={{color: '#FFFFFF'}}
-              >
-                Business Intelli..
-              </Button>
+              Business Intelligence
               {/* {reportType} */}
             </Typography>
           </DrawerHeader>
@@ -91,13 +89,10 @@ const Sidebar = ({isLeftOpen, setIsLeftOpen, reportType, setReportType}) => {
           <List>
             {reports.map(report => (
                 
-              <ListItemButton 
-                // selected={reportType == report.reportType ? true: false} 
-                onClick={() => {
-                setReportType(report.reportType)
-                localStorage.setItem('reportType', report.reportType)
-                }} button key={report.name}
-                >
+              <ListItemButton
+                onClick={() => handleClick(report)}
+                key={report.name}
+              >
                   <ListItemIcon>
                     <report.icon 
                       size="large"

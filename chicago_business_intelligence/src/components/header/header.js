@@ -21,20 +21,9 @@ const Header = ({isLeftOpen, setIsLeftOpen, isLoggedIn, setIsLoggedIn, reportTyp
   const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const [chartAnchorEl, setChartAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  const isChartMenuOpen = Boolean(chartAnchorEl);
-
-
-  const handleChartMenuOpen = (event) => {
-    setChartAnchorEl(event.currentTarget);
-  };
-
-  const handleChartMenuClose = () => {
-    setChartAnchorEl(null);
-  };
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -67,35 +56,6 @@ const Header = ({isLeftOpen, setIsLeftOpen, isLoggedIn, setIsLoggedIn, reportTyp
   }
 
   const menuId = 'primary-search-account-menu';
-  const chartMenu = 'chart-menu';
-
-  const renderChartMenu = (
-    <Menu
-      anchorEl={chartAnchorEl}
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'left',
-      }}
-      id={chartMenu}
-      keepMounted
-      open={isChartMenuOpen}
-      onClose={handleChartMenuClose}
-    >
-      <MenuItem onClick={handleChartMenuClose}>
-        <Link href="/table" underline="none">Table Data</Link>
-      </MenuItem>
-      <MenuItem onClick={handleChartMenuClose}>
-        <Link href="/barChart" underline="none">Bar Chart</Link>
-      </MenuItem>
-      <MenuItem onClick={handleChartMenuClose}>
-        <Link href="/linearChart" underline="none">Linear Chart</Link>
-      </MenuItem>
-      <MenuItem onClick={handleChartMenuClose}>
-        <Link href="/pieChart" underline="none">Pie Chart</Link>
-      </MenuItem>
-    </Menu>
-  );
-
   const renderMenu = (
     
     <Menu
@@ -183,30 +143,9 @@ const Header = ({isLeftOpen, setIsLeftOpen, isLoggedIn, setIsLoggedIn, reportTyp
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            <Button size="large"
-              variant="contained" 
-              href="/dashboard"
-              style={{color: '#FFFFFF'}}
-              >
-              Business Intelligence
-            </Button>
+            Business Intelligence
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
-          <Box>
-            <Button
-              // ref={anchorRef}
-              id={chartMenu}
-              aria-controls={isChartMenuOpen ? {chartMenu} : undefined}
-              aria-expanded={isChartMenuOpen ? "true" : undefined}
-              aria-haspopup="true"
-              size="large"
-              variant="contained"
-              onClick={handleChartMenuOpen}
-            >
-              Charts
-            </Button>
-            {renderChartMenu}
-          </Box>
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <Search>
                 <SearchIconWrapper>

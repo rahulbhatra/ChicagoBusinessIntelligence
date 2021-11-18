@@ -14,7 +14,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useHistory } from 'react-router';
 import axios from 'axios';
 import Toast from '../toast/toast';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const theme = createTheme();
 
@@ -39,7 +39,7 @@ export default function SignIn({isLoggedIn, setIsLoggedIn}) {
         setToastOpen(true);
         setToastMessage('Successfully Logged In');
         setToastSevertiy('success');
-        setTimeout(() => {  history.push("/"); }, 1000);
+        setTimeout(() => {  history.push("/dashboard"); }, 1000);
         
       })
       .catch(error => {
