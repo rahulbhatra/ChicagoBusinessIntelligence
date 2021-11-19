@@ -4,6 +4,7 @@ import { Assessment as AssessmentIcon , LocalTaxi as LocalTaxiIcon, Coronavirus
   as CoronavirusIcon, Apartment as ApartmentIcon, Menu as MenuIcon, 
   CoronavirusOutlined, LocalTaxiOutlined } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
+import WorkOffIcon from '@mui/icons-material/WorkOff'
 import { DrawerHeader, drawerWidth } from './sidebar-style';
 import { useHistory } from 'react-router-dom';
 
@@ -40,6 +41,13 @@ const Sidebar = ({isLeftOpen, setIsLeftOpen}) => {
         icon: CoronavirusOutlined,
         reportType: 'covid_daily',
         link: 'covid-daily'
+      },
+      {
+        name: 'Unemployment and Poverty',
+        icon: WorkOffIcon,
+        reportType: 'unemployment_poverty',
+        link: '/unemployment-poverty',
+        component: 'UnemploymentPoverty'
       },
       {
         name: 'Infrastructure, Business & Unemployment',
