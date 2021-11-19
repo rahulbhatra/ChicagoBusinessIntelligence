@@ -65,9 +65,8 @@ const isAuth = (req, res, next) => {
 const authRoute = require('./routes/authroute');
 const covidDailyDataRoute = require('./routes/coviddailyroute');
 const covidCCVIRoute = require('./routes/covidccviroute');
-const taxiRoute = require('./routes/taxitrip');
 const highCCVITaxiTripRoute = require('./routes/highccvitaxitripsroute');
-
+const taxiRoute = require('./routes/taxitrip');
 
 // Route Middlewares
 app.use('/api', authRoute);

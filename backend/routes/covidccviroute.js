@@ -11,8 +11,8 @@ router.get('/data', async (req, res) => {
             dataArray[i] = {
                 id: i + 1,
                 community_area: CovidCCVIArray[i].communityAreaOrZipCode,
-                latitude: CovidCCVIArray[i].latitude,
-                longitude: CovidCCVIArray[i].longitude,
+                latitude: CovidCCVIArray[i].latitude.toFixed(2),
+                longitude: CovidCCVIArray[i].longitude.toFixed(2),
                 ccvi_score: CovidCCVIArray[i].ccviScore,
                 ccvi_category: CovidCCVIArray[i].ccviCategory
             }

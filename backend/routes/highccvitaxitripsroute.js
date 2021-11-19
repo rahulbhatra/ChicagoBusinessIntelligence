@@ -8,25 +8,35 @@ router.get('/data', async(req, res) => {
                 ccviCategory: 'HIGH'
             }
         });
-
-        console.log(covidCCVIArray);
-
         var taxiTripArray = await TaxiTrip.findAll({});
 
         var pickUpZipCodeTaxiIndexMap = {};
         var dropOffZipCodeTaxiIndexMap = {};
         for(var i = 0; i < taxiTripArray.length; i ++ ) {
-            var pickUpZipCode = taxiTripArray.pickUpZipCode;
-            var dropOffZipCode = taxiTripArray.dropOffZipCode;
+            
+            taxiTripArray[i].dropOffLat = taxiTripArray[i].dropOffLat.toFixed(2);
+            taxiTripArray[i].dropOffLon = taxiTripArray[i].dropOffLon.toFixed(2);
+            taxiTripArray[i].pickUpLat = taxiTripArray[i].pickUpLat.toFixed(2);
+            taxiTripArray[i].pickUpLon = taxiTripArray[i].pickUpLon.toFixed(2);
+
+            var pickUpZipCode = taxiTripArray[i].pickUpZip;
+            var dropOffZipCode = taxiTripArray[i].dropOffZip;
+
+            console.log("Pick Up ZipCode " + pickUpZipCode + " " + dropOffZipCode)
+
             pickUpZipCodeTaxiIndexMap[pickUpZipCode] = i;
             dropOffZipCodeTaxiIndexMap[dropOffZipCode] = i;
         }
 
+        console.log(pickUpZipCodeTaxiIndexMap);
+
 
         var dataArray = Array();
         for(var i = 0; i < covidCCVIArray.length; i ++) {
-            var covidZipCode = covidCCVIArray.communityAreaOrZipCode;
+            var covidZipCode = covidCCVIArray[i].communityAreaOrZipCode;
+            console.log(covidZipCode);
             if(pickUpZipCodeTaxiIndexMap[covidZipCode] != null) {
+                console.log(covidZipCode + " " +  covidCCVIArray[i].ccviCategory);
                 var index = pickUpZipCodeTaxiIndexMap[covidZipCode];
                 var taxiTrip = taxiTripArray[index];
                 dataArray.push(taxiTrip);
