@@ -31,13 +31,8 @@ const MainContent = ({isLeftOpen, isLoggedIn, setIsLoggedIn}) => {
           </Route>
           <ProtectedRoute exact path="/covid-ccvi" component={() => <CovidCCVI/>} />
           <ProtectedRoute exact path="/covid-daily" component={() => <CovidDaily />} />
-<<<<<<< HEAD
           <ProtectedRoute exact path="/high-ccvi-taxi-trip" component={() => <HighCCVITaxiTrip />} />
           <ProtectedRoute exact path="/taxi" component={() => <TaxiTrip />} />
-=======
-          <ProtectedRoute exact path="/taxi" component={() => <TaxiTrip />} />
-          <ProtectedRoute exact path="/high-ccvi-taxi-trip" component={() => <HighCCVITaxiTrip />} />
->>>>>>> 13ff4d402dbb767c74993458ed6084777a034398
           {/* <ProtectedRoute exact path="/barChart" component={() => <BarChart reportType={reportType}/>} />
           <ProtectedRoute exact path="/pieChart" component={() => <Pie reportType={reportType}/>} />
           <ProtectedRoute exact path="/linearChart" component={() => <LinearChart reportType={reportType}/>} /> */}
