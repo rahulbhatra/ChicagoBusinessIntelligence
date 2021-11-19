@@ -299,7 +299,7 @@ func main() {
 				dropoffLon = "0"
 			}
 
-			sql := "INSERT INTO TAXI_TRIPS_DATA (tripId, tripStartTime, tripEndTime, pickupLat, pickupLon, dropoffLat, dropoffLon, pickupZip, dropoffZip) values($1, $2, $3, $4, $5, $6, $7, $8, $9)"
+			sql := "INSERT INTO taxi_trip (tripId, tripStartTime, tripEndTime, pickupLat, pickupLon, dropoffLat, dropoffLon, pickupZip, dropoffZip) values($1, $2, $3, $4, $5, $6, $7, $8, $9)"
 			_, err = tx.ExecContext(ctx,
 				sql,
 				tripId,
