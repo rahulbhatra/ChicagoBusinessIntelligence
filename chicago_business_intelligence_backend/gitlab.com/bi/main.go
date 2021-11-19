@@ -469,5 +469,9 @@ func main() {
 		checkErr(err)
 	})
 
+	http.HandleFunc("/show", func(rw http.ResponseWriter, r *http.Request) {
+		fmt.Println("here i am")
+	})
+
 	http.ListenAndServe(":9090", nil)
 }

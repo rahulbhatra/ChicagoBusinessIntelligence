@@ -17,9 +17,9 @@ const MainContent = ({isLeftOpen, isLoggedIn, setIsLoggedIn}) => {
       
         <Switch>
           {/* For routing different pages inside the application */}
-          {/* <Route exact path="/table">
-            <Table />
-          </Route> */}
+          <Route exact path="/">
+            <DashBoard />
+          </Route>
           <Route exact path="/dashboard">
             <DashBoard />
           </Route>
@@ -33,10 +33,6 @@ const MainContent = ({isLeftOpen, isLoggedIn, setIsLoggedIn}) => {
           <ProtectedRoute exact path="/covid-daily" component={() => <CovidDaily />} />
           <ProtectedRoute exact path="/high-ccvi-taxi-trip" component={() => <HighCCVITaxiTrip />} />
           <ProtectedRoute exact path="/taxi" component={() => <TaxiTrip />} />
-          {/* <ProtectedRoute exact path="/barChart" component={() => <BarChart reportType={reportType}/>} />
-          <ProtectedRoute exact path="/pieChart" component={() => <Pie reportType={reportType}/>} />
-          <ProtectedRoute exact path="/linearChart" component={() => <LinearChart reportType={reportType}/>} /> */}
-          {/* <ProtectedRoute exact path="/maps" component={() => <MyMapComponent reportType={reportType} isMarkerShown/>} /> */}
         </Switch>
       
     </Main>

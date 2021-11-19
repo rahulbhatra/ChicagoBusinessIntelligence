@@ -7,12 +7,11 @@ import Maps from '../maps/maps';
 import axios from 'axios';
 import Toast from '../toast/toast';
 
-const tableColumns =  ['id', 'tripId','tripStartTime','tripEndTime','pickUpLat','pickUpLon','dropOffLat','dropOffLon','pickUpZip','dropOffZip'];
+const tableColumns =  ['id', 'tripId','tripStartTime','tripEndTime','pickUpZip','dropOffZip'];
 const chartColumns = [
-    { value: 'ccvi_score', name: 'CCVI Score' },
-    { value: 'ccvi_category', name: 'CCVI Category' }
+    { value: 'pickUpZip', name: 'Pickup Zip Code'}
 ];
-const chartArgumentField = "community_area";
+const chartArgumentField = "dropOffZip";
 
 const HighCCVITaxiTrip = () => {
     console.log("I am here bro");
@@ -106,15 +105,6 @@ const HighCCVITaxiTrip = () => {
                     </Button>
                     {renderChartMenu}
                 </Box>
-                {/* <Box sx={{mx: 2}}>
-                    <Button size="large"
-                    variant="contained" 
-                    onClick={() => setVisualizationType('maps')}
-                    style={{color: '#FFFFFF'}}
-                    >
-                    Maps
-                    </Button>
-                </Box> */}
             </Box>
             {visualizationType === 'table' && <DataTable reportType={'covid_ccvi'} rows={rows} columns={tableColumns} />}
             {visualizationType === 'barChart' && <BarChart reportType={'covid_ccvi'} rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
