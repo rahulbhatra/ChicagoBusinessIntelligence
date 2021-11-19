@@ -13,7 +13,7 @@ router.get('/data', async (req, res) => {
                 tripId: taxitripArray[i].tripId,
                 tripStartTime: taxitripArray[i].tripStartTime,
                 tripEndTime: taxitripArray[i].tripEndTime,
-                pickUpLat: taxitripArray[i].pickUplat,                
+                pickUpLat: taxitripArray[i].pickUpLat,                
                 pickUpLon: taxitripArray[i].pickUpLon,
                 dropOffLat: taxitripArray[i].dropOffLat,
                 dropOffLon: taxitripArray[i].dropOffLon,
