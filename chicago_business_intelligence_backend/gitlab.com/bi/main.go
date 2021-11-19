@@ -44,6 +44,13 @@ type CovidDaily []struct {
 	TotalDeaths   string `json:"deaths_total"`
 }
 
+type UNEMPLOYMENT_POVERTY_DATA []struct {	
+	AREA_CODE	string `json:"community_area"`
+	AREA_NAME	string `json:"community_area_name"`	
+	PERCENT_BELOW_POVERTY	string `json:"below_poverty_level"`
+	PERCENT_UNEMPLOYED	string `json:"unemployment"`
+}
+
 func checkErr(err error) {
 	if err != nil {
 		log.Fatal(err)
@@ -468,6 +475,61 @@ func main() {
 		err = tx.Commit()
 		checkErr(err)
 	})
+
+	http.HandleFunc("/unemp_data", func(rw http.ResponseWriter, r *http.Request) {
+		var url = "https://data.cityofchicago.org/resource/iqnk-2tcu.json"		
+		
+		res, err := http.Get(url)
+		checkErr(err)
+	
+		body, _ := ioutil.ReadAll(res.Body)
+		fmt.Printf("\n body  = ", string(body))
+		
+		var unempDataArray UNEMPLOYMENT_POVERTY_DATA
+		json.Unmarshal(body, &unempDataArray)
+	   
+	   ctx := context.Background()
+		tx, err := db.BeginTx(ctx, nil)
+		checkErr(err)
+		
+		for i := 0; i < len(unempDataArray); i++ {
+			
+			areaCode := unempDataArray[i].AREA_CODE
+			if areaCode == "" { areaCode = "0"}
+			
+			areaName := unempDataArray[i].AREA_NAME
+			if areaName == "" { areaName = "Unknown"}		
+					
+			percentBelowPoverty := unempDataArray[i].PERCENT_BELOW_POVERTY
+			if percentBelowPoverty == "" { percentBelowPoverty = "0"}
+			
+			percentUnemployed := unempDataArray[i].PERCENT_UNEMPLOYED		
+			if percentUnemployed == "" { percentUnemployed = "0"}						
+					
+			sysCreationDate := time.Now()
+			sysUpdateDate := time.Now()
+					
+			sql := `INSERT INTO UNEMPLOYMENT_POVERTY_DATA ("areaCode", "areaName", "percentBelowPoverty", "percentUnemployed", "createdAt", "updatedAt") VALUES ($1, $2, $3, $4, $5, $6)`
+			_, err = tx.ExecContext(ctx, 
+											sql,									 	
+											 areaCode, 
+											 areaName,									 	
+											 percentBelowPoverty,
+											 percentUnemployed,
+											 sysCreationDate,
+											 sysUpdateDate)
+	
+				if err != nil {
+					fmt.Printf("\n ERROR = ", err)
+					fmt.Printf("\n")			
+					tx.Rollback()
+					return
+				}
+			}
+			
+			err = tx.Commit()
+			checkErr(err)
+		})
 
 	http.HandleFunc("/show", func(rw http.ResponseWriter, r *http.Request) {
 		fmt.Println("here i am")
