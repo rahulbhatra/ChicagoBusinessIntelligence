@@ -6,6 +6,7 @@ import ProtectedRoute from '../protectedroute/protectedroute';
 import DashBoard from '../dashboard/dashboard';
 import CovidCCVI from '../covid-ccvi/covid-ccvi';
 import CovidDaily from '../covid-daily/covid-daily';
+import TaxiTrip from '../taxi/taxi';
 import HighCCVITaxiTrip from '../high-ccvi-taxi-trip/high-ccvi-taxi-trip';
 
 const MainContent = ({isLeftOpen, isLoggedIn, setIsLoggedIn}) => {
@@ -29,6 +30,7 @@ const MainContent = ({isLeftOpen, isLoggedIn, setIsLoggedIn}) => {
           </Route>
           <ProtectedRoute exact path="/covid-ccvi" component={() => <CovidCCVI/>} />
           <ProtectedRoute exact path="/covid-daily" component={() => <CovidDaily />} />
+          <ProtectedRoute exact path="/taxi" component={() => <TaxiTrip />} />
           <ProtectedRoute exact path="/high-ccvi-taxi-trip" component={() => <HighCCVITaxiTrip />} />
           {/* <ProtectedRoute exact path="/barChart" component={() => <BarChart reportType={reportType}/>} />
           <ProtectedRoute exact path="/pieChart" component={() => <Pie reportType={reportType}/>} />

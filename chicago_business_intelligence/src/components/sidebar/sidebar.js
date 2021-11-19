@@ -20,7 +20,8 @@ const Sidebar = ({isLeftOpen, setIsLeftOpen}) => {
         name: 'Taxi Trip',
         icon: LocalTaxiIcon,
         reportType: 'taxi',
-        link: 'taxi'
+        link: '/taxi',
+        component: 'TaxiTrip'
       },
       { name: 'High CCVI Taxi Trip',
         icon: LocalTaxiOutlined,

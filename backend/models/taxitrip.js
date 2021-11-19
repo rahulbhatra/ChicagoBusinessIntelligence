@@ -21,12 +21,22 @@ module.exports = (sequelize, DataTypes) => {
     pickUpLon: DataTypes.DOUBLE,
     dropOffLat: DataTypes.DOUBLE,
     dropOffLon: DataTypes.DOUBLE,
-    pickupZip: DataTypes.STRING,
-    dropOffLat: DataTypes.STRING
+    pickUpZip: DataTypes.STRING,
+    dropOffZip: DataTypes.STRING
   }, {
     sequelize,
     tableName: 'taxi_trip',
     modelName: 'TaxiTrip',
+    indexes: [
+      {
+        name: "PRIMARY",
+        unique: true,
+        using: "BTREE",
+        fields: [
+          { name: "tripId" },
+        ]
+      },
+    ]
   });
   return TaxiTrip;
 };
