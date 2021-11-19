@@ -6,9 +6,12 @@ import LinearChart from '../linearchart/linearchart';
 import axios from 'axios';
 import Toast from '../toast/toast';
 
-const tableColumns =  ['id', 'tripId','tripStartTime','tripEndTime','pickUpLat','pickUpLon','dropOffLat','dropOffLon','pickUpZip','dropOffZip'];
+const tableColumns =  ['id','pickUpZip','dropOffZip','totalTrips','weekNumber','weekStartDate','weekEndDate','casesPerWeek'];
+
 const chartColumns = [
-    { value: 'pickUpZip', name: 'Pickup Zip Code'}
+    { value: 'weekNumber', name:'Week Number'},
+    { value: 'totalTrips', name:'Total Trips'},
+    { value: 'casesPerWeek', name: 'Cases Per Week'}    
 ];
 const chartArgumentField = "dropOffZip";
 
@@ -24,10 +27,10 @@ const TaxiTrip = () => {
 
     useEffect(() => {
         getData();
-    }, []);    
+    }, []);        
   
     const getData = async () => {
-        await axios.get('http://localhost:4000/api/taxi/data', {})
+        await axios.get('http://localhost:4000/api/taxi/airportTaxi', {})
         .then(res => {
             setToastOpen(true);
             setToastMessage('Successfully loaded the data.');
