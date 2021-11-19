@@ -8,7 +8,7 @@ import CovidCCVI from '../covid-ccvi/covid-ccvi';
 import CovidDaily from '../covid-daily/covid-daily';
 import HighCCVITaxiTrip from '../high-ccvi-taxi-trip/high-ccvi-taxi-trip';
 import TaxiTrip from '../taxi/taxi';
-
+import UnemploymentPoverty from '../unemployment-poverty/unemployment-poverty';
 
 const MainContent = ({isLeftOpen, isLoggedIn, setIsLoggedIn}) => {
   console.log('inside main');
@@ -33,6 +33,7 @@ const MainContent = ({isLeftOpen, isLoggedIn, setIsLoggedIn}) => {
           <ProtectedRoute exact path="/covid-daily" component={() => <CovidDaily />} />
           <ProtectedRoute exact path="/high-ccvi-taxi-trip" component={() => <HighCCVITaxiTrip />} />
           <ProtectedRoute exact path="/taxi" component={() => <TaxiTrip />} />
+          <ProtectedRoute exact path="/unemployment-poverty" component={() => <UnemploymentPoverty />} />
         </Switch>
       
     </Main>
