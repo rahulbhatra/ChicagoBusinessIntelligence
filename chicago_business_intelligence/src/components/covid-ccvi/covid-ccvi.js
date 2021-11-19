@@ -13,7 +13,7 @@ import CoronaBlueIcon from '../../images/coronablue.png';
 const tableColumns =  ['id', 'community_area', 'ccvi_score', 'ccvi_category', 'latitude', 'longitude'];
 const chartColumns = [
     { value: 'ccvi_score', name: 'CCVI Score' },
-    { value: 'ccvi_category', name: 'CCVI Category' }
+    // { value: 'ccvi_category', name: 'CCVI Category' }
 ];
 const chartArgumentField = "community_area";
 

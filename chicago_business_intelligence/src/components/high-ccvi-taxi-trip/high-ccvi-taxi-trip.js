@@ -14,7 +14,8 @@ const chartColumns = [
 ];
 const chartArgumentField = "community_area";
 
-const CovidCCVI = () => {
+const HighCCVITaxiTrip = () => {
+    console.log("I am here bro");
     const [chartAnchorEl, setChartAnchorEl] = useState(null);
     const [visualizationType, setVisualizationType] = useState('table');
     const isChartMenuOpen = Boolean(chartAnchorEl);
@@ -105,7 +106,7 @@ const CovidCCVI = () => {
                     </Button>
                     {renderChartMenu}
                 </Box>
-                <Box sx={{mx: 2}}>
+                {/* <Box sx={{mx: 2}}>
                     <Button size="large"
                     variant="contained" 
                     onClick={() => setVisualizationType('maps')}
@@ -113,7 +114,7 @@ const CovidCCVI = () => {
                     >
                     Maps
                     </Button>
-                </Box>
+                </Box> */}
             </Box>
             {visualizationType === 'table' && <DataTable reportType={'covid_ccvi'} rows={rows} columns={tableColumns} />}
             {visualizationType === 'barChart' && <BarChart reportType={'covid_ccvi'} rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
@@ -122,4 +123,4 @@ const CovidCCVI = () => {
     )
 };
 
-export default CovidCCVI;
+export default HighCCVITaxiTrip;

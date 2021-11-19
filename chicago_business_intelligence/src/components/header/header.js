@@ -10,7 +10,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import Button from '@mui/material/Button';
 import {Search, SearchIconWrapper, StyledInputBase} from './header-style';
 import Link from '@mui/material/Link';
 import axios from 'axios';

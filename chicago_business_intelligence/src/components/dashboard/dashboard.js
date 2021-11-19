@@ -12,14 +12,23 @@ const DashBoard = () => {
     const cards = [
         {
           header: 'Covid Reports',
-          info: 'We are giving various form of covid reports daily, weekly, and ' + 
-          'monthly with google charts.',
+          info: 'The business intelligence reports are geared toward' +
+          'tracking and forecasting events that have direct or indirect impacts on' + 
+          'businesses and neighborhoods in different zip codes within the city of' +
+          'Chicago. The business intelligence reports will be used to send alerts to taxi' +
+          'drivers about the state of COVID-19 in the different zip codes in order to' + 
+          'avoid taxi drivers to be the super spreaders in the different zip codes and' +
+          'neighborhoods. For this report, we will use taxi trips and daily COVID-19' +
+          'datasets for the city of Chicago.',
           image: CoronaImage
         },
         {
           header: 'Taxi Trips Information',
-          info: 'We are giving various form of covid reports daily, weekly, and ' + 
-          'monthly with google charts.',
+          info: 'There are two major airports within the city of Chicago:' +
+          'O’Hare and Midway. And we are interested to track trips from these airports' +
+          'to the different zip codes and the reported COVID-19 positive test cases.' +
+          'The city of Chicago is interested to monitor the traffic of the taxi trips from' +
+          'these airports to the different neighborhoods and zip codes.',
           image: TaxiImage
         }
     ];
@@ -46,7 +55,7 @@ const DashBoard = () => {
         <Container sx={{ py: 8 }} maxWidth="md">
         <Grid container spacing={4}>
           {cards.map((card) => (
-            <Grid item key={card.header} xs={12} sm={6} md={4}>
+            <Grid item key={card.header} xs={12} sm={12} md={6}>
               <Card
                 sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
               >

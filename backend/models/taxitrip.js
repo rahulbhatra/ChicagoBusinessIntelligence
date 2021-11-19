@@ -20,11 +20,13 @@ module.exports = (sequelize, DataTypes) => {
     pickUpLat: DataTypes.DOUBLE,
     pickUpLon: DataTypes.DOUBLE,
     dropOffLat: DataTypes.DOUBLE,
-    dropOffLon: DataTypes.DOUBLE
+    dropOffLon: DataTypes.DOUBLE,
+    pickupZip: DataTypes.STRING,
+    dropOffLat: DataTypes.STRING
   }, {
     sequelize,
     tableName: 'taxi_trip',
-    modelName: 'taxitrip',
+    modelName: 'TaxiTrip',
   });
   return TaxiTrip;
 };

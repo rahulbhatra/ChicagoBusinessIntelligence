@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Drawer, List, Divider, IconButton, ListItemIcon, ListItemText, ListItemButton } from '@mui/material';
 import { Assessment as AssessmentIcon , LocalTaxi as LocalTaxiIcon, Coronavirus
-  as CoronavirusIcon, Apartment as ApartmentIcon, Menu as MenuIcon } from '@mui/icons-material';
+  as CoronavirusIcon, Apartment as ApartmentIcon, Menu as MenuIcon, 
+  CoronavirusOutlined, LocalTaxiOutlined } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import { DrawerHeader, drawerWidth } from './sidebar-style';
 import { useHistory } from 'react-router-dom';
 
@@ -23,9 +23,9 @@ const Sidebar = ({isLeftOpen, setIsLeftOpen}) => {
         link: 'taxi'
       },
       { name: 'High CCVI Taxi Trip',
-        icon: LocalTaxiIcon,
-        reportType : 'high_ccvi_taxi',
-        link: 'high-ccvi-taxi'
+        icon: LocalTaxiOutlined,
+        reportType : 'high_ccvi_taxi_trip',
+        link: 'high-ccvi-taxi-trip'
       },
       {
         name: 'Covid CCVI',
@@ -36,7 +36,7 @@ const Sidebar = ({isLeftOpen, setIsLeftOpen}) => {
       },
       {
         name: 'Covid Daily',
-        icon: CoronavirusIcon,
+        icon: CoronavirusOutlined,
         reportType: 'covid_daily',
         link: 'covid-daily'
       },

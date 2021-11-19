@@ -42,18 +42,16 @@ const MapContainer = ({markers, google}) => {
             <Card variant="outlined">
               <CardContent>
                 <Typography variant="h6" component="div">
-                  {"Community Area Name: " + selected.community_area}
+                  {"Area Zip Code: " + selected.community_area}
                 </Typography>
                 <Typography color="text.secondary">
-                  {"Community Area Code: " + selected.ccvi_score}
-                </Typography>
-                <Typography sx={{ mb: 1.5 }} color="text.secondary">
                   {"CCVI Score: " + selected.ccvi_score}
                 </Typography>
+                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                  {"CCVI Category: " + selected.ccvi_category}
+                </Typography>
               </CardContent>
-              <CardActions>
-                <Button size="small">{selected.ccvi_category}</Button>
-              </CardActions>
+              
             </Card>
           </Box>
         </InfoWindow>
