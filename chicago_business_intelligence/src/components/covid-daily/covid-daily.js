@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import DataTable from '../datatable/datatable';
 import BarChart from '../barchart/barchart';
 import LinearChart from '../linearchart/linearchart';
-import Maps from '../maps/maps';
 import axios from 'axios';
 import Toast from '../toast/toast';
 

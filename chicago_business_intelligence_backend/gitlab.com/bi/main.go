@@ -65,6 +65,31 @@ func main() {
 	fmt.Printf("\nSuccessfully connected to database!\n")
 
 	http.HandleFunc("/covid_ccvi", func(rw http.ResponseWriter, r *http.Request) {
+
+		dropSql := `DROP TABLE IF EXISTS covid_ccvi`
+		_, err := db.Exec(dropSql)
+		if err != nil {
+			panic(err)
+		}
+
+		createSql := `CREATE TABLE IF NOT EXISTS "covid_ccvi" 
+		(
+			"id"   SERIAL , 
+			"geographyType" VARCHAR(255), 
+			"communityAreaOrZipCode" VARCHAR(255), 
+			"ccviScore" DOUBLE PRECISION, 
+			"ccviCategory" VARCHAR(255), 
+			"latitude" DOUBLE PRECISION, 
+			"longitude" DOUBLE PRECISION, 
+			"createdAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
+			"updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL, PRIMARY KEY ("id")
+		);`
+
+		_, createSqlErr := db.Exec(createSql)
+		if createSqlErr != nil {
+			panic(err)
+		}
+
 		var url = "https://data.cityofchicago.org/resource/2ns9-phjk.json"
 		res, err := http.Get(url)
 		if err != nil {
@@ -96,6 +121,27 @@ func main() {
 	})
 
 	http.HandleFunc("/covid_daily", func(rw http.ResponseWriter, r *http.Request) {
+
+		dropSql := `drop table if exists covid_daily`
+		_, err := db.Exec(dropSql)
+		if err != nil {
+			panic(err)
+		}
+
+		createSql := `CREATE TABLE IF NOT EXISTS "covid_daily" (
+			"id"   SERIAL , 
+			"labReportDate" TIMESTAMP WITH TIME ZONE, 
+			"totalCases" BIGINT, 
+			"totalDeaths" BIGINT, 
+			"createdAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
+			"updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
+			PRIMARY KEY ("id"));`
+
+		_, createSqlErr := db.Exec(createSql)
+		if createSqlErr != nil {
+			panic(err)
+		}
+
 		var url = "https://data.cityofchicago.org/resource/naz8-j4nc.json"
 		res, err := http.Get(url)
 		if err != nil {
@@ -112,11 +158,17 @@ func main() {
 		for i := 0; i < len(covidDataArray); i++ {
 			// layout is just for formating the string to date format.
 			layout := "2006-01-02"
-			labReportDate, _ := time.Parse(layout, covidDataArray[i].LabReportDate)
-			totalCases, _ := strconv.ParseInt(covidDataArray[i].TotalCases, 0, 8)
-			totalDeaths, _ := strconv.ParseInt(covidDataArray[i].TotalDeaths, 0, 8)
+			if len(covidDataArray[i].LabReportDate) == 0 {
+				continue
+			}
+			labReportDate, _ := time.Parse(layout, covidDataArray[i].LabReportDate[0:10])
+			totalCases, _ := strconv.ParseInt(covidDataArray[i].TotalCases, 0, 64)
+			totalDeaths, _ := strconv.ParseInt(covidDataArray[i].TotalDeaths, 0, 64)
 			createdAt := time.Now()
 			updatedAt := time.Now()
+
+			fmt.Println(covidDataArray[i].LabReportDate[0:10])
+			fmt.Println(labReportDate)
 
 			sql := `insert into covid_daily ("labReportDate", "totalCases", "totalDeaths", "createdAt", "updatedAt") 
 			values($1, $2, $3, $4, $5)`
