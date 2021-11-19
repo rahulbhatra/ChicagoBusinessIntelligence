@@ -7,7 +7,7 @@ import Maps from '../maps/maps';
 import axios from 'axios';
 import Toast from '../toast/toast';
 
-const tableColumns =  ['id', 'community_area', 'ccvi_score', 'ccvi_category', 'latitude', 'longitude'];
+const tableColumns =  ['id', 'tripId','tripStartTime','tripEndTime','pickUpLat','pickUpLon','dropOffLat','dropOffLon','pickUpZip','dropOffZip'];
 const chartColumns = [
     { value: 'ccvi_score', name: 'CCVI Score' },
     { value: 'ccvi_category', name: 'CCVI Category' }
