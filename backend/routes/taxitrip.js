@@ -26,10 +26,10 @@ router.get('/airportTaxi', async(req, res) => {
                 pickUpZip: taxitripArray[i].pickUpZip,
                 dropOffZip: taxitripArray[i].dropOffZip,
                 totalTrips: taxitripArray[i].total_trips,
-                weekNumber: taxitripArray[i].week_number,
-                weekStartDate: taxitripArray[i].week_start_date,
-                weekEndDate: taxitripArray[i].week_end_date,
-                casesPerWeek: taxitripArray[i].cases_per_week
+                weekNumber: taxitripArray[i].weekNum,
+                weekStartDate: taxitripArray[i].weekStartDate,
+                weekEndDate: taxitripArray[i].weekEndDate,
+                casesPerWeek: taxitripArray[i].casesPerWeek
              }
             }
 
@@ -49,6 +49,50 @@ router.get('/airportTaxi', async(req, res) => {
             error: error
         })
     }    
+})
+
+router.get('/covidTaxi', async (req, res) => {
+    try {
+        await sequelize.query(`select trip."pickUpZip",trip."dropOffZip", count(*) as "totalTrips",covid_weekly."weekNum",covid_weekly."weekStartDate"
+        ,covid_weekly."weekEndDate",covid_weekly."casesPerWeek" 
+        from taxi_trip trip, covid_weekly
+        where "dropOffZip" = "zipCode"::varchar
+        and "tripStartTime" between covid_weekly."weekStartDate" and covid_weekly."weekEndDate"
+        group by trip."pickUpZip",trip."dropOffZip",covid_weekly."weekNum",covid_weekly."weekStartDate",covid_weekly."weekEndDate",covid_weekly."casesPerWeek"
+        order by "casesPerWeek" desc`
+        , { type: QueryTypes.SELECT })        
+        .then(result => {
+            console.log(result);
+            var taxitripArray = result;
+            var dataArray = Array(taxitripArray.length);
+            for(var i = 0; i < taxitripArray.length; i++) {
+            dataArray[i] = {
+                id: i + 1,                                              
+                pickUpZip: taxitripArray[i].pickUpZip,
+                dropOffZip: taxitripArray[i].dropOffZip,
+                totalTrips: taxitripArray[i].totalTrips,
+                weekNumber: taxitripArray[i].weekNum,
+                weekStartDate: taxitripArray[i].weekStartDate,
+                weekEndDate: taxitripArray[i].weekEndDate,
+                casesPerWeek: taxitripArray[i].casesPerWeek
+             }
+            }
+            res.send({
+                message: 'success',
+                rows: dataArray,
+                status: '200'
+            });                
+        })
+        .catch(err =>{
+            console.log(err);
+        });        
+    } catch(error) {
+        console.log("ERROR = " , error);
+        res.status(500).json({            
+            message: 'Server Error.',
+            error: error
+        })
+    }
 })
 
 router.get('/data', async (req, res) => {
