@@ -21,6 +21,16 @@ const DashBoard = () => {
           info: 'We are giving various form of covid reports daily, weekly, and ' + 
           'monthly with google charts.',
           image: TaxiImage
+        },
+        {
+          header: 'Social Economy Information',
+          info: 'For industrial and neighborhood infrastructure investment,'+
+          'the city of Chicago is interested to invest in top 5 neighborhoods with'+
+          'highest unemployment rate and poverty rate and waive the fees for'+
+          'building permits in those neighborhoods in order to encourage businesses'+
+          'to develop and invest in those neighborhoods. Both, building permits and'+
+          'unemployment, datasets will be used in this report.',          
+          image: SocialEconomy
         }
     ];
 
