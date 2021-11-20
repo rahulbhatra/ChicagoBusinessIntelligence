@@ -17,7 +17,8 @@ module.exports = (sequelize, DataTypes) => {
     areaCode: { type: DataTypes.STRING, unique: true},
     areaName: DataTypes.STRING,
     percentBelowPoverty: DataTypes.DOUBLE,
-    percentUnemployed: DataTypes.DOUBLE
+    percentUnemployed: DataTypes.DOUBLE,
+    perCapitaIncome: DataTypes.DOUBLE
   }, {
     sequelize,
     tableName: 'unemployment_poverty_data',
