@@ -8,12 +8,14 @@ const {QueryTypes } = require('sequelize');
 router.get('/airportTaxi', async(req, res) => {
 
     try {        
-        await sequelize.query(`select "pickUpZip","dropOffZip",count(*) as total_trips,covid_weekly.week_number,"week_start_date","week_end_date","cases_per_week" from taxi_trip trip, covid_weekly_data covid_weekly
+
+        await sequelize.query(`select "pickUpZip","dropOffZip",count(*) as total_trips,"weekNum","weekStartDate","weekEndDate","casesPerWeek"
+        from taxi_trip trip, covid_weekly covid_weekly
         where "dropOffZip" = "zipCode"::varchar
-        and "tripStartTime" between week_start_date and week_end_date
+        and "tripStartTime" between "weekStartDate" and "weekEndDate"
         and "pickUpZip" in ('60666','60638')
-        group by "pickUpZip","dropOffZip",week_number,"week_start_date","week_end_date","cases_per_week"
-        order by "cases_per_week" desc`
+        group by "pickUpZip","dropOffZip","weekNum","weekStartDate","weekEndDate","casesPerWeek"
+        order by "casesPerWeek" desc`
         , { type: QueryTypes.SELECT })        
         .then(result => {
             console.log(result);
@@ -25,10 +27,10 @@ router.get('/airportTaxi', async(req, res) => {
                 pickUpZip: taxitripArray[i].pickUpZip,
                 dropOffZip: taxitripArray[i].dropOffZip,
                 totalTrips: taxitripArray[i].total_trips,
-                weekNumber: taxitripArray[i].week_number,
-                weekStartDate: taxitripArray[i].week_start_date,
-                weekEndDate: taxitripArray[i].week_end_date,
-                casesPerWeek: taxitripArray[i].cases_per_week
+                weekNumber: taxitripArray[i].weekNum,
+                weekStartDate: taxitripArray[i].weekStartDate,
+                weekEndDate: taxitripArray[i].weekEndDate,
+                casesPerWeek: taxitripArray[i].casesPerWeek
              }
             }
 
