@@ -8,12 +8,13 @@ const {QueryTypes } = require('sequelize');
 router.get('/airportTaxi', async(req, res) => {
 
     try {        
-        await sequelize.query(`select "pickUpZip","dropOffZip",count(*) as total_trips,covid_weekly.week_number,"week_start_date","week_end_date","cases_per_week" from taxi_trip trip, covid_weekly_data covid_weekly
-        where "dropOffZip" = "zip_code"::varchar
-        and "tripStartTime" between week_start_date and week_end_date
+        await sequelize.query(`select "pickUpZip","dropOffZip",count(*) as total_trips,"weekNum","weekStartDate","weekEndDate","casesPerWeek"
+        from taxi_trip trip, covid_weekly covid_weekly
+        where "dropOffZip" = "zipCode"::varchar
+        and "tripStartTime" between "weekStartDate" and "weekEndDate"
         and "pickUpZip" in ('60666','60638')
-        group by "pickUpZip","dropOffZip",week_number,"week_start_date","week_end_date","cases_per_week"
-        order by "cases_per_week" desc`
+        group by "pickUpZip","dropOffZip","weekNum","weekStartDate","weekEndDate","casesPerWeek"
+        order by "casesPerWeek" desc`
         , { type: QueryTypes.SELECT })        
         .then(result => {
             console.log(result);
