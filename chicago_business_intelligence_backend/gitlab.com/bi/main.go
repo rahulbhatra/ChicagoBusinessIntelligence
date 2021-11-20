@@ -49,6 +49,7 @@ type UNEMPLOYMENT_POVERTY_DATA []struct {
 	AREA_NAME	string `json:"community_area_name"`	
 	PERCENT_BELOW_POVERTY	string `json:"below_poverty_level"`
 	PERCENT_UNEMPLOYED	string `json:"unemployment"`
+	PER_CAPITA_INCOME	string `json:"per_capita_income"`
 }
 
 func checkErr(err error) {
@@ -509,13 +510,14 @@ func main() {
 			sysCreationDate := time.Now()
 			sysUpdateDate := time.Now()
 					
-			sql := `INSERT INTO UNEMPLOYMENT_POVERTY_DATA ("areaCode", "areaName", "percentBelowPoverty", "percentUnemployed", "createdAt", "updatedAt") VALUES ($1, $2, $3, $4, $5, $6)`
+			sql := `INSERT INTO UNEMPLOYMENT_POVERTY_DATA ("areaCode", "areaName", "percentBelowPoverty", "percentUnemployed", "perCapitaIncome", "createdAt", "updatedAt") VALUES ($1, $2, $3, $4, $5, $6, $7)`
 			_, err = tx.ExecContext(ctx, 
 											sql,									 	
 											 areaCode, 
 											 areaName,									 	
 											 percentBelowPoverty,
 											 percentUnemployed,
+											 perCapitaIncome,
 											 sysCreationDate,
 											 sysUpdateDate)
 	
