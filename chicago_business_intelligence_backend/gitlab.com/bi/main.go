@@ -11,6 +11,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/codingsince1985/geo-golang/google"
 	"github.com/kelvins/geocoder"
 	_ "github.com/lib/pq"
 )
@@ -50,6 +51,16 @@ type UNEMPLOYMENT_POVERTY_DATA []struct {
 	PERCENT_BELOW_POVERTY	string `json:"below_poverty_level"`
 	PERCENT_UNEMPLOYED	string `json:"unemployment"`
 	PER_CAPITA_INCOME	string `json:"per_capita_income"`
+
+type BuildingPermit []struct {
+	Id              string `json:"id"`
+	Permit          string `json:"permit_"`
+	PermitType      string `json:"permit_type"`
+	ReviewType      string `json:"review_type"`
+	StreetNumber    string `json:"street_number"`
+	StreetDirection string `json:"street_direction"`
+	StreetName      string `json:"street_name"`
+	Suffix          string `json:"suffix"`
 }
 
 func checkErr(err error) {
@@ -478,35 +489,43 @@ func main() {
 	})
 
 	http.HandleFunc("/unemp_data", func(rw http.ResponseWriter, r *http.Request) {
-		var url = "https://data.cityofchicago.org/resource/iqnk-2tcu.json"		
-		
+		var url = "https://data.cityofchicago.org/resource/iqnk-2tcu.json"
+
 		res, err := http.Get(url)
 		checkErr(err)
-	
+
 		body, _ := ioutil.ReadAll(res.Body)
 		fmt.Printf("\n body  = ", string(body))
-		
+
 		var unempDataArray UNEMPLOYMENT_POVERTY_DATA
 		json.Unmarshal(body, &unempDataArray)
-	   
-	   ctx := context.Background()
+
+		ctx := context.Background()
 		tx, err := db.BeginTx(ctx, nil)
 		checkErr(err)
-		
+
 		for i := 0; i < len(unempDataArray); i++ {
-			
+
 			areaCode := unempDataArray[i].AREA_CODE
-			if areaCode == "" { areaCode = "0"}
-			
+			if areaCode == "" {
+				areaCode = "0"
+			}
+
 			areaName := unempDataArray[i].AREA_NAME
-			if areaName == "" { areaName = "Unknown"}		
-					
+			if areaName == "" {
+				areaName = "Unknown"
+			}
+
 			percentBelowPoverty := unempDataArray[i].PERCENT_BELOW_POVERTY
-			if percentBelowPoverty == "" { percentBelowPoverty = "0"}
-			
-			percentUnemployed := unempDataArray[i].PERCENT_UNEMPLOYED		
-			if percentUnemployed == "" { percentUnemployed = "0"}						
-					
+			if percentBelowPoverty == "" {
+				percentBelowPoverty = "0"
+			}
+
+			percentUnemployed := unempDataArray[i].PERCENT_UNEMPLOYED
+			if percentUnemployed == "" {
+				percentUnemployed = "0"
+			}
+
 			sysCreationDate := time.Now()
 			sysUpdateDate := time.Now()
 					
@@ -528,10 +547,94 @@ func main() {
 					return
 				}
 			}
-			
-			err = tx.Commit()
-			checkErr(err)
-		})
+		}
+
+		err = tx.Commit()
+		checkErr(err)
+	})
+
+	http.HandleFunc("/building_permit", func(rw http.ResponseWriter, r *http.Request) {
+		googleGeoCoder := google.Geocoder("AIzaSyCctDVzYHUX6D4mXEAqbn3WoUkkOXjg3oU")
+		dropSql := `drop table if exists building_permit`
+		_, err := db.Exec(dropSql)
+		if err != nil {
+			panic(err)
+		}
+
+		createSql := `CREATE TABLE IF NOT EXISTS "building_permit" (
+			"id"   SERIAL , 
+			"buildingPermitId" BIGINT, 
+			"permitId" BIGINT, 
+			"permitType" VARCHAR(255), 
+			"address" VARCHAR(255), 
+			"zipCode" VARCHAR(255), 
+			"createdAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
+			"updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
+			PRIMARY KEY ("id"));`
+
+		_, createSqlErr := db.Exec(createSql)
+		if createSqlErr != nil {
+			panic(err)
+		}
+
+		var url = "https://data.cityofchicago.org/resource/building-permits.json"
+		res, err := http.Get(url)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		body, _ := ioutil.ReadAll(res.Body)
+
+		var buildingPermitArray BuildingPermit
+		json.Unmarshal(body, &buildingPermitArray)
+
+		// var communityAreaOrZipCode int64
+		// var ccviScore float64
+		for i := 0; i < len(buildingPermitArray); i++ {
+			// layout is just for formating the string to date format.
+
+			id := buildingPermitArray[i].Id
+			permit := buildingPermitArray[i].Permit
+			permitType := buildingPermitArray[i].PermitType
+			streetNumber := buildingPermitArray[i].StreetNumber
+			streetDirection := buildingPermitArray[i].StreetDirection
+			streetName := buildingPermitArray[i].StreetName
+			suffix := buildingPermitArray[i].Suffix
+			address := streetNumber + " " + streetDirection + " " + streetName + " " + suffix
+			createdAt := time.Now()
+			updatedAt := time.Now()
+
+			location, _ := googleGeoCoder.Geocode(address)
+
+			fmt.Println("Address Before: ", id, permit, permitType, address, createdAt, updatedAt)
+
+			if location != nil {
+				fmt.Printf("%s location is (%.6f, %.6f)\n", address, location.Lat, location.Lng)
+			} else {
+				fmt.Println("got <nil> location")
+				continue
+			}
+			addressAfter, _ := googleGeoCoder.ReverseGeocode(location.Lat, location.Lng)
+			if addressAfter != nil {
+				fmt.Printf("Address of (%.6f,%.6f) is %s\n", location.Lat, location.Lng, addressAfter.FormattedAddress)
+				fmt.Printf("Detailed address: %#v\n", addressAfter)
+			} else {
+				fmt.Println("got <nil> address")
+				continue
+			}
+			zipCode := addressAfter.Postcode
+			fmt.Print("\n")
+
+			sql := `insert into building_permit 
+			("buildingPermitId", "permitId", "permitType", "address", "zipCode", "createdAt", "updatedAt")
+			values($1, $2, $3, $4, $5, $6, $7);`
+			_, err := db.Exec(sql, id, permit, permitType, address, zipCode, createdAt, updatedAt)
+
+			if err != nil {
+				panic(err)
+			}
+		}
+	})
 
 	http.HandleFunc("/show", func(rw http.ResponseWriter, r *http.Request) {
 		fmt.Println("here i am")

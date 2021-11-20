@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const axios = require('axios');
 const { CovidCCVI } = require('../models');
 
 router.get('/data', async (req, res) => {

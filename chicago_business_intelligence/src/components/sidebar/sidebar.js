@@ -50,10 +50,10 @@ const Sidebar = ({isLeftOpen, setIsLeftOpen}) => {
         component: 'UnemploymentPoverty'
       },
       {
-        name: 'Infrastructure, Business & Unemployment',
+        name: 'Building Permits',
         icon: ApartmentIcon,
-        reportType: 'apartment',
-        link: 'apartment'
+        reportType: 'building_permit',
+        link: 'building-permit'
       }
     ]
 
