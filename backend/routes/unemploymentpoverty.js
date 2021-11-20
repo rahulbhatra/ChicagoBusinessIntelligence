@@ -13,7 +13,8 @@ router.get('/data', async (req, res) => {
                 areaCode: unempPovertyArray[i].areaCode,
                 areaName: unempPovertyArray[i].areaName,
                 percentBelowPoverty: unempPovertyArray[i].percentBelowPoverty,
-                percentUnemployed: unempPovertyArray[i].percentUnemployed
+                percentUnemployed: unempPovertyArray[i].percentUnemployed,
+                perCapitaIncome: unempPovertyArray[i].perCapitaIncome
             }
         }
     

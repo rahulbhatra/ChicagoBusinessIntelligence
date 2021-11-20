@@ -45,13 +45,12 @@ type CovidDaily []struct {
 	TotalDeaths   string `json:"deaths_total"`
 }
 
-type UNEMPLOYMENT_POVERTY_DATA []struct {
-	AREA_CODE             string `json:"community_area"`
-	AREA_NAME             string `json:"community_area_name"`
-	PERCENT_BELOW_POVERTY string `json:"below_poverty_level"`
-	PERCENT_UNEMPLOYED    string `json:"unemployment"`
-	// PerCapitaIncome       string `json:"per_capita_income"`
-}
+type UNEMPLOYMENT_POVERTY_DATA []struct {	
+	AREA_CODE	string `json:"community_area"`
+	AREA_NAME	string `json:"community_area_name"`	
+	PERCENT_BELOW_POVERTY	string `json:"below_poverty_level"`
+	PERCENT_UNEMPLOYED	string `json:"unemployment"`
+	PER_CAPITA_INCOME	string `json:"per_capita_income"`
 
 type BuildingPermit []struct {
 	Id              string `json:"id"`
@@ -529,22 +528,24 @@ func main() {
 
 			sysCreationDate := time.Now()
 			sysUpdateDate := time.Now()
-
-			sql := `INSERT INTO UNEMPLOYMENT_POVERTY_DATA ("areaCode", "areaName", "percentBelowPoverty", "percentUnemployed", "createdAt", "updatedAt") VALUES ($1, $2, $3, $4, $5, $6)`
-			_, err = tx.ExecContext(ctx,
-				sql,
-				areaCode,
-				areaName,
-				percentBelowPoverty,
-				percentUnemployed,
-				sysCreationDate,
-				sysUpdateDate)
-
-			if err != nil {
-				fmt.Printf("\n ERROR = ", err)
-				fmt.Printf("\n")
-				tx.Rollback()
-				return
+					
+			sql := `INSERT INTO UNEMPLOYMENT_POVERTY_DATA ("areaCode", "areaName", "percentBelowPoverty", "percentUnemployed", "perCapitaIncome", "createdAt", "updatedAt") VALUES ($1, $2, $3, $4, $5, $6, $7)`
+			_, err = tx.ExecContext(ctx, 
+											sql,									 	
+											 areaCode, 
+											 areaName,									 	
+											 percentBelowPoverty,
+											 percentUnemployed,
+											 perCapitaIncome,
+											 sysCreationDate,
+											 sysUpdateDate)
+	
+				if err != nil {
+					fmt.Printf("\n ERROR = ", err)
+					fmt.Printf("\n")			
+					tx.Rollback()
+					return
+				}
 			}
 		}
 
