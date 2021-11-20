@@ -79,7 +79,7 @@ const BuildingPermit = () => {
     return (
         <>
             <Toast open={toastOpen} setOpen={setToastOpen} message={toastMessage} severity={toastSeverity} />
-            <Box sx={{display: 'flex'}}>
+            {/* <Box sx={{display: 'flex'}}>
                 <Box sx={{mx: 2}}>
                     <Button size="large"
                     variant="contained"
@@ -113,7 +113,7 @@ const BuildingPermit = () => {
                     Maps
                     </Button>
                 </Box>
-            </Box>
+            </Box> */}
             {visualizationType === 'table' && <DataTable reportType={'covid_ccvi'} rows={rows} columns={tableColumns} />}
             {visualizationType === 'barChart' && <BarChart reportType={'covid_ccvi'} rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
             {visualizationType === 'linearChart' && <LinearChart reportType={'covid_ccvi'} rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}

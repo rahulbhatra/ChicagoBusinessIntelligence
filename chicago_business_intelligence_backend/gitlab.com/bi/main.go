@@ -64,6 +64,17 @@ type BuildingPermit []struct {
 	Suffix          string `json:"suffix"`
 }
 
+type CovidWeeklyData []struct {
+	ZipCode                   string `json:"zip_code"`
+	WeekNumber                string `json:"week_number"`
+	WeekStartDate             string `json:"week_start"`
+	WeekEndDate               string `json:"week_end"`
+	CasesPerWeek              string `json:"cases_weekly"`
+	CasesCumulative           string `json:"cases_cumulative"`
+	PercentPositivePerWeek    string `json:"percent_tested_positive_weekly"`
+	PercentPositiveCumulative string `json:"percent_tested_positive_cumulative"`
+}
+
 func checkErr(err error) {
 	if err != nil {
 		log.Fatal(err)
@@ -631,6 +642,80 @@ func main() {
 
 			if err != nil {
 				panic(err)
+			}
+		}
+	})
+
+	http.HandleFunc("/covid_weekly", func(rw http.ResponseWriter, r *http.Request) {
+		dropSql := `drop table if exists covid_weekly`
+		_, err := db.Exec(dropSql)
+		if err != nil {
+			panic(err)
+		}
+
+		var url = "https://data.cityofchicago.org/resource/yhhz-zm2v.json"
+
+		createSql := `CREATE TABLE IF NOT EXISTS covid_weekly
+		(
+			"id"   SERIAL , 
+			"zipCode" VARCHAR(255), 
+			"weekNum" BIGINT, 
+			"weekStartDate" TIMESTAMP WITH TIME ZONE, 
+			"weekEndDate" TIMESTAMP WITH TIME ZONE, 
+			"casesPerWeek" BIGINT, 
+			"casesCumulative" BIGINT, 
+			"percentPositivePerWeek" DOUBLE PRECISION, 
+			"percentPositiveCumulative" DOUBLE PRECISION, 
+			"createdAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
+			"updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
+			PRIMARY KEY ("id")
+		);`
+
+		_, createSqlErr := db.Exec(createSql)
+		if createSqlErr != nil {
+			panic(err)
+		}
+
+		res, err := http.Get(url)
+		checkErr(err)
+
+		body, _ := ioutil.ReadAll(res.Body)
+
+		var covidDataArray CovidWeeklyData
+		json.Unmarshal(body, &covidDataArray)
+		checkErr(err)
+
+		for i := 0; i < len(covidDataArray); i++ {
+			zipCode := covidDataArray[i].ZipCode
+			weekNum := covidDataArray[i].WeekNumber
+			weekStartDate := covidDataArray[i].WeekStartDate
+			weekEndDate := covidDataArray[i].WeekEndDate
+			casesPerWeek := covidDataArray[i].CasesPerWeek
+			casesCumulative := covidDataArray[i].CasesCumulative
+			percentPositivePerWeek := covidDataArray[i].PercentPositivePerWeek
+			percentPositiveCumulative := covidDataArray[i].PercentPositiveCumulative
+
+			createdAt := time.Now()
+			updatedAt := time.Now()
+
+			sql := `INSERT INTO covid_weekly ("zipCode", "weekNum", "weekStartDate", "weekEndDate", "casesPerWeek", 
+			"casesCumulative", "percentPositivePerWeek", "percentPositiveCumulative", "createdAt", "updatedAt") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`
+			_, err = db.Exec(
+				sql,
+				zipCode,
+				weekNum,
+				weekStartDate,
+				weekEndDate,
+				casesPerWeek,
+				casesCumulative,
+				percentPositivePerWeek,
+				percentPositiveCumulative,
+				createdAt, updatedAt)
+
+			if err != nil {
+				fmt.Printf("\n ERROR = ", err)
+				fmt.Printf("\n")
+				continue
 			}
 		}
 	})
