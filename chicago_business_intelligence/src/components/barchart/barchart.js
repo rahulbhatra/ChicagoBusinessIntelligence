@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    Chart, Series, CommonSeriesSettings, Label, Format, Legend, Export, Size, ArgumentAxis, ZoomAndPan, ScrollBar
+    Chart, Series, CommonSeriesSettings, Format, Legend, Export, Size, ArgumentAxis, ZoomAndPan, ScrollBar, Label
 } from 'devextreme-react/chart';
 
 const BarChart = ({rows, columns, argumentField}) => {
@@ -36,9 +36,14 @@ const BarChart = ({rows, columns, argumentField}) => {
                 )
             }
             <Legend verticalAlignment="bottom" horizontalAlignment="center"></Legend>
-            <ArgumentAxis label={{displayMode:'rotate'}}
+            <ArgumentAxis 
                 defaultVisualRange={{length: 10}}
-            />
+            >
+                <Label
+                    rotationAngle={45}
+                    displayMode="rotate"
+                />
+            </ArgumentAxis>
             <ScrollBar visible={true} />
             <ZoomAndPan argumentAxis="both"/>
             <Size height={600}/>

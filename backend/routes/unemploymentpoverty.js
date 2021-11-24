@@ -3,7 +3,7 @@ const axios = require('axios');
 const { UnemploymentPovertyData } = require('../models');
 
 router.get('/data', async (req, res) => {
-    try {
+    // try {
         
         var unempPovertyArray = await UnemploymentPovertyData.findAll();
         var dataArray = Array(unempPovertyArray.length);
@@ -24,12 +24,12 @@ router.get('/data', async (req, res) => {
             message: 'success',
             rows: dataArray,
         })
-    } catch(error) {
-        res.status(500).json({
-            message: 'Server Error.',
-            error: error
-        })
-    }
+    // } catch(error) {
+    //     res.status(500).json({
+    //         message: 'Server Error.',
+    //         error: error
+    //     })
+    // }
    
 })
 

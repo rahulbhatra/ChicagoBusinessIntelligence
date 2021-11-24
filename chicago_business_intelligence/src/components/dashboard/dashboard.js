@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import CoronaImage from '../../images/CoronaVirus.png';
 import TaxiImage from '../../images/taxi.png'
+import SocialEconomy from '../../images/socialEconomy.jpg';
 
 const DashBoard = () => {
     const cards = [

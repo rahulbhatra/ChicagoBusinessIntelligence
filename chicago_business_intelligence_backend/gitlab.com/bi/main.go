@@ -45,12 +45,13 @@ type CovidDaily []struct {
 	TotalDeaths   string `json:"deaths_total"`
 }
 
-type UNEMPLOYMENT_POVERTY_DATA []struct {	
-	AREA_CODE	string `json:"community_area"`
-	AREA_NAME	string `json:"community_area_name"`	
-	PERCENT_BELOW_POVERTY	string `json:"below_poverty_level"`
-	PERCENT_UNEMPLOYED	string `json:"unemployment"`
-	PER_CAPITA_INCOME	string `json:"per_capita_income"`
+type UNEMPLOYMENT_POVERTY_DATA []struct {
+	AREA_CODE             string `json:"community_area"`
+	AREA_NAME             string `json:"community_area_name"`
+	PERCENT_BELOW_POVERTY string `json:"below_poverty_level"`
+	PERCENT_UNEMPLOYED    string `json:"unemployment"`
+	PER_CAPITA_INCOME     string `json:"per_capita_income"`
+}
 
 type BuildingPermit []struct {
 	Id              string `json:"id"`
@@ -72,6 +73,11 @@ type CovidWeeklyData []struct {
 	CasesCumulative           string `json:"cases_cumulative"`
 	PercentPositivePerWeek    string `json:"percent_tested_positive_weekly"`
 	PercentPositiveCumulative string `json:"percent_tested_positive_cumulative"`
+}
+
+type CommunityAreaZipCode []struct {
+	CommunityAreaNumber string `json:"community_area"`
+	CommunityAreaName   string `json:"community_area_name"`
 }
 
 func checkErr(err error) {
@@ -537,37 +543,43 @@ func main() {
 				percentUnemployed = "0"
 			}
 
+			perCapitaIncome := unempDataArray[i].PER_CAPITA_INCOME
+			if perCapitaIncome == "" {
+				perCapitaIncome = "0"
+			}
+
 			sysCreationDate := time.Now()
 			sysUpdateDate := time.Now()
-					
+
 			sql := `INSERT INTO UNEMPLOYMENT_POVERTY_DATA ("areaCode", "areaName", "percentBelowPoverty", "percentUnemployed", "perCapitaIncome", "createdAt", "updatedAt") VALUES ($1, $2, $3, $4, $5, $6, $7)`
-			_, err = tx.ExecContext(ctx, 
-											sql,									 	
-											 areaCode, 
-											 areaName,									 	
-											 percentBelowPoverty,
-											 percentUnemployed,
-											 perCapitaIncome,
-											 sysCreationDate,
-											 sysUpdateDate)
-	
-				if err != nil {
-					fmt.Printf("\n ERROR = ", err)
-					fmt.Printf("\n")			
-					tx.Rollback()
-					return
-				}
+			_, err = tx.ExecContext(ctx,
+				sql,
+				areaCode,
+				areaName,
+				percentBelowPoverty,
+				percentUnemployed,
+				perCapitaIncome,
+				sysCreationDate,
+				sysUpdateDate)
+
+			if err != nil {
+				fmt.Printf("\n ERROR = ", err)
+				fmt.Printf("\n")
+				tx.Rollback()
+				return
 			}
+
 		}
 
-		err = tx.Commit()
-		checkErr(err)
+		txErr := tx.Commit()
+		checkErr(txErr)
 	})
 
 	http.HandleFunc("/building_permit", func(rw http.ResponseWriter, r *http.Request) {
 		googleGeoCoder := google.Geocoder("AIzaSyCctDVzYHUX6D4mXEAqbn3WoUkkOXjg3oU")
 		dropSql := `drop table if exists building_permit`
 		_, err := db.Exec(dropSql)
+
 		if err != nil {
 			panic(err)
 		}
@@ -720,6 +732,86 @@ func main() {
 			}
 		}
 	})
+
+	// http.HandleFunc("/community_area_zipcode", func(rw http.ResponseWriter, r *http.Request) {
+	// 	googleGeoCoder := google.Geocoder("AIzaSyCctDVzYHUX6D4mXEAqbn3WoUkkOXjg3oU")
+	// 	dropSql := `drop table if exists community_area_zipcode`
+	// 	_, err := db.Exec(dropSql)
+	// 	if err != nil {
+	// 		panic(err)
+	// 	}
+
+	// 	var url = "https://data.cityofchicago.org/resource/iqnk-2tcu.json"
+
+	// 	createSql := `CREATE TABLE IF NOT EXISTS "community_area_zipcode"
+	// 	(
+	// 		"id"   SERIAL ,
+	// 		"communityAreaNumber" BIGINT,
+	// 		"communityAreaName" VARCHAR(255),
+	// 		"communityAreaZipCode" VARCHAR(255),
+	// 		"createdAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+	// 		"updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL,
+	// 		PRIMARY KEY ("id")
+	// 	);`
+
+	// 	_, createSqlErr := db.Exec(createSql)
+	// 	if createSqlErr != nil {
+	// 		panic(err)
+	// 	}
+
+	// 	res, err := http.Get(url)
+	// 	checkErr(err)
+
+	// 	body, _ := ioutil.ReadAll(res.Body)
+
+	// 	var covidDataArray CommunityAreaZipCode
+	// 	json.Unmarshal(body, &covidDataArray)
+	// 	checkErr(err)
+
+	// 	for i := 0; i < len(covidDataArray); i++ {
+	// 		communityAreaNumber := covidDataArray[i].CommunityAreaNumber
+	// 		communityAreaName := covidDataArray[i].CommunityAreaName
+	// 		location, _ := googleGeoCoder.Geocode(communityAreaName + " Chicago, Illinois, United States")
+
+	// 		fmt.Println("Address Before: ", communityAreaName+" Chicago, Illinois, United States")
+
+	// 		if location != nil {
+	// 			fmt.Printf("%s location is (%.6f, %.6f)\n", location.Lat, location.Lng)
+	// 		} else {
+	// 			fmt.Println("got <nil> location")
+	// 			continue
+	// 		}
+	// 		addressAfter, _ := googleGeoCoder.ReverseGeocode(location.Lat, location.Lng)
+	// 		if addressAfter != nil {
+	// 			fmt.Printf("Address of (%.6f,%.6f) is %s\n", location.Lat, location.Lng, addressAfter.FormattedAddress)
+	// 			fmt.Printf("Detailed address: %#v\n", addressAfter)
+	// 		} else {
+	// 			fmt.Println("got <nil> address")
+	// 			continue
+	// 		}
+	// 		zipCode := addressAfter.Postcode
+
+	// 		createdAt := time.Now()
+	// 		updatedAt := time.Now()
+
+	// 		sql := `INSERT INTO community_area_zipcode ("communityAreaNumber",
+	// 		"communityAreaName", "communityAreaZipCode", "createdAt", "updatedAt") VALUES ($1, $2, $3, $4, $5);`
+	// 		_, err = db.Exec(
+	// 			sql,
+	// 			communityAreaNumber,
+	// 			communityAreaName,
+	// 			zipCode,
+	// 			createdAt, updatedAt)
+
+	// 		fmt.Println("\n")
+
+	// 		if err != nil {
+	// 			fmt.Printf("\n ERROR = ", err)
+	// 			fmt.Printf("\n")
+	// 			continue
+	// 		}
+	// 	}
+	// })
 
 	http.HandleFunc("/show", func(rw http.ResponseWriter, r *http.Request) {
 		fmt.Println("here i am")
