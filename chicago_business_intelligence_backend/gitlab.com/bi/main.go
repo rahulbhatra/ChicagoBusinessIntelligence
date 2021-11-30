@@ -45,12 +45,13 @@ type CovidDaily []struct {
 	TotalDeaths   string `json:"deaths_total"`
 }
 
-type UNEMPLOYMENT_POVERTY_DATA []struct {	
-	AREA_CODE	string `json:"community_area"`
-	AREA_NAME	string `json:"community_area_name"`	
-	PERCENT_BELOW_POVERTY	string `json:"below_poverty_level"`
-	PERCENT_UNEMPLOYED	string `json:"unemployment"`
-	PER_CAPITA_INCOME	string `json:"per_capita_income"`
+type UNEMPLOYMENT_POVERTY_DATA []struct {
+	AREA_CODE             string `json:"community_area"`
+	AREA_NAME             string `json:"community_area_name"`
+	PERCENT_BELOW_POVERTY string `json:"below_poverty_level"`
+	PERCENT_UNEMPLOYED    string `json:"unemployment"`
+	PER_CAPITA_INCOME     string `json:"per_capita_income"`
+}
 
 type BuildingPermit []struct {
 	Id              string `json:"id"`
@@ -72,6 +73,11 @@ type CovidWeeklyData []struct {
 	CasesCumulative           string `json:"cases_cumulative"`
 	PercentPositivePerWeek    string `json:"percent_tested_positive_weekly"`
 	PercentPositiveCumulative string `json:"percent_tested_positive_cumulative"`
+}
+
+type CommunityAreaZipCode []struct {
+	CommunityAreaNumber string `json:"community_area"`
+	CommunityAreaName   string `json:"community_area_name"`
 }
 
 func checkErr(err error) {
@@ -537,37 +543,43 @@ func main() {
 				percentUnemployed = "0"
 			}
 
+			perCapitaIncome := unempDataArray[i].PER_CAPITA_INCOME
+			if perCapitaIncome == "" {
+				perCapitaIncome = "0"
+			}
+
 			sysCreationDate := time.Now()
 			sysUpdateDate := time.Now()
-					
+
 			sql := `INSERT INTO UNEMPLOYMENT_POVERTY_DATA ("areaCode", "areaName", "percentBelowPoverty", "percentUnemployed", "perCapitaIncome", "createdAt", "updatedAt") VALUES ($1, $2, $3, $4, $5, $6, $7)`
-			_, err = tx.ExecContext(ctx, 
-											sql,									 	
-											 areaCode, 
-											 areaName,									 	
-											 percentBelowPoverty,
-											 percentUnemployed,
-											 perCapitaIncome,
-											 sysCreationDate,
-											 sysUpdateDate)
-	
-				if err != nil {
-					fmt.Printf("\n ERROR = ", err)
-					fmt.Printf("\n")			
-					tx.Rollback()
-					return
-				}
+			_, err = tx.ExecContext(ctx,
+				sql,
+				areaCode,
+				areaName,
+				percentBelowPoverty,
+				percentUnemployed,
+				perCapitaIncome,
+				sysCreationDate,
+				sysUpdateDate)
+
+			if err != nil {
+				fmt.Printf("\n ERROR = ", err)
+				fmt.Printf("\n")
+				tx.Rollback()
+				return
 			}
+
 		}
 
-		err = tx.Commit()
-		checkErr(err)
+		txErr := tx.Commit()
+		checkErr(txErr)
 	})
 
 	http.HandleFunc("/building_permit", func(rw http.ResponseWriter, r *http.Request) {
 		googleGeoCoder := google.Geocoder("AIzaSyCctDVzYHUX6D4mXEAqbn3WoUkkOXjg3oU")
 		dropSql := `drop table if exists building_permit`
 		_, err := db.Exec(dropSql)
+
 		if err != nil {
 			panic(err)
 		}
@@ -719,10 +731,6 @@ func main() {
 				continue
 			}
 		}
-	})
-
-	http.HandleFunc("/show", func(rw http.ResponseWriter, r *http.Request) {
-		fmt.Println("here i am")
 	})
 
 	http.ListenAndServe(":9090", nil)

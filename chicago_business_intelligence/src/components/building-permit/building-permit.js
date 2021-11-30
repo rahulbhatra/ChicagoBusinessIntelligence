@@ -6,7 +6,7 @@ import LinearChart from '../linearchart/linearchart';
 import axios from 'axios';
 import Toast from '../toast/toast';
 
-const tableColumns =  ['id', 'buildingPermitId', 'permitId', 'permitType', 'address', 'zipCode'];
+const tableColumns =  ['id', 'buildingPermitId', 'permitId', 'permitType', 'address', 'zipCode', 'communityArea'];
 const chartColumns = [
     { value: 'ccvi_score', name: 'CCVI Score' },
     // { value: 'ccvi_category', name: 'CCVI Category' }

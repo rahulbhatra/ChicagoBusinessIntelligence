@@ -40,7 +40,7 @@ const LinearChart = ({rows, columns, argumentField}) => {
         valueMarginsEnabled={true}
         defaultVisualRange={{length: 10}}
         discreteAxisDivisionMode="crossLabels"
-        label={{displayMode:'rotate'}}
+        label={{displayMode:'rotate', rotationAngle:'45'}}
       >
         <Grid visible={true} />
       </ArgumentAxis>
