@@ -51,6 +51,40 @@ router.get('/airportTaxi', async(req, res) => {
     }    
 })
 
+router.get('/list', async(req, res) => {
+
+    try {        
+        await sequelize.query(`select distinct "dropOffZip" as zip_key from taxi_trip
+        where "dropOffZip" != '';`
+        , { type: QueryTypes.SELECT })        
+        .then(result => {
+            console.log(result);
+            var zipCodesList = result;
+            var dataArray = Array(zipCodesList.length);
+            for(var i = 0; i < zipCodesList.length; i++) {
+            dataArray[i] = {                            
+                zip_key: zipCodesList[i].zip_key                           
+             }
+            }
+
+            res.send({
+                message: 'success',
+                rows: dataArray,
+                status: '200'
+            });                
+        })
+        .catch(err =>{
+            console.log(err);
+        });        
+    } catch(error) {
+        console.log("ERROR = " , error);
+        res.status(500).json({            
+            message: 'Server Error.',
+            error: error
+        })
+    }    
+})
+
 router.get('/covidTaxi', async (req, res) => {
     try {
         await sequelize.query(`select trip."pickUpZip",trip."dropOffZip", count(*) as "totalTrips",covid_weekly."weekNum",covid_weekly."weekStartDate"
