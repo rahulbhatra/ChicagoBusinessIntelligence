@@ -104,16 +104,12 @@ const Forecast = () => {
         </Menu>
     );    
   
-    const handleZipCodeChange = (event) => {        
-        console.log("selected zip code = ", event.target.value);
-        setZipCode(event.target.value);        
-        console.log("selected zip code = ", zipCode);
+    const handleZipCodeChange = (event) => {                
+        setZipCode(event.target.value);                
     };
 
-    const handleIntervalChange = (event) => {
-        console.log("selected interval = ", event.target.value);
-        setInterval(event.target.value);
-        console.log("selected interval = ", interval);
+    const handleIntervalChange = (event) => {        
+        setInterval(event.target.value);        
     };
 
     return (
