@@ -5,6 +5,7 @@ import { Assessment as AssessmentIcon , LocalTaxi as LocalTaxiIcon, Coronavirus
   CoronavirusOutlined, LocalTaxiOutlined } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
 import WorkOffIcon from '@mui/icons-material/WorkOff'
+import TimelineIcon from '@mui/icons-material/Timeline';
 import { DrawerHeader, drawerWidth } from './sidebar-style';
 import { useHistory } from 'react-router-dom';
 
@@ -61,6 +62,13 @@ const Sidebar = ({isLeftOpen, setIsLeftOpen}) => {
         icon: ApartmentIcon,
         reportType: 'building_permit',
         link: 'building-permit'
+      },
+      {
+        name: 'Forecasting',
+        icon: TimelineIcon,
+        reportType: 'forecasted_data',
+        link: 'forecast',
+        component: 'Forecast'
       }
     ]
 
