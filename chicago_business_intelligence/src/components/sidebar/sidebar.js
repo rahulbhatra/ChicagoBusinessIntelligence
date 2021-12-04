@@ -69,6 +69,12 @@ const Sidebar = ({isLeftOpen, setIsLeftOpen}) => {
         reportType: 'forecasted_data',
         link: 'forecast',
         component: 'Forecast'
+      },
+      {
+        name: 'Emergency Loan',
+        icon: TimelineIcon,
+        reportType: 'building_permit',
+        link: 'emergency-loan'
       }
     ]
 

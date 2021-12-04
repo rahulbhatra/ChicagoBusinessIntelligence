@@ -27,5 +27,5 @@ eg: docker tag microservices rahulbhatra/microservices:latest
     docker push <docker-hub-id>/<docker-image-name>:latest
     docker push rahulbhatra/microservices:latest
 9. Now run command kubectl create -f ./ping-service.yaml
-10. kubectl get pods to see local pods running.
+10. kubectl get pods (to see local pods running).
 11. kubectl logs -f <pod-name>

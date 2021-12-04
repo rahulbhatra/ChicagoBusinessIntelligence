@@ -18,7 +18,9 @@ module.exports = (sequelize, DataTypes) => {
     permitId: DataTypes.BIGINT,
     permitType: DataTypes.STRING,
     address: DataTypes.STRING,
-    zipCode: DataTypes.STRING
+    zipCode: DataTypes.STRING,
+    latitude: DataTypes.DOUBLE,
+    longitude: DataTypes.DOUBLE
   }, {
     sequelize,
     tableName: 'building_permit',
