@@ -65,13 +65,20 @@ const isAuth = (req, res, next) => {
 const authRoute = require('./routes/authroute');
 const covidDailyDataRoute = require('./routes/coviddailyroute');
 const covidCCVIRoute = require('./routes/covidccviroute');
+const highCCVITaxiTripRoute = require('./routes/highccvitaxitripsroute');
 const taxiRoute = require('./routes/taxitrip');
+const unempPovertyRoute = require('./routes/unemploymentpoverty');
+const buildingPermitRoute = require('./routes/buildingpermitroute');
 
 // Route Middlewares
 app.use('/api', authRoute);
 app.use('/api/covid_daily', covidDailyDataRoute);
 app.use('/api/covid_ccvi', covidCCVIRoute);
 app.use('/api/taxi', taxiRoute);
+app.use('/api/high_ccvi_taxi_trip', highCCVITaxiTripRoute);
+app.use('/api/unemployment_poverty', unempPovertyRoute);
+app.use('/api/building_permit', buildingPermitRoute);
+
 app.listen(4000, isAuth, async () => {
     console.log('server is running on port', 4000);
 });

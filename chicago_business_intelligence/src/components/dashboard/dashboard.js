@@ -7,20 +7,40 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import CoronaImage from '../../images/CoronaVirus.png';
 import TaxiImage from '../../images/taxi.png'
+import SocialEconomy from '../../images/socialEconomy.jpg';
+import Loan from '../../images/loan.png';
+import Traffic from '../../images/traffic.jpeg';
+import Unemployment from '../../images/unemployment.jpeg';
 
 const DashBoard = () => {
     const cards = [
         {
           header: 'Covid Reports',
-          info: 'We are giving various form of covid reports daily, weekly, and ' + 
-          'monthly with google charts.',
+          info: 'The business intelligence reports are geared toward' +
+          'tracking and forecasting events that have direct or indirect impacts on' + 
+          'businesses and neighborhoods in different zip codes within the city of' +
+          'Chicago. The business intelligence reports will be used to send alerts to taxi' +
+          'drivers about the state of COVID-19 in the different zip codes in order to' + 
+          'avoid taxi drivers to be the super spreaders in the different zip codes and' +
+          'neighborhoods. For this report, we will use taxi trips and daily COVID-19' +
+          'datasets for the city of Chicago.',
           image: CoronaImage
         },
         {
           header: 'Taxi Trips Information',
-          info: 'We are giving various form of covid reports daily, weekly, and ' + 
-          'monthly with google charts.',
+          info: 'There are two major airports within the city of Chicago:' +
+          'O’Hare and Midway. And we are interested to track trips from these airports' +
+          'to the different zip codes and the reported COVID-19 positive test cases.' +
+          'The city of Chicago is interested to monitor the traffic of the taxi trips from' +
+          'these airports to the different neighborhoods and zip codes.',
           image: TaxiImage
+        },
+        {
+          header: 'Traffic Patterns Forecast',
+          info: 'For streetscaping investment and planning, the city of' +
+          'Chicago is interested to forecast daily, weekly, and monthly traffic patterns' +
+          'utilizing the taxi trips for the different zip codes.',
+          image: Traffic
         },
         {
           header: 'Social Economy Information',
@@ -31,6 +51,20 @@ const DashBoard = () => {
           'to develop and invest in those neighborhoods. Both, building permits and'+
           'unemployment, datasets will be used in this report.',          
           image: SocialEconomy
+        },
+        {
+          header: 'Emergency Business Loans',
+          info: 'According to a report published by Crain’s Chicago' +
+          'Business (https://www.chicagobusiness.com/private-intelligence/industrialmarket-crazy-right-now), The “little guys”, small businesses, have trouble' +
+          'competing with the big players like Amazon and Walmart for warehouse' +
+          'spaces. To help small business, a new program has been piloted with the' +
+          'name Illinois Small Business Emergency Loan Fund Delta to offer small' +
+          'businesses low interest loans of up to $250,000 for those applicants with' +
+          'PERMIT_TYPE of PERMIT - NEW CONSTRUCTION in the zip code that has the' +
+          'lowest number of PERMIT - NEW CONSTRUCTION applications and PER' +
+          'CAPITA INCOME is less than 30,000 for the planned construction site. Both,' +
+          'building permits and unemployment, datasets will be used in this report.',
+          image: Loan
         }
     ];
 
@@ -56,7 +90,7 @@ const DashBoard = () => {
         <Container sx={{ py: 8 }} maxWidth="md">
         <Grid container spacing={4}>
           {cards.map((card) => (
-            <Grid item key={card.header} xs={12} sm={6} md={4}>
+            <Grid item key={card.header} xs={12} sm={12} md={6}>
               <Card
                 sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
               >

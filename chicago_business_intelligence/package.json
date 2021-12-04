@@ -60,5 +60,6 @@
   "devDependencies": {
     "devextreme-themebuilder": "^21.1.5",
     "nodemon": "^2.0.14"
-  }
+  },
+  "proxy": "http://localhost:5000"
 }

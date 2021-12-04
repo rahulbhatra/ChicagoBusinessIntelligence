@@ -1,9 +1,12 @@
 import * as React from 'react';
 import { Drawer, List, Divider, IconButton, ListItemIcon, ListItemText, ListItemButton } from '@mui/material';
 import { Assessment as AssessmentIcon , LocalTaxi as LocalTaxiIcon, Coronavirus
-  as CoronavirusIcon, Apartment as ApartmentIcon, Menu as MenuIcon } from '@mui/icons-material';
+  as CoronavirusIcon, Apartment as ApartmentIcon, Menu as MenuIcon, 
+  CoronavirusOutlined, LocalTaxiOutlined, 
+CreditScore as CreditScoreIcon } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+import WorkOffIcon from '@mui/icons-material/WorkOff'
+import TimelineIcon from '@mui/icons-material/Timeline';
 import { DrawerHeader, drawerWidth } from './sidebar-style';
 import { useHistory } from 'react-router-dom';
 
@@ -24,6 +27,18 @@ const Sidebar = ({isLeftOpen, setIsLeftOpen}) => {
         component: 'TaxiTrip'
       },
       {
+        name: 'Covid Taxi',
+        icon: LocalTaxiIcon,
+        reportType: 'taxi_covid',
+        link: 'covid-taxi',
+        component: 'Covid Taxi'
+      },
+      { name: 'High CCVI Taxi Trip',
+        icon: LocalTaxiOutlined,
+        reportType : 'high_ccvi_taxi_trip',
+        link: 'high-ccvi-taxi-trip'
+      },
+      {
         name: 'Covid CCVI',
         icon: CoronavirusIcon,
         reportType: 'covid_ccvi',
@@ -32,15 +47,35 @@ const Sidebar = ({isLeftOpen, setIsLeftOpen}) => {
       },
       {
         name: 'Covid Daily',
-        icon: CoronavirusIcon,
+        icon: CoronavirusOutlined,
         reportType: 'covid_daily',
         link: 'covid-daily'
       },
       {
-        name: 'Infrastructure, Business & Unemployment',
+        name: 'Unemployment and Poverty',
+        icon: WorkOffIcon,
+        reportType: 'unemployment_poverty',
+        link: '/unemployment-poverty',
+        component: 'UnemploymentPoverty'
+      },
+      {
+        name: 'Building Permits',
         icon: ApartmentIcon,
-        reportType: 'apartment',
-        link: 'apartment'
+        reportType: 'building_permit',
+        link: 'building-permit'
+      },
+      {
+        name: 'Forecasting',
+        icon: TimelineIcon,
+        reportType: 'forecasted_data',
+        link: 'forecast',
+        component: 'Forecast'
+      },
+      {
+        name: 'Emergency Loan',
+        icon: CreditScoreIcon,
+        reportType: 'building_permit',
+        link: 'emergency-loan'
       }
     ]
 

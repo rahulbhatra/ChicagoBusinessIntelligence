@@ -8,7 +8,7 @@ router.get('/data', async (req, res) => {
         for(var i = 0; i < CovidDailyArray.length; i++) {
             dataArray[i] = {
                 id: i + 1,
-                lab_report_date: CovidDailyArray[i].labReportDate,
+                lab_report_date: (new Date(CovidDailyArray[i].labReportDate)).toLocaleDateString(),
                 cases_total: CovidDailyArray[i].totalCases,
                 death_total: CovidDailyArray[i].totalDeaths
             }

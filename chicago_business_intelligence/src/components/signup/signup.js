@@ -15,6 +15,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
+import { useHistory } from 'react-router';
+import { useState } from 'react';
 
 function Copyright(props) {
   return (
@@ -32,7 +34,12 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
+  const history = useHistory();
   const [userType, setUserType] = React.useState('');
+  const [toastOpen, setToastOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastSeverity, setToastSevertiy] = useState('');
+
 
 
   const handleSubmit = (event) => {
@@ -52,9 +59,16 @@ export default function SignUp() {
       })
       .then(res => {
         console.log(res.data);
+        setToastOpen(true);
+        setToastMessage('Successfully Signed Up In');
+        setToastSevertiy('success');
+        setTimeout(() => {  history.push("/signIn"); }, 1000);
       })
       .catch(error => {
         console.log(error)
+        setToastOpen(true);
+        setToastMessage(error);
+        setToastSevertiy('error');
       })
   };
 

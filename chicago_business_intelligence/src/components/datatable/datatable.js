@@ -2,7 +2,7 @@ import DataGrid, {
   Export,
   Pager,
   Paging,
-  SearchPanel,
+  SearchPanel
 } from 'devextreme-react/data-grid';
 
 const DataTable = ({rows, columns}) => {

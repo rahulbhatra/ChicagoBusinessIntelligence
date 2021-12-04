@@ -10,12 +10,12 @@ import CoronaGreenIcon from '../../images/coronagreen.png';
 import CoronaRedIcon from '../../images/coronared.png';
 import CoronaBlueIcon from '../../images/coronablue.png';
 
-const tableColumns =  ['id', 'community_area', 'ccvi_score', 'ccvi_category', 'latitude', 'longitude'];
+const tableColumns =  ['id', 'zipCode', 'ccvi_score', 'ccvi_category', 'communityArea', 'latitude', 'longitude'];
 const chartColumns = [
     { value: 'ccvi_score', name: 'CCVI Score' },
-    { value: 'ccvi_category', name: 'CCVI Category' }
+    // { value: 'ccvi_category', name: 'CCVI Category' }
 ];
-const chartArgumentField = "community_area";
+const chartArgumentField = "zipCode";
 
 const CovidCCVI = () => {
     const [chartAnchorEl, setChartAnchorEl] = useState(null);
@@ -134,7 +134,7 @@ const CovidCCVI = () => {
             {visualizationType === 'table' && <DataTable reportType={'covid_ccvi'} rows={rows} columns={tableColumns} />}
             {visualizationType === 'barChart' && <BarChart reportType={'covid_ccvi'} rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
             {visualizationType === 'linearChart' && <LinearChart reportType={'covid_ccvi'} rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
-            {visualizationType === 'maps' && <Maps markers={rows}/>}
+            {visualizationType === 'maps' && <Maps markers={rows} type={'covid-ccvi'}/>}
         </>
     )
 };
