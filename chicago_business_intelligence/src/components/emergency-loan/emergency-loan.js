@@ -6,15 +6,14 @@ import LinearChart from '../linearchart/linearchart';
 import axios from 'axios';
 import Toast from '../toast/toast';
 
-const tableColumns =  ['id','areaCode','areaName','percentBelowPoverty','percentUnemployed', 'perCapitaIncome'];
-
+const tableColumns =  ['zipCode', 'permitType', 'buildingPermit', 'communityAreas', 'perCapitaIncome'];
 const chartColumns = [
-    { value: 'percentBelowPoverty', name:'Below Poverty'},
-    { value: 'percentUnemployed', name:'Unemployed'}
+    { value: 'ccvi_score', name: 'CCVI Score' },
+    // { value: 'ccvi_category', name: 'CCVI Category' }
 ];
-const chartArgumentField = "areaName";
+const chartArgumentField = "community_area";
 
-const UnemploymentPoverty = () => {
+const EmergencyLoan = () => {
     const [chartAnchorEl, setChartAnchorEl] = useState(null);
     const [visualizationType, setVisualizationType] = useState('table');
     const isChartMenuOpen = Boolean(chartAnchorEl);
@@ -22,20 +21,19 @@ const UnemploymentPoverty = () => {
     const [rows, setRows] = useState([]);
     const [toastOpen, setToastOpen] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
-    const [toastSeverity, setToastSevertiy] = useState('');
+    const [toastSeverity, setToastSevertiy] = useState('success');
 
     useEffect(() => {
         getData();
-    }, []);        
+    }, []);
   
     const getData = async () => {
-        await axios.get('http://localhost:4000/api/unemployment_poverty/data', {})
+        await axios.get('http://localhost:4000/api/building_permit/emergency-loan', {})
         .then(res => {
             setToastOpen(true);
             setToastMessage('Successfully loaded the data.');
             setToastSevertiy('success');
             console.log('loading data', res.data.rows);
-            //setIcon(res.data.rows);
             setRows(res.data.rows);
             return res.data;
         })
@@ -81,7 +79,7 @@ const UnemploymentPoverty = () => {
     return (
         <>
             <Toast open={toastOpen} setOpen={setToastOpen} message={toastMessage} severity={toastSeverity} />
-            <Box sx={{display: 'flex'}}>
+            {/* <Box sx={{display: 'flex'}}>
                 <Box sx={{mx: 2}}>
                     <Button size="large"
                     variant="contained"
@@ -105,13 +103,22 @@ const UnemploymentPoverty = () => {
                     Charts
                     </Button>
                     {renderChartMenu}
-                </Box>                
-            </Box>
-            {visualizationType === 'table' && <DataTable reportType={'unemployment_poverty'} rows={rows} columns={tableColumns} />}
-            {visualizationType === 'barChart' && <BarChart reportType={'unemployment_poverty'} rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
-            {visualizationType === 'linearChart' && <LinearChart reportType={'unemployment_poverty'} rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
+                </Box>
+                <Box sx={{mx: 2}}>
+                    <Button size="large"
+                    variant="contained" 
+                    onClick={() => setVisualizationType('maps')}
+                    style={{color: '#FFFFFF'}}
+                    >
+                    Maps
+                    </Button>
+                </Box>
+            </Box> */}
+            {visualizationType === 'table' && <DataTable reportType={'covid_ccvi'} rows={rows} columns={tableColumns} />}
+            {visualizationType === 'barChart' && <BarChart reportType={'covid_ccvi'} rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
+            {visualizationType === 'linearChart' && <LinearChart reportType={'covid_ccvi'} rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
         </>
     )
 };
 
-export default UnemploymentPoverty;
+export default EmergencyLoan;

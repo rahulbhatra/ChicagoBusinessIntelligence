@@ -12,6 +12,7 @@ import BuildingPermit from '../building-permit/building-permit';
 import CovidTaxi from '../covid-taxi/covid-taxi';
 import UnemploymentPoverty from '../unemployment-poverty/unemployment-poverty';
 import Forecast from '../forecast/forecast';
+import EmergencyLoan from '../emergency-loan/emergency-loan';
 
 const MainContent = ({isLeftOpen, isLoggedIn, setIsLoggedIn}) => {
   console.log('inside main');
@@ -40,6 +41,7 @@ const MainContent = ({isLeftOpen, isLoggedIn, setIsLoggedIn}) => {
           <ProtectedRoute exact path="/building-permit" component={() => <BuildingPermit />} />
           <ProtectedRoute exact path="/covid-taxi" component={() => <CovidTaxi />} />
           <ProtectedRoute exact path="/forecast" component={() => <Forecast />} />
+          <ProtectedRoute exact path="/emergency-loan" component={() => <EmergencyLoan />} />
         </Switch>
       
     </Main>
