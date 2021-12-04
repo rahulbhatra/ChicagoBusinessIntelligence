@@ -5,13 +5,16 @@ import BarChart from '../barchart/barchart';
 import LinearChart from '../linearchart/linearchart';
 import axios from 'axios';
 import Toast from '../toast/toast';
+import Maps from '../maps/maps';
+import CoronaGreenIcon from '../../images/buildings.png';
 
-const tableColumns =  ['zipCode', 'permitType', 'buildingPermit', 'communityAreas', 'perCapitaIncome'];
+
+const tableColumns =  ['id', 'zipCode', 'permitType', 'buildingPermit', 'communityAreas', 'perCapitaIncome'];
 const chartColumns = [
-    { value: 'ccvi_score', name: 'CCVI Score' },
+    { value: 'buildingPermit', name: 'Building Permit' },
     // { value: 'ccvi_category', name: 'CCVI Category' }
 ];
-const chartArgumentField = "community_area";
+const chartArgumentField = "zipCode";
 
 const EmergencyLoan = () => {
     const [chartAnchorEl, setChartAnchorEl] = useState(null);
@@ -22,6 +25,13 @@ const EmergencyLoan = () => {
     const [toastOpen, setToastOpen] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
     const [toastSeverity, setToastSevertiy] = useState('success');
+
+    const setIcon = (dataArray) => {
+        for(var i = 0; i < dataArray.length; i ++) {    
+            dataArray[i].img = CoronaGreenIcon
+            
+        }
+    }
 
     useEffect(() => {
         getData();
@@ -34,6 +44,7 @@ const EmergencyLoan = () => {
             setToastMessage('Successfully loaded the data.');
             setToastSevertiy('success');
             console.log('loading data', res.data.rows);
+            setIcon(res.data.rows);
             setRows(res.data.rows);
             return res.data;
         })
@@ -79,7 +90,7 @@ const EmergencyLoan = () => {
     return (
         <>
             <Toast open={toastOpen} setOpen={setToastOpen} message={toastMessage} severity={toastSeverity} />
-            {/* <Box sx={{display: 'flex'}}>
+            <Box sx={{display: 'flex'}}>
                 <Box sx={{mx: 2}}>
                     <Button size="large"
                     variant="contained"
@@ -113,10 +124,11 @@ const EmergencyLoan = () => {
                     Maps
                     </Button>
                 </Box>
-            </Box> */}
+            </Box>
             {visualizationType === 'table' && <DataTable reportType={'covid_ccvi'} rows={rows} columns={tableColumns} />}
             {visualizationType === 'barChart' && <BarChart reportType={'covid_ccvi'} rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
             {visualizationType === 'linearChart' && <LinearChart reportType={'covid_ccvi'} rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
+            {visualizationType === 'maps' && <Maps markers={rows} type={'emergency-loan'}/>}
         </>
     )
 };

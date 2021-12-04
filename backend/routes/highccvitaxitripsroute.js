@@ -18,6 +18,9 @@ router.get('/data', async(req, res) => {
             taxiTripArray[i].dropOffLon = taxiTripArray[i].dropOffLon.toFixed(2);
             taxiTripArray[i].pickUpLat = taxiTripArray[i].pickUpLat.toFixed(2);
             taxiTripArray[i].pickUpLon = taxiTripArray[i].pickUpLon.toFixed(2);
+            // taxiTripArray[i].tripStartTime = (new DatetaxiTripArray[i].tripStartTime.toLocaleTimeString();
+            // taxiTripArray[i].tripEndTime = (new Date(taxiTripArray[i].tripEndTime)).toLocaleTimeString();
+
 
             var pickUpZipCode = taxiTripArray[i].pickUpZip;
             var dropOffZipCode = taxiTripArray[i].dropOffZip;
@@ -36,7 +39,6 @@ router.get('/data', async(req, res) => {
             var covidZipCode = covidCCVIArray[i].communityAreaOrZipCode;
             console.log(covidZipCode);
             if(pickUpZipCodeTaxiIndexMap[covidZipCode] != null) {
-                console.log(covidZipCode + " " +  covidCCVIArray[i].ccviCategory);
                 var index = pickUpZipCodeTaxiIndexMap[covidZipCode];
                 var taxiTrip = taxiTripArray[index];
                 dataArray.push(taxiTrip);

@@ -54,7 +54,7 @@ const Forecast = () => {
     
     const getData = async () => {      
 
-        fetch('http://localhost:5000/taxiTripsForecast?zip_code='+zipCode+'&interval='+interval).then(res => res.json())
+        fetch('/taxiTripsForecast?zip_code='+zipCode+'&interval='+interval).then(res => res.json())
         .then(res => {
             setToastOpen(true);
             setToastMessage('Successfully loaded the data.');

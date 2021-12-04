@@ -2,7 +2,8 @@ import * as React from 'react';
 import { Drawer, List, Divider, IconButton, ListItemIcon, ListItemText, ListItemButton } from '@mui/material';
 import { Assessment as AssessmentIcon , LocalTaxi as LocalTaxiIcon, Coronavirus
   as CoronavirusIcon, Apartment as ApartmentIcon, Menu as MenuIcon, 
-  CoronavirusOutlined, LocalTaxiOutlined } from '@mui/icons-material';
+  CoronavirusOutlined, LocalTaxiOutlined, 
+CreditScore as CreditScoreIcon } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
 import WorkOffIcon from '@mui/icons-material/WorkOff'
 import TimelineIcon from '@mui/icons-material/Timeline';
@@ -72,7 +73,7 @@ const Sidebar = ({isLeftOpen, setIsLeftOpen}) => {
       },
       {
         name: 'Emergency Loan',
-        icon: TimelineIcon,
+        icon: CreditScoreIcon,
         reportType: 'building_permit',
         link: 'emergency-loan'
       }

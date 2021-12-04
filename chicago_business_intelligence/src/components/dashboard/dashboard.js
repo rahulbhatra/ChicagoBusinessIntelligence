@@ -8,6 +8,9 @@ import Container from '@mui/material/Container';
 import CoronaImage from '../../images/CoronaVirus.png';
 import TaxiImage from '../../images/taxi.png'
 import SocialEconomy from '../../images/socialEconomy.jpg';
+import Loan from '../../images/loan.png';
+import Traffic from '../../images/traffic.jpeg';
+import Unemployment from '../../images/unemployment.jpeg';
 
 const DashBoard = () => {
     const cards = [
@@ -33,6 +36,13 @@ const DashBoard = () => {
           image: TaxiImage
         },
         {
+          header: 'Traffic Patterns Forecast',
+          info: 'For streetscaping investment and planning, the city of' +
+          'Chicago is interested to forecast daily, weekly, and monthly traffic patterns' +
+          'utilizing the taxi trips for the different zip codes.',
+          image: Traffic
+        },
+        {
           header: 'Social Economy Information',
           info: 'For industrial and neighborhood infrastructure investment,'+
           'the city of Chicago is interested to invest in top 5 neighborhoods with'+
@@ -41,6 +51,20 @@ const DashBoard = () => {
           'to develop and invest in those neighborhoods. Both, building permits and'+
           'unemployment, datasets will be used in this report.',          
           image: SocialEconomy
+        },
+        {
+          header: 'Emergency Business Loans',
+          info: 'According to a report published by Crain’s Chicago' +
+          'Business (https://www.chicagobusiness.com/private-intelligence/industrialmarket-crazy-right-now), The “little guys”, small businesses, have trouble' +
+          'competing with the big players like Amazon and Walmart for warehouse' +
+          'spaces. To help small business, a new program has been piloted with the' +
+          'name Illinois Small Business Emergency Loan Fund Delta to offer small' +
+          'businesses low interest loans of up to $250,000 for those applicants with' +
+          'PERMIT_TYPE of PERMIT - NEW CONSTRUCTION in the zip code that has the' +
+          'lowest number of PERMIT - NEW CONSTRUCTION applications and PER' +
+          'CAPITA INCOME is less than 30,000 for the planned construction site. Both,' +
+          'building permits and unemployment, datasets will be used in this report.',
+          image: Loan
         }
     ];
 

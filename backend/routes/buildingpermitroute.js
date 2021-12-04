@@ -1,8 +1,9 @@
-const { BuildingPermit, CommunityAreaZipCode, UnemploymentPovertyData } = require('../models');
+const { BuildingPermit } = require('../models');
 const router = require('express').Router();
 var Sequelize = require('sequelize');
 var sequelize = new Sequelize('postgres://postgres:root@localhost:5432/chicago_business_intelligence');
 const {QueryTypes } = require('sequelize');
+const { getZipCodeCommunityAreaMapping} = require('../services/communityareaservice');
 
 router.get('/data', async(req, res) => {
     try {
@@ -68,27 +69,18 @@ router.get('/emergency-loan', async(req, res) => {
 
 const getBuildingPermitData = async () => {
     try {
-        var result = await sequelize.query(`select f."zipCode",
-        'PERMIT - NEW CONSTRUCTION' as "permitType",
-        case when s."buildingPermitCount" IS NOT NULL then s."buildingPermitCount" else 0 end as "buildingPermit",
-        json_agg("com"."communityAreaName") as "communityAreas",
-        json_agg("unemp"."perCapitaIncome") as "perCapitaIncome"
-        from (select "bp"."zipCode"
-        from "building_permit" as "bp" group by "bp"."zipCode") as f left outer join
-        (select 
+        var result = await sequelize.query(`select row_number() over() as "id",
         "bp"."zipCode", "bp"."permitType",
-        case when "bp"."permitType" = 'PERMIT - NEW CONSTRUCTION' then count("bp"."permitId") else 0 end as "buildingPermitCount"
+        count("bp"."permitId") as "buildingPermit",
+        json_agg("com"."communityAreaName") as "communityAreas",
+        json_agg("unemp"."perCapitaIncome") as "perCapitaIncome", "co"."latitude", "co"."longitude"
         from "unemployment_poverty_data" as "unemp" inner join
         "community_area_zipcode" as "com" on "unemp"."areaCode"::INTEGER = "com"."communityAreaNumber" inner join
-        "building_permit" as "bp" on "bp"."zipCode" = "com"."communityAreaZipCode"
+        "building_permit" as "bp" on "bp"."zipCode" = "com"."communityAreaZipCode" left outer join
+        "covid_ccvi" as "co" on "co"."communityAreaOrZipCode" = "com"."communityAreaZipCode"
         where "perCapitaIncome" < 30000 
         and "bp"."permitType" = 'PERMIT - NEW CONSTRUCTION'
-        group by "bp"."zipCode", "bp"."permitType") as s on f."zipCode" = s."zipCode"
-        inner join "community_area_zipcode" as "com" on f."zipCode" = "com"."communityAreaZipCode"
-        inner join "unemployment_poverty_data" as "unemp" on "unemp"."areaCode"::INTEGER = "com"."communityAreaNumber"
-        where "unemp"."perCapitaIncome" < 30000
-        group by f."zipCode", "permitType", "buildingPermit"
-        order by "buildingPermit", f."zipCode";`
+        group by "bp"."zipCode", "bp"."permitType", "co"."latitude", "co"."longitude";`
         , { type: QueryTypes.SELECT });
         return result;
 
@@ -100,20 +92,6 @@ const getBuildingPermitData = async () => {
 }
 
 
-const getZipCodeCommunityAreaMapping = async () => {
-    var communityAreaZipCodeArray = await CommunityAreaZipCode.findAll();
-    var zipCodeCommunityDict = {};
-    for(var i = 0; i < communityAreaZipCodeArray.length; i++) {
-        var zipCode = communityAreaZipCodeArray[i].communityAreaZipCode;
-        var communityArea = communityAreaZipCodeArray[i].communityAreaName;
-        if(zipCode in zipCodeCommunityDict == false) {
-            zipCodeCommunityDict[zipCode] = communityArea;
-        } else {
-            zipCodeCommunityDict[zipCode] += ", " + communityArea;
-        }
-    }
-    console.log(zipCodeCommunityDict);
-    return zipCodeCommunityDict;
-}
+
 
 module.exports = router;
