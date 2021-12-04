@@ -554,7 +554,7 @@ func unempData(db *sql.DB) {
 
 func buildingPermit(db *sql.DB) {
 	log.Println("Inside building permit")
-	googleGeoCoder := google.Geocoder("AIzaSyCctDVzYHUX6D4mXEAqbn3WoUkkOXjg3oU")
+	googleGeoCoder := google.Geocoder("AIzaSyCkKisr7W-gLnHjsEY55jurta3qb8-IVaw")
 	dropSql := `drop table if exists building_permit`
 	_, err := db.Exec(dropSql)
 
@@ -562,16 +562,20 @@ func buildingPermit(db *sql.DB) {
 		panic(err)
 	}
 
-	createSql := `CREATE TABLE IF NOT EXISTS "building_permit" (
+	createSql := `CREATE TABLE IF NOT EXISTS "building_permit" 
+	(
 		"id"   SERIAL , 
 		"buildingPermitId" BIGINT, 
 		"permitId" BIGINT, 
 		"permitType" VARCHAR(255), 
 		"address" VARCHAR(255), 
 		"zipCode" VARCHAR(255), 
+		"latitude" DOUBLE PRECISION, 
+		"longitude" DOUBLE PRECISION, 
 		"createdAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
 		"updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
-		PRIMARY KEY ("id"));`
+		PRIMARY KEY ("id")
+	);`
 
 	_, createSqlErr := db.Exec(createSql)
 	if createSqlErr != nil {
@@ -589,7 +593,10 @@ func buildingPermit(db *sql.DB) {
 	var buildingPermitArray BuildingPermit
 	json.Unmarshal(body, &buildingPermitArray)
 
+	// var communityAreaOrZipCode int64
+	// var ccviScore float64
 	for i := 0; i < len(buildingPermitArray); i++ {
+		// layout is just for formating the string to date format.
 
 		id := buildingPermitArray[i].Id
 		permit := buildingPermitArray[i].Permit
@@ -624,9 +631,9 @@ func buildingPermit(db *sql.DB) {
 		fmt.Print("\n")
 
 		sql := `insert into building_permit 
-		("buildingPermitId", "permitId", "permitType", "address", "zipCode", "createdAt", "updatedAt")
-		values($1, $2, $3, $4, $5, $6, $7);`
-		_, err := db.Exec(sql, id, permit, permitType, address, zipCode, createdAt, updatedAt)
+		("buildingPermitId", "permitId", "permitType", "address", "zipCode", "latitude", "longitude", "createdAt", "updatedAt")
+		values($1, $2, $3, $4, $5, $6, $7, $8, $9);`
+		_, err := db.Exec(sql, id, permit, permitType, address, zipCode, location.Lat, location.Lng, createdAt, updatedAt)
 
 		if err != nil {
 			panic(err)
