@@ -6,7 +6,7 @@ import LinearChart from '../linearchart/linearchart';
 import axios from 'axios';
 import Toast from '../toast/toast';
 
-const tableColumns =  ['id','areaCode','areaName','percentBelowPoverty','percentUnemployed', 'perCapitaIncome'];
+const tableColumns =  ['id','areaCode','areaName','percentBelowPoverty','percentUnemployed','buildingFeeWaived', 'perCapitaIncome'];
 
 const chartColumns = [
     { value: 'percentBelowPoverty', name:'Below Poverty'},
