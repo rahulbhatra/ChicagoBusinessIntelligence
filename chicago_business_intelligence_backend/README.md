@@ -17,8 +17,11 @@ Go to gitlab.com/ping-service
 
 1. Install Docker
 2. Install Minikube which is required for running kubernets on local env link https://minikube.sigs.k8s.io/docs/start/
+    a. run minikube start
+    b. run minikube dashboard
 3. Install Kubernets link link https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/
 4. run docker build -t <docker-image-name> .
+    example run docker build -t microservices .
 5. docker image ls command to see newly created docker image on your local machine
 6. docker login (look on internet for more details requied to push image on docker hub)
 7. docker tag <docker-image-name> <docker-hub-id>/<docker-image-name>:latest
