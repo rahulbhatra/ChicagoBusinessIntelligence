@@ -24,7 +24,7 @@ Forecasting:
     2. run forecastData.ipynb or forecastData.py // install dependecies if not installed already
 
 
-Line of Code estimate: 100,000 lines of code
+Line of Code estimate: 69,239 lines of code
 
 Features Implemented:
     1. User Session & Authentication
