@@ -113,7 +113,7 @@ func main() {
 		go unempData(db)
 		go buildingPermit(db)
 		go covidWeekly(db)
-		time.Sleep(30 * time.Minute)
+		time.Sleep(12 * time.Hour)
 	}
 
 	stop := make(chan os.Signal, 1)
@@ -254,7 +254,7 @@ func covidDaily(db *sql.DB) {
 
 func taxiTrip(db *sql.DB) {
 	log.Println("inside taxi trip")
-	geocoder.ApiKey = "AIzaSyCctDVzYHUX6D4mXEAqbn3WoUkkOXjg3oU"
+	geocoder.ApiKey = "AIzaSyCkKisr7W-gLnHjsEY55jurta3qb8-IVaw"
 
 	dropSql := `drop table if exists covid_daily`
 	_, err := db.Exec(dropSql)
@@ -483,6 +483,31 @@ func taxiTrip(db *sql.DB) {
 
 func unempData(db *sql.DB) {
 	log.Println("Inside unemployment data")
+	dropSql := `drop table if exists unemployment_poverty_data;`
+	_, err := db.Exec(dropSql)
+
+	if err != nil {
+		panic(err)
+	}
+
+	createSql := `CREATE TABLE IF NOT EXISTS "unemployment_poverty_data" 
+	(
+		"id"   SERIAL , 
+		"areaCode" VARCHAR(255) UNIQUE, 
+		"areaName" VARCHAR(255), 
+		"percentBelowPoverty" DOUBLE PRECISION, 
+		"percentUnemployed" DOUBLE PRECISION, 
+		"perCapitaIncome" DOUBLE PRECISION, 
+		"createdAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
+		"updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL, 
+		PRIMARY KEY ("id")
+	);`
+
+	_, createSqlErr := db.Exec(createSql)
+	if createSqlErr != nil {
+		panic(err)
+	}
+
 	var url = "https://data.cityofchicago.org/resource/iqnk-2tcu.json"
 
 	res, err := http.Get(url)
@@ -524,6 +549,8 @@ func unempData(db *sql.DB) {
 		if perCapitaIncome == "" {
 			perCapitaIncome = "0"
 		}
+
+		fmt.Println("per capital income", perCapitaIncome)
 
 		sysCreationDate := time.Now()
 		sysUpdateDate := time.Now()
