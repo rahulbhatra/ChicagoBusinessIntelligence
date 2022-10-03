@@ -6,9 +6,9 @@
         export PATH=$PATH:$GOPATH/bin
 
 4. Create folder under src and then create service
-5. Use go install src/<servicename>/<filename>
+5. Use go install src/{servicename}/{filename}
 6. It will come under the bin folder if successfully compiled.
-7. After successful compilation run using bin/<filename>
+7. After successful compilation run using bin/{filename}
 8. Now our microservice is running.
 
 
@@ -20,15 +20,15 @@ Go to gitlab.com/ping-service
     a. run minikube start
     b. run minikube dashboard
 3. Install Kubernets link link https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/
-4. run docker build -t <docker-image-name> .
+4. run docker build -t {docker-image-name} .
     example run docker build -t microservices .
 5. docker image ls command to see newly created docker image on your local machine
 6. docker login (look on internet for more details requied to push image on docker hub)
-7. docker tag <docker-image-name> <docker-hub-id>/<docker-image-name>:latest
+7. docker tag {docker-image-name}{docker-hub-id}/{docker-image-name}:latest
 eg: docker tag microservices rahulbhatra/microservices:latest
 8. Now push the image on the docker hub.
-    docker push <docker-hub-id>/<docker-image-name>:latest
+    docker push {docker-hub-id}/{docker-image-name}:latest
     docker push rahulbhatra/microservices:latest
 9. Now run command kubectl create -f ./ping-service.yaml
 10. kubectl get pods (to see local pods running).
-11. kubectl logs -f <pod-name>
+11. kubectl logs -f {pod-name}
