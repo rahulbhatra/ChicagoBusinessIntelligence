@@ -6,7 +6,7 @@ import DataGrid, {
 } from 'devextreme-react/data-grid';
 
 const DataTable = ({rows, columns}) => {
-  console.log(rows, columns);
+
   const pageSizes = [25, 50, 100];
   
     return (

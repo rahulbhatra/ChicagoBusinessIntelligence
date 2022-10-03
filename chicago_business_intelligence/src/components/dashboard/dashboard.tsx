@@ -10,7 +10,7 @@ import TaxiImage from '../../images/taxi.png'
 import SocialEconomy from '../../images/socialEconomy.jpg';
 import Loan from '../../images/loan.png';
 import Traffic from '../../images/traffic.jpeg';
-import Unemployment from '../../images/unemployment.jpeg';
+import React from "react";
 
 const DashBoard = () => {
     const cards = [

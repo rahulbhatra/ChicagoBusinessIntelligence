@@ -15,7 +15,7 @@ import Link from '@mui/material/Link';
 import axios from 'axios';
 import { useHistory } from 'react-router';
 
-const Header = ({isLeftOpen, setIsLeftOpen, isLoggedIn, setIsLoggedIn, reportType}) => {
+const Header = ({isLeftOpen, setIsLeftOpen, isLoggedIn, setIsLoggedIn}) => {
   console.log(isLoggedIn);
   const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState(null);

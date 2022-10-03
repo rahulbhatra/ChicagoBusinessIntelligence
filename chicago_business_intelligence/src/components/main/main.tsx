@@ -1,4 +1,3 @@
-import { Main } from './main-style';
 import SignIn from '../signin/signin';
 import SignUp from '../signup/signup';
 import {Switch, Route} from 'react-router-dom';
@@ -13,9 +12,17 @@ import CovidTaxi from '../covid-taxi/covid-taxi';
 import UnemploymentPoverty from '../unemployment-poverty/unemployment-poverty';
 import Forecast from '../forecast/forecast';
 import EmergencyLoan from '../emergency-loan/emergency-loan';
+import DataGridCustom, { rows, columns } from '../datagrid/datagrid';
+import React, { Dispatch } from 'react';
+import { styled, Theme } from '@mui/material';
 
-const MainContent = ({isLeftOpen, isLoggedIn, setIsLoggedIn}) => {
-  console.log('inside main');
+interface Props {
+  isLeftOpen: boolean;
+  isLoggedIn: boolean;
+  setIsLoggedIn: Dispatch<React.SetStateAction<boolean>>;
+}
+
+const MainContent = ({isLeftOpen, isLoggedIn, setIsLoggedIn} : Props) => {
   return (
     <Main open={isLeftOpen}>
       
@@ -38,6 +45,7 @@ const MainContent = ({isLeftOpen, isLoggedIn, setIsLoggedIn}) => {
           <ProtectedRoute exact path="/high-ccvi-taxi-trip" component={() => <HighCCVITaxiTrip />} />
           <ProtectedRoute exact path="/taxi" component={() => <TaxiTrip />} />
           <ProtectedRoute exact path="/unemployment-poverty" component={() => <UnemploymentPoverty />} />
+          <ProtectedRoute exact path="/data-grid" component={() => <DataGridCustom rows={rows} columns={columns} pageSize={5} />} />
           <ProtectedRoute exact path="/building-permit" component={() => <BuildingPermit />} />
           <ProtectedRoute exact path="/covid-taxi" component={() => <CovidTaxi />} />
           <ProtectedRoute exact path="/forecast" component={() => <Forecast />} />
@@ -49,3 +57,25 @@ const MainContent = ({isLeftOpen, isLoggedIn, setIsLoggedIn}) => {
   
 };
 export default MainContent;
+
+const drawerWidth = 280;
+export const Main = styled("main")(({ theme, open} : { theme?: Theme, open: boolean }) => ({
+      flexGrow: 1,
+      height: 'calc(100vh - 120px)', 
+      width: '95%',
+      padding: theme?.spacing(3),
+      transition: theme?.transitions.create("margin", {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen
+      }),
+      marginLeft: '0px',
+      ...(open && {
+        transition: theme?.transitions.create("margin", {
+          easing: theme.transitions.easing.easeOut,
+          duration: theme.transitions.duration.enteringScreen
+        }),
+        marginLeft: `${drawerWidth}px`,
+        width: 'calc(95% - 280px)',
+      })
+    })
+  );

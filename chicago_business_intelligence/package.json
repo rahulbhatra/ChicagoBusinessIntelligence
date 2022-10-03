@@ -2,6 +2,7 @@
   "name": "chicago_business_intelligence",
   "version": "0.1.0",
   "private": true,
+  "main": "index.tsx",
   "dependencies": {
     "@devexpress/dx-react-chart": "^2.7.6",
     "@devexpress/dx-react-chart-material-ui": "^2.7.6",
@@ -31,6 +32,7 @@
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
     "styled-components": "^5.3.3",
+    "typescript": "^4.8.4",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
@@ -58,6 +60,8 @@
     ]
   },
   "devDependencies": {
+    "@types/react-dom": "^18.0.6",
+    "@types/react-router-dom": "^5.3.3",
     "devextreme-themebuilder": "^21.1.5",
     "nodemon": "^2.0.14"
   },

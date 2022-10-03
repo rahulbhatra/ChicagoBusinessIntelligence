@@ -28,40 +28,39 @@ const CovidCCVI = () => {
     const [toastSeverity, setToastSevertiy] = useState('');
 
     useEffect(() => {
+        const getData = async () => {
+            await axios.get('http://localhost:4000/api/covid_ccvi/data', {})
+            .then(res => {
+                setToastOpen(true);
+                setToastMessage('Successfully loaded the data.');
+                setToastSevertiy('success');
+                console.log('loading data', res.data.rows);
+                setIcon(res.data.rows);
+                setRows(res.data.rows);
+                return res.data;
+            })
+            .catch(error => {
+                setToastOpen(true);
+                setToastMessage('Some error happened call Team 13.');
+                setToastSevertiy('error');
+                setRows([]);
+                return [];
+            });
+        };
         getData();
     }, []);
 
     const setIcon = (dataArray) => {
         for(var i = 0; i < dataArray.length; i ++) {
-            if (dataArray[i].ccvi_category == 'HIGH') {
+            if (dataArray[i].ccvi_category === 'HIGH') {
                 dataArray[i].img = CoronaRedIcon
-            } else if (dataArray[i].ccvi_category == 'MEDIUM') {
+            } else if (dataArray[i].ccvi_category === 'MEDIUM') {
                 dataArray[i].img = CoronaBlueIcon
             } else {
                 dataArray[i].img = CoronaGreenIcon
             }
         }
     }
-  
-    const getData = async () => {
-        await axios.get('http://localhost:4000/api/covid_ccvi/data', {})
-        .then(res => {
-            setToastOpen(true);
-            setToastMessage('Successfully loaded the data.');
-            setToastSevertiy('success');
-            console.log('loading data', res.data.rows);
-            setIcon(res.data.rows);
-            setRows(res.data.rows);
-            return res.data;
-        })
-        .catch(error => {
-            setToastOpen(true);
-            setToastMessage('Some error happened call Team 13.');
-            setToastSevertiy('error');
-            setRows([]);
-            return [];
-        });
-    };
 
     const handleChartMenuOpen = (event) => {
         setChartAnchorEl(event.currentTarget);

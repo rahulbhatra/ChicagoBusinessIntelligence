@@ -26,34 +26,32 @@ const TaxiTrip = () => {
     const [toastSeverity, setToastSevertiy] = useState('');
 
     useEffect(() => {
+        const getData = async () => {
+            await axios.get('http://localhost:4000/api/taxi/airportTaxi', {})
+            .then(res => {
+                setToastOpen(true);
+                setToastMessage('Successfully loaded the data.');
+                setToastSevertiy('success');
+                console.log('loading data', res.data.rows);
+                setRows(res.data.rows);
+                return res.data;
+            })
+            .catch(error => {
+                setToastOpen(true);
+                setToastMessage('Some error happened call Team 13.');
+                setToastSevertiy('error');
+                setRows([]);
+                return [];
+            });
+        };
         getData();
     }, []);        
-  
-    const getData = async () => {
-        await axios.get('http://localhost:4000/api/taxi/airportTaxi', {})
-        .then(res => {
-            setToastOpen(true);
-            setToastMessage('Successfully loaded the data.');
-            setToastSevertiy('success');
-            console.log('loading data', res.data.rows);
-            //setIcon(res.data.rows);
-            setRows(res.data.rows);
-            return res.data;
-        })
-        .catch(error => {
-            setToastOpen(true);
-            setToastMessage('Some error happened call Team 13.');
-            setToastSevertiy('error');
-            setRows([]);
-            return [];
-        });
-    };
 
     const handleChartMenuOpen = (event) => {
         setChartAnchorEl(event.currentTarget);
     };
     
-    const handleChartMenuClose = (visualizationType) => {
+    const handleChartVisualizationType = (visualizationType) => {
         setVisualizationType(visualizationType);
         setChartAnchorEl(null);
     };
@@ -68,12 +66,12 @@ const TaxiTrip = () => {
             id={chartMenu}
             keepMounted
             open={isChartMenuOpen}
-            onClose={handleChartMenuClose}
+            onClose={handleChartVisualizationType}
         >
-            <MenuItem onClick={() => handleChartMenuClose('barChart')}>
+            <MenuItem onClick={() => handleChartVisualizationType('barChart')}>
                 Bar Chart
             </MenuItem>
-            <MenuItem onClick={() => handleChartMenuClose('linearChart')}>
+            <MenuItem onClick={() => handleChartVisualizationType('linearChart')}>
                 Linear Chart
             </MenuItem>
         </Menu>

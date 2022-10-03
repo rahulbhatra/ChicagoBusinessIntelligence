@@ -7,6 +7,7 @@ import Sidebar from './components/sidebar/sidebar';
 import Main from './components/main/main';
 import {useState} from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import React from 'react';
 
 function App() {
 
@@ -24,11 +25,10 @@ function App() {
           />
           
           <Sidebar
-          isLeftOpen={isLeftOpen} setIsLeftOpen={setIsLeftOpen}
-          isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}
+            isLeftOpen={isLeftOpen} setIsLeftOpen={setIsLeftOpen}
           />
           <Main isLeftOpen={isLeftOpen}
-          isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}
+            isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}
           />
         </BrowserRouter>
       

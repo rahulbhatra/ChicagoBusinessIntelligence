@@ -32,7 +32,7 @@ const MapContainer = ({markers, google, type}) => {
             <Marker icon={{url: marker.img, scaledSize: new google.maps.Size(32, 32)}} onClick={() => onSelect(marker)} key={marker.key} position={{lat: marker.latitude, lng: marker.longitude}} />
           )
         })}
-        {type=='covid-ccvi' && <InfoWindow
+        {type === 'covid-ccvi' && <InfoWindow
           position={{lat: selected.latitude, lng: selected.longitude}}
           clickable={true}
           visible={showInfo}
@@ -55,7 +55,7 @@ const MapContainer = ({markers, google, type}) => {
             </Card>
           </Box>
         </InfoWindow>}
-        {type=='emergency-loan' && <InfoWindow
+        {type === 'emergency-loan' && <InfoWindow
           position={{lat: selected.latitude, lng: selected.longitude}}
           clickable={true}
           visible={showInfo}
