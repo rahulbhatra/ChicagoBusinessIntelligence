@@ -1,22 +1,37 @@
-import { Box, Button, Menu, MenuItem } from '@mui/material';
+import { Box, Button, Menu, MenuItem, PopoverProps } from '@mui/material';
 import { useState, useEffect } from 'react';
-import DataTable from '../datatable/datatable';
 import BarChart from '../barchart/barchart';
 import LinearChart from '../linearchart/linearchart';
 import axios from 'axios';
 import Toast from '../toast/toast';
-
-const tableColumns =  ['id','pickUpZip','dropOffZip','totalTrips','weekNumber','weekStartDate','weekEndDate','casesPerWeek'];
+import DataGridCustom from '../datagrid/datagrid';
+import { GridColDef } from '@mui/x-data-grid';
+import React from 'react';
 
 const chartColumns = [
     { value: 'weekNumber', name:'Week Number'},
     { value: 'totalTrips', name:'Total Trips'},
     { value: 'casesPerWeek', name: 'Cases Per Week'}    
 ];
+
+export const columns: GridColDef[] = [
+    { field: 'id', headerName: 'ID', width: 100 },
+    { field: 'weekNumber', headerName: 'Week Number',  width: 180},
+    { field: 'totalTrips', headerName: 'Total Trips', width: 160 },
+    { field: 'casesPerWeek', headerName: 'Cases Per Week', width: 200},
+    { field: 'pickUpZip', headerName: 'Pick Up ZipCode', width: 130},
+    // { field: 'dropOffZip', width: 130}, 
+    // { field: 'totalTrips', width: 130}, 
+    // { field: 'weekNumber', width: 130}, 
+    // { field: 'weekStartDate', width: 130}, 
+    // { field: 'weekEndDate'},
+    // { field: 'casesPerWeek'}
+  ];
+
 const chartArgumentField = "dropOffZip";
 
 const TaxiTrip = () => {
-    const [chartAnchorEl, setChartAnchorEl] = useState(null);
+    const [chartAnchorEl, setChartAnchorEl] = useState<PopoverProps['anchorEl']>();
     const [visualizationType, setVisualizationType] = useState('table');
     const isChartMenuOpen = Boolean(chartAnchorEl);
     const chartMenu = 'chart-menu';
@@ -34,7 +49,6 @@ const TaxiTrip = () => {
                 setToastSevertiy('success');
                 console.log('loading data', res.data.rows);
                 setRows(res.data.rows);
-                return res.data;
             })
             .catch(error => {
                 setToastOpen(true);
@@ -46,12 +60,8 @@ const TaxiTrip = () => {
         };
         getData();
     }, []);        
-
-    const handleChartMenuOpen = (event) => {
-        setChartAnchorEl(event.currentTarget);
-    };
     
-    const handleChartVisualizationType = (visualizationType) => {
+    const handleChartVisualizationType = (visualizationType: string) => {
         setVisualizationType(visualizationType);
         setChartAnchorEl(null);
     };
@@ -91,24 +101,15 @@ const TaxiTrip = () => {
                     </Button>
                 </Box>
                 <Box>
-                    <Button
-                    // ref={anchorRef}
-                    id={chartMenu}
-                    aria-controls={isChartMenuOpen ? {chartMenu} : undefined}
-                    aria-expanded={isChartMenuOpen ? "true" : undefined}
-                    aria-haspopup="true"
-                    size="large"
-                    variant="contained"
-                    onClick={handleChartMenuOpen}
-                    >
+                    <Button>
                     Charts
                     </Button>
                     {renderChartMenu}
                 </Box>                
             </Box>
-            {visualizationType === 'table' && <DataTable reportType={'taxi'} rows={rows} columns={tableColumns} />}
-            {visualizationType === 'barChart' && <BarChart reportType={'taxi'} rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
-            {visualizationType === 'linearChart' && <LinearChart reportType={'taxi'} rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}            
+            {visualizationType === 'table' && <DataGridCustom rows={rows} columns={columns} pageSize={10} />}
+            {/* {visualizationType === 'barChart' && <BarChart reportType={'taxi'} rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
+            {visualizationType === 'linearChart' && <LinearChart reportType={'taxi'} rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}             */}
         </>
     )
 };

@@ -22,7 +22,7 @@ interface Props {
   setIsLoggedIn: Dispatch<React.SetStateAction<boolean>>;
 }
 
-const MainContent = ({isLeftOpen, isLoggedIn, setIsLoggedIn} : Props) => {
+const Routes = ({isLeftOpen, isLoggedIn, setIsLoggedIn} : Props) => {
   return (
     <Main open={isLeftOpen}>
       
@@ -56,7 +56,7 @@ const MainContent = ({isLeftOpen, isLoggedIn, setIsLoggedIn} : Props) => {
   );
   
 };
-export default MainContent;
+export default Routes;
 
 const drawerWidth = 280;
 export const Main = styled("main")(({ theme, open} : { theme?: Theme, open: boolean }) => ({

@@ -35,29 +35,25 @@ export const columns: GridColDef[] = [
   ];
 
 interface Props {
-    rows: {
-        id: number;
-        lastName: string;
-        firstName: string;
-        age: number;
-    }[],
+    rows: any[],
     columns: GridColDef[],
     pageSize: number,
     rowsPerPageOptions?: [],
 };
 
 const DataGridCustom = ({rows, columns, pageSize} : Props) => {
-    return (
-        <div style={{ height: 400, width: '100%' }}>
-            <DataGrid
-                rows={rows}
-                columns={columns}
-                pageSize={pageSize}
-                rowsPerPageOptions={[5]}
-                checkboxSelection
-            />
-        </div>
-    );
+  console.log(rows);
+  return (
+      <div style={{ height: '80vh', width: '100%' }}>
+          <DataGrid
+              rows={rows}
+              columns={columns}
+              pageSize={pageSize}
+              rowsPerPageOptions={[pageSize]}
+              checkboxSelection
+          />
+      </div>
+  );
 };
 
 export default DataGridCustom;

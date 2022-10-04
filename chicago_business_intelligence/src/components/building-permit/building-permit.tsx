@@ -1,10 +1,11 @@
-import { Box, Button, Menu, MenuItem } from '@mui/material';
+import { Menu, MenuItem } from '@mui/material';
 import { useState, useEffect } from 'react';
 import DataTable from '../datatable/datatable';
 import BarChart from '../barchart/barchart';
 import LinearChart from '../linearchart/linearchart';
 import axios from 'axios';
 import Toast from '../toast/toast';
+import React from 'react';
 
 const tableColumns =  ['id', 'buildingPermitId', 'permitId', 'permitType', 'address', 'zipCode', 'communityArea'];
 const chartColumns = [
@@ -14,8 +15,8 @@ const chartColumns = [
 const chartArgumentField = "community_area";
 
 const BuildingPermit = () => {
-    const [chartAnchorEl, setChartAnchorEl] = useState(null);
-    const [visualizationType, setVisualizationType] = useState('table');
+    const [chartAnchorEl, setChartAnchorEl] = useState<Element | null>(null);
+    const [visualizationType, setVisualizationType] = useState<"table" | "barChart" | "linearChart">('table');
     const isChartMenuOpen = Boolean(chartAnchorEl);
     const chartMenu = 'chart-menu';
     const [rows, setRows] = useState([]);
@@ -45,12 +46,8 @@ const BuildingPermit = () => {
             return [];
         });
     };
-
-    const handleChartMenuOpen = (event) => {
-        setChartAnchorEl(event.currentTarget);
-    };
     
-    const handleChartMenuClose = (visualizationType) => {
+    const handleChartMenuClose = (visualizationType: "table" | "barChart" | "linearChart") => {
         setVisualizationType(visualizationType);
         setChartAnchorEl(null);
     };
@@ -114,9 +111,9 @@ const BuildingPermit = () => {
                     </Button>
                 </Box>
             </Box> */}
-            {visualizationType === 'table' && <DataTable reportType={'covid_ccvi'} rows={rows} columns={tableColumns} />}
+            {/* {visualizationType === 'table' && <DataTable reportType={'covid_ccvi'} rows={rows} columns={tableColumns} />}
             {visualizationType === 'barChart' && <BarChart reportType={'covid_ccvi'} rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
-            {visualizationType === 'linearChart' && <LinearChart reportType={'covid_ccvi'} rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
+            {visualizationType === 'linearChart' && <LinearChart reportType={'covid_ccvi'} rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>} */}
         </>
     )
 };

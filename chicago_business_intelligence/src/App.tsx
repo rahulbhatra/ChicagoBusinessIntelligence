@@ -4,7 +4,7 @@ import './App.css';
 import Header from './components/header/header';
 import 'devextreme/dist/css/dx.light.css';
 import Sidebar from './components/sidebar/sidebar';
-import Main from './components/main/main';
+import Routes from './components/main/main';
 import {useState} from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import React from 'react';
@@ -27,7 +27,7 @@ function App() {
           <Sidebar
             isLeftOpen={isLeftOpen} setIsLeftOpen={setIsLeftOpen}
           />
-          <Main isLeftOpen={isLeftOpen}
+          <Routes isLeftOpen={isLeftOpen}
             isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}
           />
         </BrowserRouter>

@@ -22,7 +22,7 @@ router.get('/airportTaxi', async(req, res) => {
             var dataArray = Array(taxitripArray.length);
             for(var i = 0; i < taxitripArray.length; i++) {
             dataArray[i] = {            
-                id: 0,                                    
+                id: i + 1,                                    
                 pickUpZip: taxitripArray[i].pickUpZip,
                 dropOffZip: taxitripArray[i].dropOffZip,
                 totalTrips: taxitripArray[i].total_trips,
