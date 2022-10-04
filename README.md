@@ -1,7 +1,7 @@
 # ChicagoBusinessIntelligence
 
 _**Frontend Setup:**_
-1. cd chicago_business_intelligence
+1. cd frontend
 2. npm install
 3. npm start
 

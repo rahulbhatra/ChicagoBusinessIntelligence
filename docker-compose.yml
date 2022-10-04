@@ -1,13 +1,18 @@
 version: "3.7"
 services:
   frontend:
-    container_name: 'chicago_business_intelligence_ui'
-    environment:
-      PORT: 4000
-      CHOKIDAR_USEPOLLING: 'true'
     build:
-      context: './chicago_business_intelligence'
-      dockerfile: Dockerfile
-    ports: 
-      - '4000:4000'
+      context: frontend
+      target: development
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend/src:/code/src
+      - /project/node_modules
+    depends_on:
+      - backend
+    expose:
+      - 3306
+      - 33060
+      - 4000
     
