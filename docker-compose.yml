@@ -3,16 +3,15 @@ services:
   frontend:
     build:
       context: frontend
-      target: development
     ports:
       - 3000:3000
     volumes:
-      - ./frontend/src:/code/src
+      - frontend:/frontend/src
       - /project/node_modules
-    depends_on:
-      - backend
     expose:
       - 3306
       - 33060
       - 4000
+volumes:
+  frontend: {}
     
