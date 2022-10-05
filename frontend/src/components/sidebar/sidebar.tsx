@@ -135,11 +135,7 @@ const Sidebar = ({isLeftOpen, setIsLeftOpen} : Props) => {
                 key={report.name}
               >
                   <ListItemIcon>
-                    {/* <report.icon
-                      size="large"
-                      edge="start"
-                      sx={{color: 'white', mx: 3, width: '100%'}}
-                    /> */}
+                    <report.icon sx={{color: 'white', width: '100%'}}/>
                   </ListItemIcon>
                   <ListItemText primary={report.name} />
               </ListItemButton>
