@@ -35,5 +35,5 @@ export const demoStyles = () => ({
 export const titleStyles = {
   title: {
     whiteSpace: 'pre',
-  },
+  }
 };
