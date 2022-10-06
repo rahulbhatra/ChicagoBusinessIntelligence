@@ -1,4 +1,4 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, useTheme, Paper } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, useTheme, Paper, TablePagination } from '@mui/material';
 import React from 'react';
 
 function createData(
@@ -35,6 +35,18 @@ interface Props {
 
 const DataGridCustom = ({rows, columns} : Props) => {
   const theme = useTheme();
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   return (
       <div style={{ height: '60vh', width: '100%', margin: theme.spacing(2, 0, 0, 0)}}>
         <TableContainer component={Paper}>
@@ -47,7 +59,9 @@ const DataGridCustom = ({rows, columns} : Props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
+              {(rowsPerPage > 0
+                  ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  : rows).map((row) => (
                 <TableRow
                   key={row.name}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -66,6 +80,15 @@ const DataGridCustom = ({rows, columns} : Props) => {
             </TableBody>
           </Table>
         </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </div>
   );
 };

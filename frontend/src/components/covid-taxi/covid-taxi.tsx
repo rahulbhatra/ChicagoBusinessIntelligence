@@ -13,8 +13,8 @@ const tableColumns : Column[] =  [
     { field:'dropOffZip', headerName: 'Drop Off Zip', width: 130 }, 
     { field:'totalTrips', headerName: 'Total Trips', width: 130 }, 
     { field:'weekNumber', headerName: 'Week Number', width: 130 }, 
-    { field:'weekStartDate', headerName: 'Week Start Date', width: 130 }, 
-    { field:'weekEndDate', headerName: 'Week End Date', width: 130 }, 
+    { field:'weekStartDate', headerName: 'Week Start Date', width: 130, type: "Date" }, 
+    { field:'weekEndDate', headerName: 'Week End Date', width: 130, type: "Date" }, 
     { field:'casesPerWeek', headerName: 'Cases Per Week', width: 130 }
 ];
 
@@ -36,27 +36,26 @@ const CovidTaxi = () => {
     const [toastSeverity, setToastSevertiy] = useState('');
 
     useEffect(() => {
+        const getData = async () => {
+            await axios.get('http://localhost:4000/api/taxi/covidTaxi', {})
+            .then(res => {
+                setToastOpen(true);
+                setToastMessage('Successfully loaded the data.');
+                setToastSevertiy('success');
+                console.log('loading data', res.data.rows);
+                setRows(res.data.rows);
+                return res.data;
+            })
+            .catch(error => {
+                setToastOpen(true);
+                setToastMessage('Some error happened call Team 13.');
+                setToastSevertiy('error');
+                setRows([]);
+                return [];
+            });
+        };
         getData();
     }, []);
-  
-    const getData = async () => {
-        await axios.get('http://localhost:4000/api/taxi/covidTaxi', {})
-        .then(res => {
-            setToastOpen(true);
-            setToastMessage('Successfully loaded the data.');
-            setToastSevertiy('success');
-            console.log('loading data', res.data.rows);
-            setRows(res.data.rows);
-            return res.data;
-        })
-        .catch(error => {
-            setToastOpen(true);
-            setToastMessage('Some error happened call Team 13.');
-            setToastSevertiy('error');
-            setRows([]);
-            return [];
-        });
-    };
 
     const handleChartMenuOpen = (event: any) => {
         setChartAnchorEl(event.currentTarget);
@@ -116,15 +115,6 @@ const CovidTaxi = () => {
                     </Button>
                     {renderChartMenu}
                 </Box>
-                {/* <Box sx={{mx: 2}}>
-                    <Button size="large"
-                    variant="contained" 
-                    onClick={() => setVisualizationType('maps')}
-                    style={{color: '#FFFFFF'}}
-                    >
-                    Maps
-                    </Button>
-                </Box> */}
             </Box>
             {visualizationType === 'table' && <DataGridCustom rows={rows} columns={tableColumns} />}
             {visualizationType === 'barChart' && <BarChart rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
