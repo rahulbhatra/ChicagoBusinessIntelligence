@@ -1,5 +1,4 @@
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, useTheme, Paper } from '@mui/material';
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import React from 'react';
 
 function createData(

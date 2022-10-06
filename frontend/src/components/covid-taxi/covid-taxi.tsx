@@ -5,11 +5,21 @@ import BarChart from '../barchart/barchart';
 import LinearChart from '../linearchart/linearchart';
 import axios from 'axios';
 import Toast from '../toast/toast';
+import DataGridCustom, { Column } from '../datagrid/datagrid';
 
-const tableColumns =  ['id', 'pickUpZip','dropOffZip','totalTrips','weekNumber','weekStartDate','weekEndDate','casesPerWeek'];
+const tableColumns : Column[] =  [
+    { field: 'id', headerName: 'ID', width: 130 }, 
+    { field: 'pickUpZip', headerName: 'Pick Up Zip', width: 130 }, 
+    { field:'dropOffZip', headerName: 'Drop Off Zip', width: 130 }, 
+    { field:'totalTrips', headerName: 'Total Trips', width: 130 }, 
+    { field:'weekNumber', headerName: 'Week Number', width: 130 }, 
+    { field:'weekStartDate', headerName: 'Week Start Date', width: 130 }, 
+    { field:'weekEndDate', headerName: 'Week End Date', width: 130 }, 
+    { field:'casesPerWeek', headerName: 'Cases Per Week', width: 130 }
+];
 
 const chartColumns = [
-    { value: 'weekNumber', name:'Week Number'},
+    { value: 'weekNumber', }, { name:'Week Number'},
     { value: 'totalTrips', name:'Total Trips'},
     { value: 'casesPerWeek', name: 'Cases Per Week'}    
 ];
@@ -48,11 +58,11 @@ const CovidTaxi = () => {
         });
     };
 
-    const handleChartMenuOpen = (event) => {
+    const handleChartMenuOpen = (event: any) => {
         setChartAnchorEl(event.currentTarget);
     };
     
-    const handleChartMenuClose = (visualizationType) => {
+    const handleChartMenuClose = (visualizationType: string) => {
         setVisualizationType(visualizationType);
         setChartAnchorEl(null);
     };
@@ -94,13 +104,13 @@ const CovidTaxi = () => {
                 <Box>
                     <Button
                     // ref={anchorRef}
-                    id={chartMenu}
-                    aria-controls={isChartMenuOpen ? {chartMenu} : undefined}
-                    aria-expanded={isChartMenuOpen ? "true" : undefined}
-                    aria-haspopup="true"
-                    size="large"
-                    variant="contained"
-                    onClick={handleChartMenuOpen}
+                        id={chartMenu}
+                        aria-controls={isChartMenuOpen ? chartMenu : undefined}
+                        aria-expanded={isChartMenuOpen ? "true" : undefined}
+                        aria-haspopup="true"
+                        size="large"
+                        variant="contained"
+                        onClick={handleChartMenuOpen}
                     >
                     Charts
                     </Button>
@@ -116,9 +126,9 @@ const CovidTaxi = () => {
                     </Button>
                 </Box> */}
             </Box>
-            {visualizationType === 'table' && <DataTable reportType={'covid_ccvi'} rows={rows} columns={tableColumns} />}
-            {visualizationType === 'barChart' && <BarChart reportType={'covid_ccvi'} rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
-            {visualizationType === 'linearChart' && <LinearChart reportType={'covid_ccvi'} rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
+            {visualizationType === 'table' && <DataGridCustom rows={rows} columns={tableColumns} />}
+            {visualizationType === 'barChart' && <BarChart rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
+            {visualizationType === 'linearChart' && <LinearChart rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
         </>
     )
 };
