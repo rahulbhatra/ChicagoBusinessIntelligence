@@ -23,39 +23,6 @@ const BarChart = ({rows, columns, argumentField}: Props) => {
         //     dataSource={rows}
         //     onPointClick={onPointClick}
         // >
-        //     <CommonSeriesSettings
-        //     argumentField={argumentField}
-        //     type="bar"
-        //     hoverMode="allArgumentPoints"
-        //     selectionMode="allArgumentPoints"
-        //     >
-        //     <Label 
-        //         visible={true}
-        //     >
-        //         <Format type="fixedPoint" precision={0} />
-        //     </Label>
-        //     </CommonSeriesSettings>
-        //     {
-        //         columns.map((item: any) => 
-        //         <Series
-        //             key={item.value}
-        //             valueField={item.value}
-        //             name={item.name} />
-        //         )
-        //     }
-        //     <Legend verticalAlignment="bottom" horizontalAlignment="center"></Legend>
-        //     <ArgumentAxis 
-        //         defaultVisualRange={{length: 10}}
-        //     >
-        //         <Label
-        //             rotationAngle={45}
-        //             displayMode="rotate"
-        //         />
-        //     </ArgumentAxis>
-        //     <ScrollBar visible={true} />
-        //     <ZoomAndPan argumentAxis="both"/>
-        //     <Size height={600}/>
-        //     <Export enabled={true} />
         // </Chart>
         <></>
     );

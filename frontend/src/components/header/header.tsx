@@ -15,8 +15,12 @@ import Link from '@mui/material/Link';
 import axios from 'axios';
 import { useHistory } from 'react-router';
 
-const Header = ({isLeftOpen, setIsLeftOpen, isLoggedIn, setIsLoggedIn}) => {
-  console.log(isLoggedIn);
+interface Props {
+  isLoggedIn: boolean;
+  setIsLoggedIn: React.Dispatch<boolean>;
+}
+
+const Header = ({isLoggedIn, setIsLoggedIn}: Props) => {
   const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -24,7 +28,7 @@ const Header = ({isLeftOpen, setIsLeftOpen, isLoggedIn, setIsLoggedIn}) => {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  const handleProfileMenuOpen = (event) => {
+  const handleProfileMenuOpen = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -38,7 +42,7 @@ const Header = ({isLeftOpen, setIsLeftOpen, isLoggedIn, setIsLoggedIn}) => {
     handleMobileMenuClose();
   };
 
-  const handleMobileMenuOpen = (event) => {
+  const handleMobileMenuOpen = (event: any) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
@@ -56,7 +60,6 @@ const Header = ({isLeftOpen, setIsLeftOpen, isLoggedIn, setIsLoggedIn}) => {
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
-    
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{
@@ -86,7 +89,6 @@ const Header = ({isLeftOpen, setIsLeftOpen, isLoggedIn, setIsLoggedIn}) => {
           SignOut
         </MenuItem>
       }
-      
     </Menu>
   );
 
@@ -131,7 +133,6 @@ const Header = ({isLeftOpen, setIsLeftOpen, isLoggedIn, setIsLoggedIn}) => {
             edge="start"
             color="inherit"
             aria-label="open drawer"
-            onClick={() => setIsLeftOpen(!isLeftOpen)}
             sx={{ mr: 2 }}
           >
             <MenuIcon />

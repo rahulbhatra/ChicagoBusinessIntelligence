@@ -11,10 +11,9 @@ import { useHistory } from 'react-router-dom';
 
 interface Props {
   isLeftOpen: boolean;
-  setIsLeftOpen: React.Dispatch<boolean>;
 }
 
-const Sidebar = ({isLeftOpen, setIsLeftOpen} : Props) => {
+const Sidebar = ({isLeftOpen} : Props) => {
   const theme = useTheme();
   const history = useHistory();
   const reports = [
@@ -111,7 +110,6 @@ const Sidebar = ({isLeftOpen, setIsLeftOpen} : Props) => {
               edge="start"
               color="inherit"
               aria-label="open drawer"
-              onClick={() => setIsLeftOpen(!isLeftOpen)}
               sx={{ mr: 2 }}
             >
               <MenuIcon />

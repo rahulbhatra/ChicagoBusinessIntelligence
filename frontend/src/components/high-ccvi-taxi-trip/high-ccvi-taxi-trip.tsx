@@ -47,11 +47,11 @@ const HighCCVITaxiTrip = () => {
         });
     };
 
-    const handleChartMenuOpen = (event) => {
+    const handleChartMenuOpen = (event: any) => {
         setChartAnchorEl(event.currentTarget);
     };
     
-    const handleChartMenuClose = (visualizationType) => {
+    const handleChartMenuClose = (visualizationType: string) => {
         setVisualizationType(visualizationType);
         setChartAnchorEl(null);
     };
@@ -93,22 +93,22 @@ const HighCCVITaxiTrip = () => {
                 <Box>
                     <Button
                     // ref={anchorRef}
-                    id={chartMenu}
-                    aria-controls={isChartMenuOpen ? {chartMenu} : undefined}
-                    aria-expanded={isChartMenuOpen ? "true" : undefined}
-                    aria-haspopup="true"
-                    size="large"
-                    variant="contained"
-                    onClick={handleChartMenuOpen}
+                        id={chartMenu}
+                        // aria-controls={isChartMenuOpen ? {chartMenu} : undefined}
+                        // aria-expanded={isChartMenuOpen ? "true" : undefined}
+                        // aria-haspopup="true"
+                        size="large"
+                        variant="contained"
+                        onClick={handleChartMenuOpen}
                     >
                     Charts
                     </Button>
                     {renderChartMenu}
                 </Box>
             </Box>
-            {visualizationType === 'table' && <DataTable reportType={'covid_ccvi'} rows={rows} columns={tableColumns} />}
-            {visualizationType === 'barChart' && <BarChart reportType={'covid_ccvi'} rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
-            {visualizationType === 'linearChart' && <LinearChart reportType={'covid_ccvi'} rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
+            {visualizationType === 'table' && <DataTable rows={rows} columns={tableColumns} />}
+            {visualizationType === 'barChart' && <BarChart rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
+            {visualizationType === 'linearChart' && <LinearChart rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
         </>
     )
 };

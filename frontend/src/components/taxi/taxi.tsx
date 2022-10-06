@@ -4,8 +4,7 @@ import BarChart from '../barchart/barchart';
 import LinearChart from '../linearchart/linearchart';
 import axios from 'axios';
 import Toast from '../toast/toast';
-import DataGridCustom from '../datagrid/datagrid';
-import { GridColDef } from '@mui/x-data-grid';
+import DataGridCustom, { Column } from '../datagrid/datagrid';
 import React from 'react';
 
 const chartColumns = [
@@ -14,28 +13,29 @@ const chartColumns = [
     { value: 'casesPerWeek', name: 'Cases Per Week'}    
 ];
 
-export const columns: GridColDef[] = [
+
+export const columns: Column [] = [
     { field: 'id', headerName: 'ID', width: 100 },
     { field: 'weekNumber', headerName: 'Week Number',  width: 180},
     { field: 'totalTrips', headerName: 'Total Trips', width: 160 },
     { field: 'casesPerWeek', headerName: 'Cases Per Week', width: 200},
     { field: 'pickUpZip', headerName: 'Pick Up ZipCode', width: 130},
-    // { field: 'dropOffZip', width: 130}, 
-    // { field: 'totalTrips', width: 130}, 
-    // { field: 'weekNumber', width: 130}, 
-    // { field: 'weekStartDate', width: 130}, 
-    // { field: 'weekEndDate'},
-    // { field: 'casesPerWeek'}
+    { field: 'dropOffZip', headerName: 'Drop Off Zip', width: 130}, 
+    { field: 'totalTrips', headerName: 'Total Trips', width: 130}, 
+    { field: 'weekNumber', headerName: 'Week Number', width: 130}, 
+    { field: 'weekStartDate', headerName: 'Week Start Date', width: 130, type: "Date"}, 
+    { field: 'weekEndDate', headerName: 'Week End Date', width: 130, type: "Date"},
+    { field: 'casesPerWeek', headerName: 'Cases Per Week', width: 130}
   ];
 
 const chartArgumentField = "dropOffZip";
 
 const TaxiTrip = () => {
-    const [chartAnchorEl, setChartAnchorEl] = useState<PopoverProps['anchorEl']>();
+    const [chartAnchorEl, setChartAnchorEl] = useState<any>();
     const [visualizationType, setVisualizationType] = useState('table');
     const isChartMenuOpen = Boolean(chartAnchorEl);
     const chartMenu = 'chart-menu';
-    const [rows, setRows] = useState([]);
+    const [rows, setRows] = useState<any[]>([]);
     const [toastOpen, setToastOpen] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
     const [toastSeverity, setToastSevertiy] = useState('');
@@ -64,6 +64,10 @@ const TaxiTrip = () => {
     const handleChartVisualizationType = (visualizationType: string) => {
         setVisualizationType(visualizationType);
         setChartAnchorEl(null);
+    };
+
+    const handleChartMenuOpen = (event: any) => {
+        setChartAnchorEl(event.currentTarget);
     };
 
     const renderChartMenu = (
@@ -101,15 +105,21 @@ const TaxiTrip = () => {
                     </Button>
                 </Box>
                 <Box>
-                    <Button>
+                    <Button
+                        ref={chartAnchorEl}
+                        id={chartMenu}
+                        size="large"
+                        variant="contained"
+                        onClick={handleChartMenuOpen}
+                    >
                     Charts
                     </Button>
                     {renderChartMenu}
                 </Box>                
             </Box>
-            {visualizationType === 'table' && <DataGridCustom rows={rows} columns={columns} pageSize={10} />}
-            {/* {visualizationType === 'barChart' && <BarChart reportType={'taxi'} rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
-            {visualizationType === 'linearChart' && <LinearChart reportType={'taxi'} rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}             */}
+            {visualizationType === 'table' && <DataGridCustom columns={columns} rows={rows} />}
+            {visualizationType === 'barChart' && <BarChart rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
+            {visualizationType === 'linearChart' && <LinearChart rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
         </>
     )
 };
