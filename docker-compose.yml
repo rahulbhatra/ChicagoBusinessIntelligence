@@ -1,13 +1,5 @@
 version: "3.7"
 services:
-  backend:
-    build:
-      context: backend
-    ports:
-      - 4000:4000
-    volumes:
-      - backend:/backend/src
-
   frontend:
     build:
       context: frontend

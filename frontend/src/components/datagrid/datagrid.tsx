@@ -23,7 +23,7 @@ export interface Column {
   field: string;
   headerName: string;
   width: number;
-  type?: "Date" | "string"
+  type?: "Date" | "string" | "List"
 }
 
 interface Props {
@@ -69,8 +69,15 @@ const DataGridCustom = ({rows, columns} : Props) => {
                   {columns.map((column: Column) => {
                     return (
                       <>
-                        {column?.type == "Date" ? <TableCell width={column.width}>{row[column.field]?.substring(0, 10)}</TableCell> :
-                        <TableCell width={column.width}>{row[column.field]}</TableCell>}
+                        {
+                          column?.type === "Date" ? (
+                            <TableCell width={column.width}>{row[column.field]?.substring(0, 10)}</TableCell>
+                          ) : column?.type === "List" ? (
+                            <TableCell width={column.width}>{row[column.field].map((val: string) => val + ",")}</TableCell>
+                          ) : (
+                            <TableCell width={column.width}>{row[column.field]}</TableCell>
+                          )
+                        }
                       </>
                     )
                   }
@@ -94,3 +101,60 @@ const DataGridCustom = ({rows, columns} : Props) => {
 };
 
 export default DataGridCustom;
+
+// type Order = 'asc' | 'desc';
+
+// interface EnhancedTableProps {
+//   numSelected: number;
+//   onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
+//   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
+//   order: Order;
+//   orderBy: string;
+//   rowCount: number;
+// }
+
+// const EnhancedTableHead = ({onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort}: EnhancedTableProps) => {
+//   const createSortHandler =
+//     (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
+//       onRequestSort(event, property);
+//     };
+
+//   return (
+//     <TableHead>
+//       <TableRow>
+//         <TableCell padding="checkbox">
+//           <Checkbox
+//             color="primary"
+//             indeterminate={numSelected > 0 && numSelected < rowCount}
+//             checked={rowCount > 0 && numSelected === rowCount}
+//             onChange={onSelectAllClick}
+//             inputProps={{
+//               'aria-label': 'select all desserts',
+//             }}
+//           />
+//         </TableCell>
+//         {headCells.map((headCell) => (
+//           <TableCell
+//             key={headCell.id}
+//             align={headCell.numeric ? 'right' : 'left'}
+//             padding={headCell.disablePadding ? 'none' : 'normal'}
+//             sortDirection={orderBy === headCell.id ? order : false}
+//           >
+//             <TableSortLabel
+//               active={orderBy === headCell.id}
+//               direction={orderBy === headCell.id ? order : 'asc'}
+//               onClick={createSortHandler(headCell.id)}
+//             >
+//               {headCell.label}
+//               {orderBy === headCell.id ? (
+//                 <Box component="span" sx={visuallyHidden}>
+//                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+//                 </Box>
+//               ) : null}
+//             </TableSortLabel>
+//           </TableCell>
+//         ))}
+//       </TableRow>
+//     </TableHead>
+//   );
+// }

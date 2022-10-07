@@ -14,6 +14,7 @@ import {Search, SearchIconWrapper, StyledInputBase} from './header-style';
 import Link from '@mui/material/Link';
 import axios from 'axios';
 import { useHistory } from 'react-router';
+import { styled, Theme } from '@mui/material';
 
 interface Props {
   isLoggedIn: boolean;
@@ -137,14 +138,13 @@ const Header = ({isLoggedIn, setIsLoggedIn}: Props) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
+          <StyledBusinessIntelligence
             variant="h6"
             noWrap
-            component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
             Business Intelligence
-          </Typography>
+          </StyledBusinessIntelligence>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <Search>
@@ -189,3 +189,10 @@ const Header = ({isLoggedIn, setIsLoggedIn}: Props) => {
 }
 
 export default Header;
+
+export const StyledBusinessIntelligence = styled(Typography)(( {theme}: {theme: Theme}) => ({
+  fontFamily: "fantasy",
+  '&:hover': {
+    color: '#fd4370',
+  },
+}));

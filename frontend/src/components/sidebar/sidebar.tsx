@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import WorkOffIcon from '@mui/icons-material/WorkOff'
 import TimelineIcon from '@mui/icons-material/Timeline';
 import { useHistory } from 'react-router-dom';
+import { StyledBusinessIntelligence } from "../header/header";
 
 interface Props {
   isLeftOpen: boolean;
@@ -105,7 +106,7 @@ const Sidebar = ({isLeftOpen} : Props) => {
           open={isLeftOpen}
         >
           <DrawerHeader theme={theme}>
-          <IconButton
+          {/* <IconButton
               size="large"
               edge="start"
               color="inherit"
@@ -113,22 +114,21 @@ const Sidebar = ({isLeftOpen} : Props) => {
               sx={{ mr: 2 }}
             >
               <MenuIcon />
-          </IconButton>
-          <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ display: { xs: 'none', sm: 'block' } }}
-            >
-              Business Intelligence
+          </IconButton> */}
+            <StyledBusinessIntelligence
+                variant="h3"
+                noWrap
+                sx={{ display: { xs: 'none', sm: 'block' } }}
+              >
+                Business Intelligence
               {/* {reportType} */}
-            </Typography>
+            </StyledBusinessIntelligence>
           </DrawerHeader>
           <Divider />
           <List>
             {reports.map(report => (
 
-              <ListItemButton
+              <ListItemButtonStyled
                 onClick={() => handleClick(report)}
                 key={report.name}
               >
@@ -136,7 +136,7 @@ const Sidebar = ({isLeftOpen} : Props) => {
                     <report.icon sx={{color: 'white', width: '100%'}}/>
                   </ListItemIcon>
                   <ListItemText primary={report.name} />
-              </ListItemButton>
+              </ListItemButtonStyled>
 
             ))}
           </List>
@@ -152,8 +152,14 @@ const drawerWidth = 280;
 const DrawerHeader = styled('div')(({ theme }: {theme: Theme}) => ({
   display: 'flex',
   alignItems: 'center',
-  padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
-  justifyContent: 'flex-end',
+  justifyContent: 'center'
+  ,
+}));
+
+const ListItemButtonStyled = styled(ListItemButton)(({ theme }: {theme: Theme}) => ({
+  '&:hover': {
+    backgroundColor: '#fd4370',
+  },
 }));

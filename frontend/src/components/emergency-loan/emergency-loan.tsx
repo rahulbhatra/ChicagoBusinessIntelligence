@@ -1,15 +1,23 @@
 import { Box, Button, Menu, MenuItem } from '@mui/material';
 import { useState, useEffect } from 'react';
-import DataTable from '../datatable/datatable';
 import BarChart from '../barchart/barchart';
 import LinearChart from '../linearchart/linearchart';
 import axios from 'axios';
 import Toast from '../toast/toast';
 import Maps from '../maps/maps';
 import CoronaGreenIcon from '../../images/buildings.png';
+import DataGridCustom, { Column } from '../datagrid/datagrid';
 
 
-const tableColumns =  ['id', 'zipCode', 'permitType', 'buildingPermit', 'communityAreas', 'perCapitaIncome'];
+const tableColumns : Column[] =  [
+    { field: 'id', headerName: 'ID', width: 130 },
+    { field: 'zipCode', headerName: 'Zip Code', width: 130 },
+    { field: 'permitType', headerName: 'Permit Type', width: 130 },
+    { field: 'buildingPermit', headerName: 'Bulding Permit', width: 130 },
+    { field: 'communityAreas', headerName: 'Community Areas', width: 130, type: 'List' },
+    { field: 'perCapitaIncome', headerName: 'Per Capita Income', width: 130, type: 'List' }
+];
+
 const chartColumns = [
     { value: 'buildingPermit', name: 'Building Permit' },
     // { value: 'ccvi_category', name: 'CCVI Category' }
@@ -26,7 +34,7 @@ const EmergencyLoan = () => {
     const [toastMessage, setToastMessage] = useState('');
     const [toastSeverity, setToastSevertiy] = useState('success');
 
-    const setIcon = (dataArray) => {
+    const setIcon = (dataArray: any) => {
         for(var i = 0; i < dataArray.length; i ++) {    
             dataArray[i].img = CoronaGreenIcon
             
@@ -57,11 +65,11 @@ const EmergencyLoan = () => {
         });
     };
 
-    const handleChartMenuOpen = (event) => {
+    const handleChartMenuOpen = (event: any) => {
         setChartAnchorEl(event.currentTarget);
     };
     
-    const handleChartMenuClose = (visualizationType) => {
+    const handleChartMenuClose = (visualizationType: string) => {
         setVisualizationType(visualizationType);
         setChartAnchorEl(null);
     };
@@ -104,7 +112,7 @@ const EmergencyLoan = () => {
                     <Button
                     // ref={anchorRef}
                     id={chartMenu}
-                    aria-controls={isChartMenuOpen ? {chartMenu} : undefined}
+                    aria-controls={isChartMenuOpen ? chartMenu : undefined}
                     aria-expanded={isChartMenuOpen ? "true" : undefined}
                     aria-haspopup="true"
                     size="large"
@@ -125,9 +133,9 @@ const EmergencyLoan = () => {
                     </Button>
                 </Box>
             </Box>
-            {visualizationType === 'table' && <DataTable reportType={'covid_ccvi'} rows={rows} columns={tableColumns} />}
-            {visualizationType === 'barChart' && <BarChart reportType={'covid_ccvi'} rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
-            {visualizationType === 'linearChart' && <LinearChart reportType={'covid_ccvi'} rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
+            {visualizationType === 'table' && <DataGridCustom rows={rows} columns={tableColumns} />}
+            {visualizationType === 'barChart' && <BarChart rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
+            {visualizationType === 'linearChart' && <LinearChart rows={rows} columns={chartColumns} argumentField={chartArgumentField}/>}
             {visualizationType === 'maps' && <Maps markers={rows} type={'emergency-loan'}/>}
         </>
     )
