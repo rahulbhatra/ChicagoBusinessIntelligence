@@ -12,7 +12,7 @@ import React from 'react';
 function App() {
 
   const token = localStorage.getItem('token');
-  const [isLeftOpen, setIsLeftOpen] = useState(false);
+  const isLeftOpen = true;
   const [isLoggedIn, setIsLoggedIn] = useState(token == null? false: true);
 
   return (
@@ -20,12 +20,11 @@ function App() {
       
         <BrowserRouter>
           <Header 
-            isLeftOpen={isLeftOpen} setIsLeftOpen={setIsLeftOpen}
             isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}
           />
           
           <Sidebar
-            isLeftOpen={isLeftOpen} setIsLeftOpen={setIsLeftOpen}
+            isLeftOpen={isLeftOpen}
           />
           <Routes isLeftOpen={isLeftOpen}
             isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}

@@ -12,7 +12,7 @@ import CovidTaxi from '../covid-taxi/covid-taxi';
 import UnemploymentPoverty from '../unemployment-poverty/unemployment-poverty';
 import Forecast from '../forecast/forecast';
 import EmergencyLoan from '../emergency-loan/emergency-loan';
-import DataGridCustom, { rows, columns } from '../datagrid/datagrid';
+import DataGridCustom from '../datagrid/datagrid';
 import React, { Dispatch } from 'react';
 import { styled, Theme } from '@mui/material';
 
@@ -45,7 +45,6 @@ const Routes = ({isLeftOpen, isLoggedIn, setIsLoggedIn} : Props) => {
           <ProtectedRoute exact path="/high-ccvi-taxi-trip" component={() => <HighCCVITaxiTrip />} />
           <ProtectedRoute exact path="/taxi" component={() => <TaxiTrip />} />
           <ProtectedRoute exact path="/unemployment-poverty" component={() => <UnemploymentPoverty />} />
-          <ProtectedRoute exact path="/data-grid" component={() => <DataGridCustom rows={rows} columns={columns} pageSize={5} />} />
           <ProtectedRoute exact path="/building-permit" component={() => <BuildingPermit />} />
           <ProtectedRoute exact path="/covid-taxi" component={() => <CovidTaxi />} />
           <ProtectedRoute exact path="/forecast" component={() => <Forecast />} />
